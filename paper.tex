@@ -259,10 +259,88 @@ hybrid model; CEEMDAN; Prophet; GRU; deep learning; data science.
 计算机进行数值计算求解，得到未来天气的预报结果。
 \cite{姜兆宇2019多时空尺度的风力发电预测方法综述}
 
+//流体方法的介绍..
+
 目前数值预报方法已经很成熟，准确性良好，已经广泛地应用到了天气预报中。
 但是，由于数值方法需要占用大量的计算资源，难以将时间和空间分辨率
 都做得很高，因而数值预报一般不适用于短期风速预报。
 
+\subsection{统计与传统机器学习方法}
+不同于数值预报方法，统计与传统机器学习方法基于风速历史数据的时间序列，
+通过训练机器学习模型来预测未来天气，并且可以对数据进行预处理，从而可以
+从历史数据中挖掘出风速数据的潜在规律，因而相对于数值预报方法，模型的训练
+和预测更加简单，无需使用超级计算机进行大量的计算。
+
+经典的统计方法中对于时间序列数据的处理一般采用自回归综合移动平均模型
+（ARIMA, AutoRegressive Integrated Moving Average）。其采用过去观
+测值的线性函数关系预测未来值。由于风速的时间序列数据普遍包含了很强的
+季节性，因此相关研究普遍采用季节性自回归综合移动平均模
+型（SARIMA, Seasonal AutoregRessive Integrated 
+Moving Average）\cite{haddad2019wind}。
+
+SARIMA是Box和Jenkins提出的ARIMA模型的一个扩展，用于处理具有季节特征的时
+间序列数据。SARIMA模型一般分为简单季节模型和乘积季节模型：
+
+\begin{itemize}
+\item[1. ] 简单季节模型：
+
+简单季节模型是指序列中的季节效应和其它效应之间是加法关系：
+$$x_t=S_t+T_t+I_t$$
+
+简单季节模型通过简单的趋势差分、季节差分之后序列即可转化为平稳，
+它的模型结构通常如下：
+$$\nabla_D\nabla^dx_t=\frac{\Theta(B)}{\Phi(B)}\varepsilon_t$$
+
+其中:
+$$
+\begin{matrix}
+\nabla_Dx_t=\left(1+B^D\right)X_t,{\ }\nabla^dx_t=\left(1-B^D\right)X_t\\
+\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
+\Phi(B)=1-\varphi_1B-\varphi_2B^2-\cdots-\varphi_pB^p\\
+\end{matrix}
+$$
+
+\item[2. ] 乘积季节模型：
+
+由于序列的季节效应、长期趋势效应和随机波动之间有着复杂的相互关联性，
+简单的季节模型不能充分地提取其中的相关关系。乘积季节模型的构造原理是，
+短期相关性用低阶 ARMA(p,q) 模型提取，季节相关性用以周期步长s为单位
+的 ARMA(p,q) 模型提取，假设短期相关和季节效应之间具有乘积关系，
+模型结构如下:
+$$\nabla^d\nabla_S^Dx_t=\frac{\Theta(B)}{\Phi(B)}\frac{\Theta_S(B)}{\Phi_S(B)}\varepsilon_t$$
+
+由于短期相关性和季节效应之间具有乘积关系，所以，可以将差分后的序列拟合成 ARMA(p,q) 模型和 ARMA(p,q) 模型的乘积形式，最终原序列乘积季节模型的完整结构可采取如下表达式：
+$$\Phi(B)\Phi_S(\mathrm{\ }B)\nabla_S^D\nabla^dx_t=\Theta(B)\Theta_S(B)\varepsilon_t$$
+
+其中：
+
+$$
+\begin{matrix}
+\nabla^dx_t=(1-B)^dx_t,\nabla_S^Dx_t=\left(1-B^S\right)^Dx_t\\
+\Phi(B)=1-\varphi_1B-\varphi_2B-\cdots-\varphi_pB^p\\
+\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
+\Phi_S(B)=1-\varphi_1B^S-\cdots-\varphi_PB^{PS}\\
+\Theta_S(B)=1-\theta_1B^S-\cdots-\theta_QB^{QS}\\
+\end{matrix}
+$$
+
+该乘积季节模型通常简记为$SARIMA(p,d,q)\times(P,D,Q)_S$。
+\end{itemize}
+
+使用 SARIMA 进行模型构建主要有三个主要步骤，分别为平滑处理、平稳性检验
+以及时间序列定阶\cite{Foneone2019时间序列}：
+
+\begin{itemize}
+\item 由于SARIMA需要时间序列满足平稳性和非白噪声的要求，所以要首先用差分法
+和平滑法（滚动平均和滚动标准差）来实现序列的平稳性操作，并确定确定
+季节性与非季节性差分数。
+\item 其次利用增强迪基-福勒检验(ADF test, Augmented Dickey Fuller test)判断
+序列是否平稳，利用白噪声检验判断序列是否为随机性序列。
+\item 最后进行时间序列的定阶。自相关函数 (ACF, AutoCorrelation Function)
+和偏自相关函数 (PACF, Partial AutoCorrelation Function) 利用拖尾
+和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML) 
+函数估计。
+\end{itemize}
 \subsection{传统机器学习方法}
 
 \subsection{深度学习方法}
@@ -275,14 +353,22 @@ hybrid model; CEEMDAN; Prophet; GRU; deep learning; data science.
 % \setcounter{chapter}{0}
 
 \chapter{数据来源及特征选取}
+本文数据来源于中国区域地面气象要素驱动数据集（1979-2018）
+\cite{8028b944-daaa-4511-8769-965612652c49}，其包括近地面气温、近地面气压、
+近地面空气比湿、近地面全风速、地面向下短波辐射、地面向下长波辐射、地面降水率共
+7个气象要素。数据为NETCDF格式，时间分辨率为3小时，水平空间分辨率为0.1°。
+\cite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
 
-这里写这一章节的内容
+该数据集是以国际上现有的Princeton再分析资料、GLDAS资料、GEWEX-SRB辐射资料，
+以及TRMM降水资料为背景场，融合了中国气象局常规气象观测数据制作而成。其原始资料
+来自于气象局观测数据、再分析资料和卫星遥感数据。已去除非物理范围的值，采用
+ANU-Spline统计插值。精度介于气象局观测数据和卫星遥感数据之间，好于国际上已
+有再分析数据的精度。\cite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}
 
-\section{这里是二级标题}
-这里是文章内容
-
-\subsection{这里是三级标题}
-这里是文章内容
+本文数据集基于上述中国区域地面气象要素驱动数据集（1979-2018）构建而成，
+通过Python语言选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
+40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
+\footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}
 
 \chapter{使用方法介绍}
 
@@ -312,6 +398,8 @@ hybrid model; CEEMDAN; Prophet; GRU; deep learning; data science.
 
 
 \Thanks
+
+本文使用的数据集下载于“国家青藏高原科学数据中心”(http://data.tpdc.ac.cn)。
 
 本文在写作时从GitHub中获取并使用了兰州大学2016级物理科学与技术学院本科生余航
 制作的“兰州大学本科生2021学士学位毕业论文LaTeX模板”，在此也一并致谢。

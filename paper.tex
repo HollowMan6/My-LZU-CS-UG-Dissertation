@@ -16,7 +16,7 @@
 % 	      长标题 \title{{第一行}{第二行}}
 %             超长标题\tiitle{{第一行}{...}{第N行}}
 
-\title{{基于 CEEMDAN 多特征分解和}{Prophet 与 GRU 组合模型预测短期风速}}
+\title{{基于 ICEEMDAN 多特征分解和}{Prophet 与 GRU 组合模型预测短期风速}}
 
 
 
@@ -25,7 +25,7 @@
 % 	      长标题 \entitle{{First row}{ Second row}}
 %             超长标题\entitle{{First row}{...}{ Next N row}}
 % 注意：  英文标题多行时 需要在开头加个空格 防止摘要标题处英语单词粘连。
-\entitle{{Forecast Short-term Wind Speed through CEEMDAN}{ Decomposed Multi-features and Prophet \& GRU Hybrid Model}}
+\entitle{{Forecast Short-term Wind Speed through ICEEMDAN}{ Decomposed Multi-features and Prophet \& GRU Hybrid Model}}
 
 \author{蒋嵩林}
 \major{计算机科学与技术（基础理论班）}
@@ -112,8 +112,8 @@
 
 本文选取数值天气预报中常见的六种气象要素历史数据，包括近地面气温、近地面气压、
 近地面空气比湿、地面向下短波辐射、地面向下长波辐射、地面降水率，结合近地面全
-风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的自适应噪声完备
-集合经验模态分解（CEEMDAN）算法，对上述七种特征历史数据进行分解，将高频噪声和
+风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的改进自适应噪声完备
+集合经验模态分解（ICEEMDAN）算法，对上述七种特征历史数据进行分解，将高频噪声和
 低频信号进行分离，降低时间序列数据分析的复杂度，从而提高准确性。然后，将分解结
 果序列输入由 Facebook 推出的主流时间序列预测框架 Prophet 进行预测以及统计分
 析，得到Prophet拟合预测的结果以及统计分析预测得出的趋势分量、累加式季节性分量
@@ -154,8 +154,8 @@ temperature, near-surface air pressure, near-surface specific humidity,
 surface downwelling shortwave radiation, surface downwelling longwave
 radiation, and surface precipitation rate. Combine historical time series
 data of near-surface total wind speed with the above mentioned elements
-and build the short-term wind speed forecasting model. Firstly, CEEMDAN
-(Complete Ensemble Empirical Mode Decomposition with Adaptive Noise) 
+and build the short-term wind speed forecasting model. Firstly, ICEEMDAN
+(Improved Complete Ensemble Empirical Mode Decomposition with Adaptive Noise) 
 algorithm, which is at the forefront of current scientific research,
 is used to decompose the above seven elements' historical data so that
 high-frequency noise and low-frequency signals can be separated, which
@@ -193,7 +193,7 @@ proposed in this paper, the accuracy of predicting short-term
 wind speed will be significantly improved, so it has supremacy.
 }}
 {wind speed influencing factors; short-term wind speed forecast; 
-hybrid model; CEEMDAN; Prophet; GRU; deep learning; data science.
+hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 }
 
 %生成目录
@@ -349,8 +349,8 @@ Moving Average）SARIMA是Box和Jenkins提出的ARIMA模型的一个扩展，
 序列是否平稳，利用白噪声检验判断序列是否为随机性序列。
 \item 最后进行时间序列的定阶。自相关函数 (ACF, AutoCorrelation Function)
 和偏自相关函数 (PACF, Partial AutoCorrelation Function) 利用拖尾
-和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML) 
-函数估计。
+和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML，Maximum
+Likelihood) 函数估计。
 \end{itemize}
 
 SARIMA本身机理决定了SARIMA无法处理非线性
@@ -428,8 +428,8 @@ LSTM模型的组合，提升了对短期风速的预测精度。
 scikit-learn，以及时间序列数据处理预测框架Prophet。
 
 由于注意到直接使用Prophet框架来进行非平稳非线性的风速预测效果并不佳，因而
-本文基于上述前人研究成果，决定选用CEEMDAN分解技术，并使用当前最新循环神经
-网络结构GRU，结合Prophet框架，形成CEEMDAN-Prophet-GRU模型。同时结合数值
+本文基于上述前人研究成果，决定选用ICEEMDAN分解技术，并使用当前最新循环神经
+网络结构GRU，结合Prophet框架，形成ICEEMDAN-Prophet-GRU模型。同时结合数值
 预报方法提供的灵感，将其他天气要素特征也输入到模型中，提高模型的泛化能力，
 最终验证模型的优越性。论文的结构如下：
 
@@ -439,7 +439,7 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
 第二章：数据来源及特征提取。主要讲述特征的选取原因以及数据集的制作过程，并
 对选取数据集的性状进行了分析。
 
-第三章：使用技术介绍。主要讲述CEEMDAN分解技术、Prophet、GRU网络、
+第三章：使用技术介绍。主要讲述ICEEMDAN分解技术、Prophet、GRU网络、
 Nadam 优化器 以及 Huber损失函数的原理介绍。
 
 第四章：模型的建立和评估。主要讲述模型的训练以及调参过程、评估指标介绍
@@ -470,10 +470,11 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 
 \section{特征选取与数据集的制作}
 本文数据集基于上述中国区域地面气象要素驱动数据集（1979-2018）构建而成，
-通过Python语言选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
-40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
+通过Python语言netCDF4库\footnote{提取所用代码请见附录部分1}
+选取了数据集中的全部气象要素，并选择了甘肃中电酒泉第四风力发电有限公司附近
+（北纬40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
 \footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}
-共5840条数据。数据格式为CSV（逗号分隔值，Comma-Separated Values）文件，包
+共5840条数据。生成数据格式为CSV（逗号分隔值，Comma-Separated Values）文件，包
 含数据内容如下：
 
 \begin{table}[H]
@@ -483,7 +484,7 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
     \toprule
     特征 & 名称 & 单位 & 含义 \\
     \midrule
-    ds & 日期 & UTC & 数据格式为：YYYY-MM-DD HH:MM:SS \\
+    ds & 日期 & UTC & 数据格式为：YYYY-mm-dd HH:MM:SS \\
     lrad & 地面向下长波辐射 & $W/m^2$ & 从当前时间1.5小时前开始的3小时平均值 \\
     prec & 地面降水率 & $mm/h$ & 从当前时间3小时前开始的3小时平均值 \\
     pres & 近地面气压 & $Pa$ & 近地面(距地面2米处)瞬时值 \\
@@ -500,10 +501,112 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 
 
 \chapter{使用技术介绍}
-\section{CEEMDAN分解}
+\section{ICEEMDAN分解}
+\subsection{EMD}
+经验模态分解（EMD，Empirical Mode Decomposition）是一种适用于处理非平稳
+非线性时间序列的自适应时域-频域分析方法，由Huang, Norden E等人于1998年
+提出\cite{huang1998empirical}。EMD在不离开时域的情况下将序列划分为
+有限个本征模函数（IMF，Intrinsic Mode Function）和残差的操作。分解出的IMF
+可以提供一个时间序列中包含的各种信号的特征。与傅里叶变换和小波分解等类似，
+EMD分解不是基于物理性质。但是，EMD依据信号自身的时间尺度特征对信号没有任何
+先验主观标准选择的进行自动分解，因而无需像傅里叶变换与小波分解一样设定谐波
+基函数或小波基函数。
+
+在时域范围内具有以下条件特征的时间序列，可以使用EMD分解：
+\begin{itemize}
+\item 局部的时域特性仅由极值点间的时间尺度唯一确定。
+\item 至少存在一个极大值点和一个极小值点。
+\item 若存在拐点但无极值点，可通过多次微分求得极值，然后积分计算分解结果。
+\end{itemize}
+
+分解出的本征模函数在时域范围内满足如下两个性质：
+\begin{itemize}
+\item 极值点和过零点的数目相等或相差一个。
+\item 上包络线（极大值点的包络线）和下包络线（极小值点的包络线）均值为0。
+\end{itemize}
+
+EMD分解步骤如下：
+\begin{itemize}
+\item[1. ] 找出待分解时间序列$X(t)$的所有极大值点，并将所有极大值点用三次样条差值
+函数拟合形成原数据的上包络线。
+\item[2. ] 同理，找出待分解时间序列$X(t)$的所有极小值点，并将所有极小值点用三次样
+条插值函数拟合形成数据的下包络线，
+\item[3. ] 设上包络线和下包络线的均值函数为$M(t)$，设$X(t)-M(t)=H(t)$，得到新的
+时间序列$H(t)$。如果$H(t)$不满足本征模函数的两个性质，则对$H(t)$重复步骤
+1-3，否则得到一个IMF分量$H(t)=IMF_i(t)$。
+\item[4. ] 对$M(t)$重复步骤1-3，直到$M(t)$不满足使用EMD分解
+的条件，则$M(t)=R(t)$，R(t)为残差。
+\end{itemize}
+
+由上述推导过程可得：
+
+$$
+X(t)=\displaystyle\sum_{i=1} ^n IMF_i(t) +R(t)
+$$
+
+\subsection{EEMD}
+
+集成经验模态分解（EEMD，Ensemble Empirical Mode Decomposition）是一种
+噪声辅助数据分析方法，包含了用于筛选的白噪声附加时间序列。
+EEMD由Wu, Zhaohua等人提出\cite{wu2009ensemble}。他们的
+研究发现，在EMD分解的IMF分量筛选过程中，添加一定的白噪声可以平滑极值点的分布，
+从而让分解的结果更加健壮。使分解出的时间序列在适当的本征模函数（IMF）中进行比较
+，从而能够让分解过程考量到尽多可能的解并进行筛选。由于EMD是一种时域-频域分析方
+法，因此白噪声可以通过足够多的平均迭代抵消，从而在此平均化过程中唯一留存下来的
+部分就是更真实且更具物理意义的时间序列。
+
+EEMD分解步骤如下：
+\begin{itemize}
+\item[1. ] 对待分解时间序列$X(t)$添加一个随机白噪声序列$N(t)$，得到新序列$K(t)$。
+\item[2. ] 对$K(t)$进行EMD分解。
+\item[3. ] 对步骤1-2重复n次，将得到的共计n组的每个IMF分量和R按组进行系综平均（Ensemble Average）。
+\item[4. ] 得到系综平均后的IMF分量和R，公式同EMD分解。
+\end{itemize}
+
+\subsection{CEEMDAN}
+自适应噪声完备集合经验模态分解（CEEMDAN，Improved Complete Ensemble
+Empirical Mode Decomposition with Adaptive Noise) 由Torres
+等人提出\cite{torres2011complete}。它是EMD的改进版本，
+同时又借鉴了EEMD的思想，提供了对原始信号的精确重建和对本征模函数（IMF）的
+更好的频谱分离。
+
+CEEMDAN分解步骤如下：
+\begin{itemize}
+\item[1. ] 对待分解时间序列$X(t)$添加一个幅值为r白噪声序列$N(t)$，得到新序列$K(t)$。
+\item[2. ] 对$K(t)$进行一次EMD分解迭代，得到一个IMF分量。
+\item[3. ] 对步骤1-2重复n次，将得到的共计n组的IMF进行系综平均（Ensemble Average），得到$IMF_i(t)$
+用$X(t)-IMF_i(t)$作为新序列，返回步骤1迭代j次。
+\item[4. ] 最终不能进行EMD分解时$X(t)-IMF_i(t)$得到残差R，公式关系同EMD。
+\end{itemize}
+
+CEEMDAN相较于EEMD方法有如下优点：
+
+\begin{itemize}
+\item EEMD方法需要通过足够多的平均迭代抵消白噪声，因而将所有IMF分量和
+残差R直接相加复原出的原信号并不准确。而CEEMDAN在较小的平均次数下就可以有很好
+的可复原性。
+\item 相较于EEMD，CEEMDAN无需计算过多的平均值，因而分解的性能要更高。
+\item EEMD分解一般会出现多个无意义的低幅值低频伪IMF分量，CEEMDAN可以减少该种情况
+出现的频率。
+\end{itemize}
+
+\subsection{ICEEMDAN}
+
+ICEEMDAN由Colominas等人提出\cite{colominas2014improved}，其为CEEMDAN的改进版本。
+ICEEMDAN将上述步骤3的重复迭代过程中的第x次迭代时使用的噪声更改为原第一次添加噪声的
+的对噪声的EMD分解的第x个IMF分量乘以添加噪声相对于待分解时间序列的信噪比，再除以白噪
+声的标准差。
+
+ICEEMDAN分解相对于CEEMDAN进一步降低了出现多个无意义的低幅值低频伪IMF分量的频率。
 
 \section{Prophet}
 
+Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
+列预测算法框架。其基于累加模型，可以学习年、周和日季节性以及假日效应等非线性
+趋势，最适用于具有强烈季节性影响的时间序列，可以通过R和Python实现调
+用。Prophet的预测速度快，并且提供了完全自动化的时间序列预测功能，无需手动操
+作即可对杂乱的数据进行合理预测，其对异常值、缺失数据和时间序列中的剧烈
+变化都具有十分强大的健壮性，并且为用户提供了许多超参数，因而是可调优的。
 \section{GRU}
 
 \section{Nadam优化器}
@@ -542,11 +645,46 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 \Appendix
 
 
-这里是附录页，附上你的程序或必要的相关知识
+\begin{itemize}
+\item[1. ] 数据集制作代码：
+\end{itemize}
 
-{\bfseries 编译方式:} XeLaTeX -->BibTeX --> XeLaTeX-->XeLaTeX
-
-
+\begin{lstlisting}[language = python]
+    from netCDF4 import Dataset
+    import datetime
+    
+    # 甘肃中电酒泉第四风力发电有限公司
+    lat_index = 256
+    lon_index = 269
+    variable_list = ["lrad", "prec", "pres", "shum",
+                     "srad", "temp", "wind"]
+    
+    with open('data.csv', 'w') as f:
+        f.write("ds")
+        for variable in variable_list:
+            f.write(',' + variable)
+        f.write('\n')
+        for year in range(2017, 2019):
+            for month in range(1, 13):
+                dataset = []
+                time_data = []
+                for name in variable_list:
+                    data = Dataset("data/" + name + 
+                                   "_ITPCAS-CMFD_V0106_B-01_03hr_010deg_"
+                                   + str(year) + str(month).zfill(2) +
+                                   ".nc")
+                    dataset.append(data.variables[name][:])
+                    time_data = data.variables['time'][:]
+    
+                for index in range(len(time_data)):
+                    f.write(datetime.datetime.utcfromtimestamp(
+                        (time_data[index]-613608)*3600).strftime(
+                            "%Y-%m-%d %H:%M:%S"))
+                    for data in dataset:
+                        f.write(',' + str(
+                                data[index][lat_index][lon_index]))
+                    f.write('\n')
+\end{lstlisting}
 
 \Thanks
 

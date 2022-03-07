@@ -119,9 +119,9 @@
 析，得到Prophet拟合预测的结果以及统计分析预测得出的趋势分量、累加式季节性分量
 、日分量、年分量以及上述分量所对应的预测最大边界和最小边界，进一步降低七种特征
 对应时间序列的复杂度，便于神经网络的训练。最终，将所有由 Prophet 分析预测的时
-段对应的结果以及分量输入进一个由三层门控循环单元（GRU）构成的深度学习模型，采
-用最新科研成果 Nadam 优化器 以及 Huber损失函数训练模型，输出预测的时段对应的
-近地面全风速，从而达成预测实际的短期风速的目的。
+段对应的结果以及分量进行主成分分析（PCA），降低数据维度，然后输入进一个由三层
+门控循环单元（GRU）构成的深度学习模型，采用最新科研成果 Nadam 优化器 以及 Huber
+损失函数训练模型，输出预测的时段对应的近地面全风速，从而达成预测实际的短期风速的目的。
 
 为了验证模型的实际效果，本文选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
 40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
@@ -131,66 +131,64 @@
 测结果进行可视化分析，与只使用近地面全风速历史数据、未进行时间序列分解剔除噪声、
 只使用单一模型的情况进行对比，对模型全方面综合评估。结果表明，使用本文提出的模型
 ，预测短期风速的精度会明显提升，因而具有优越性。
-}{风速影响因素，短期风速预测，组合模型，自适应噪声完备集合经验模态分解，Prophet，门控循环单元神经网络，深度学习，数据科学}
+}{风速影响因素，短期风速预测，组合模型，改进自适应噪声完备集合经验模态分解，Prophet，门控循环单元神经网络，深度学习，数据科学}
 
 
 %英文摘要
 \EnAbstract{\fontspec{Times New Roman} {
-Climate change and environmental issues matter the destiny of mankind. 
-With the oil crisis and global warming becoming more and more serious,
-renewable energy related research has become a hot spot which
-attracts great attention from academic. Wind, as a readily available 
-energy source, is becoming the mainstream in renewable energy. As a result,
-it is of great significance to accurately predict the wind speed
-so that power system stability can be ensured. Wind speed forecast
-is a time series regression problem. Due to the randomness of wind
-speed fluctuations, influencing factors for wind speed are very complex,
-which shows its characteristics of non-stationary and nonlinear, so it is 
-difficult to predict short-term wind speed.
+Climate change and environmental issues matter the destiny of humankind.
+With the oil crisis and global warming worsening, renewable energy-related
+research has become a hot spot attracting great academic attention. Wind is
+becoming mainstream renewable energy as a readily available energy source.
+As a result, it is essential to predict the wind speed accurately to ensure
+power system stability. Wind speed forecast is a time series regression
+problem. Due to the randomness of wind speed fluctuations, influencing
+factors for wind speed are very complex. The wind speed has non-stationary
+and nonlinear characteristics, so it is difficult to predict short-term wind
+speed.
 
 This paper selects the historical data of six common meteorological
-elements in numerical weather prediction, including near-surface air 
+elements in numerical weather prediction, including near-surface air
 temperature, near-surface air pressure, near-surface specific humidity,
 surface downwelling shortwave radiation, surface downwelling longwave
 radiation, and surface precipitation rate. Combine historical time series
-data of near-surface total wind speed with the above mentioned elements
-and build the short-term wind speed forecasting model. Firstly, ICEEMDAN
-(Improved Complete Ensemble Empirical Mode Decomposition with Adaptive Noise) 
-algorithm, which is at the forefront of current scientific research,
-is used to decompose the above seven elements' historical data so that
-high-frequency noise and low-frequency signals can be separated, which
-eventually leads to reduction of the complexity of time series data
-analysis, and improving accuracy. Then, input the decomposed sequence
-into Prophet, a mainstream time series forecasting framework developed by
-Facebook, for forecasting and statistical analysis, and obtain the
-result of Prophet fitting prediction, the trend component, additive
-seasonality component, daily component, yearly component as well as
-maximum and minimum boundaries of above. These features further help
-reduce the complexity of the time series corresponding to the seven
-meteorological elements and facilitate the training of the neural
-network. Finally, all the predictions and components corresponding
-to the time series elements predicted by the Prophet analysis are input
-into a deep learning model composed of a three-layer Gated Recurrent Unit
-(GRU). Use the latest scientific research results Nadam optimizer and
-Huber loss function to train the model, and output the near-surface
-total wind speed corresponding to the predicted time period, so that
-the actual short-term wind speed can be predicted.
+data of near-surface total wind speed with the aforementioned elements
+and build the short-term wind speed, forecasting model. Firstly, the
+ICEEMDAN (Improved Complete Ensemble Empirical Mode Decomposition with
+Adaptive Noise) algorithm, which is at the forefront of current scientific
+research, decomposes the above seven elements' historical data. The
+decomposition can separate high-frequency and low-frequency signals,
+which eventually reduces the complexity of time series data analysis
+and improves accuracy. Then, input the decomposed sequence into Prophet,
+a mainstream time series forecasting framework developed by Facebook,
+for forecasting and statistical analysis. Obtain the result of Prophet
+fitting prediction, the trend component, additive seasonality component,
+daily component, yearly component, as well as maximum and minimum boundaries
+of above. These features further help reduce the complexity of the time
+series corresponding to the seven meteorological elements and facilitate
+the training of the neural network. Finally, all the predictions and
+components corresponding to the time series elements predicted by the
+Prophet analysis are first performed a Principal Component Analysis
+(PCA), then inputted into a deep learning model composed of a three-layer
+Gated Recurrent Unit (GRU). Use the latest scientific
+research results Nadam optimizer and Huber loss function to train the
+model. Output the near-surface total wind speed corresponding to the
+predicted period so that the actual short-term wind speed can get predicted.
 
 In order to verify the actual effect of the model, this paper selects the
-historical data at a location near Gansu Zhongdian Jiuquan Fourth Wind
-Power Co., Ltd. (latitude 40.65 degrees north, longitude 96.95 degrees
-east) from 0:00 on January 1, 2017 to 21:00 on December 31, 2018 
-\footnote{The times mentioned here are all in UTC (Universal Time Coordinated). } 
-at three-hour intervals, using various evaluating indicators like
-Mean Squared Error (MSE), Mean Absolute Error (MAE), Mean Absolute
-Percentage Error (MAPE), Root Mean Squared Error (RMSE), Coefficient of
-Determination ($R^2$), etc. The predicted results are visualized, and 
-make comparison with the case of only using the near-ground full wind
-speed historical data, without time series decomposition to remove
-noise, and only using a single model, the model is comprehensively
-evaluated in all aspects. The results show that using the model
-proposed in this paper, the accuracy of predicting short-term
-wind speed will be significantly improved, so it has supremacy.
+historical data at a location near Gansu Zhongdian Jiuquan Fourth Wind Power
+Co., Ltd. (latitude 40.65 degrees north, longitude 96.95 degrees east) from
+0:00 on January 1, 2017, to 21:00 on December 31, 2018, 
+\footnote{The times mentioned here are all in UTC (Universal Time Coordinated). }
+at three-hourintervals. Using various evaluating indicators like Mean Squared
+Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE),
+Root Mean Squared Error (RMSE), Coefficient of Determination ($R^2$), etc.
+for verification. The predicted results are visualized and compared with the
+case of only using the near-ground full wind speed historical data, without
+time series decomposition to remove noise, and only using a single model.
+The model is comprehensively evaluated in all aspects. The results show
+that using the model proposed in this paper, the accuracy for predicting
+short-term wind speed will be significantly improved, so it has supremacy.
 }}
 {wind speed influencing factors; short-term wind speed forecast; 
 hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
@@ -290,69 +288,6 @@ Moving Average）SARIMA是Box和Jenkins提出的ARIMA模型的一个扩展，
 基于ARIMA和SARIMA模型提前24小时预测小时平均风速和风力发电量。并进行了
 平均相对误差的比较分析。结果表明，SARIMA模型的预测效果明显优于ARIMA模型。
 
-% SARIMA模型一般分为简单季节模型和乘积季节模型：
-
-% \begin{itemize}
-% \item[1. ] 简单季节模型：
-
-% 简单季节模型是指序列中的季节效应和其它效应之间是加法关系：
-% $$x_t=S_t+T_t+I_t$$
-
-% 简单季节模型通过简单的趋势差分、季节差分之后序列即可转化为平稳，
-% 它的模型结构通常如下：
-% $$\nabla_D\nabla^dx_t=\frac{\Theta(B)}{\Phi(B)}\varepsilon_t$$
-
-% 其中:
-% $$
-% \begin{matrix}
-% \nabla_Dx_t=\left(1+B^D\right)X_t,{\ }\nabla^dx_t=\left(1-B^D\right)X_t\\
-% \Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
-% \Phi(B)=1-\varphi_1B-\varphi_2B^2-\cdots-\varphi_pB^p\\
-% \end{matrix}
-% $$
-
-% \item[2. ] 乘积季节模型：
-
-% 由于序列的季节效应、长期趋势效应和随机波动之间有着复杂的相互关联性，
-% 简单的季节模型不能充分地提取其中的相关关系。乘积季节模型的构造原理是，
-% 短期相关性用低阶 ARMA(p,q) 模型提取，季节相关性用以周期步长s为单位
-% 的 ARMA(p,q) 模型提取，假设短期相关和季节效应之间具有乘积关系，
-% 模型结构如下:
-% $$\nabla^d\nabla_S^Dx_t=\frac{\Theta(B)}{\Phi(B)}\frac{\Theta_S(B)}{\Phi_S(B)}\varepsilon_t$$
-
-% 由于短期相关性和季节效应之间具有乘积关系，所以，可以将差分后的序列拟合成 ARMA(p,q) 模型和 ARMA(p,q) 模型的乘积形式，最终原序列乘积季节模型的完整结构可采取如下表达式：
-% $$\Phi(B)\Phi_S(\mathrm{\ }B)\nabla_S^D\nabla^dx_t=\Theta(B)\Theta_S(B)\varepsilon_t$$
-
-% 其中：
-
-% $$
-% \begin{matrix}
-% \nabla^dx_t=(1-B)^dx_t,\nabla_S^Dx_t=\left(1-B^S\right)^Dx_t\\
-% \Phi(B)=1-\varphi_1B-\varphi_2B-\cdots-\varphi_pB^p\\
-% \Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
-% \Phi_S(B)=1-\varphi_1B^S-\cdots-\varphi_PB^{PS}\\
-% \Theta_S(B)=1-\theta_1B^S-\cdots-\theta_QB^{QS}\\
-% \end{matrix}
-% $$
-
-% 该乘积季节模型通常简记为$SARIMA(p,d,q)\times(P,D,Q)_S$。
-% \end{itemize}
-
-使用 SARIMA 进行模型构建主要有三个主要步骤，分别为平滑处理、平稳性检验
-以及时间序列定阶\cite{Foneone2019时间序列}：
-
-\begin{itemize}
-\item 由于SARIMA需要时间序列满足平稳性和非白噪声的要求，所以要首先用差分法
-和平滑法（滚动平均和滚动标准差）来实现序列的平稳性操作，并确定确定
-季节性与非季节性差分数。
-\item 其次利用增强迪基-福勒检验(ADF test, Augmented Dickey Fuller test)判断
-序列是否平稳，利用白噪声检验判断序列是否为随机性序列。
-\item 最后进行时间序列的定阶。自相关函数 (ACF, AutoCorrelation Function)
-和偏自相关函数 (PACF, Partial AutoCorrelation Function) 利用拖尾
-和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML，Maximum
-Likelihood) 函数估计。
-\end{itemize}
-
 SARIMA本身机理决定了SARIMA无法处理非线性
 时间序列特征，因而在呈现出非平稳且非线性特征的风速时间序列预测中表现
 并不是很好。Haddad等人\cite{haddad2019wind}基于SARIMA方法构建了一个
@@ -439,8 +374,9 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
 第二章：数据来源及特征提取。主要讲述特征的选取原因以及数据集的制作过程，并
 对选取数据集的性状进行了分析。
 
-第三章：使用技术介绍。主要讲述ICEEMDAN分解技术、Prophet、GRU网络、
-Nadam 优化器 以及 Huber损失函数的原理介绍。
+第三章：使用技术的介绍和比较。主要讲述现有主流技术，并进行技术分析对比，讲述
+最终选择ICEEMDAN分解技术、Prophet、GRU网络、Nadam 优化器 以及 Huber损失函
+数的原因。
 
 第四章：模型的建立和评估。主要讲述模型的训练以及调参过程、评估指标介绍
 与分别用单一模型的情况进行对比。
@@ -459,7 +395,7 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 \cite{8028b944-daaa-4511-8769-965612652c49}，该数据集常用于数值天气
 预报。该数据集包括近地面气温、近地面气压、近地面空气比湿、近地面全风速、
 地面向下短波辐射、地面向下长波辐射、地面降水率共7个气象要素。数据时间
-分辨率为3小时，水平空间分辨率为0.1°，为NETCDF格式。
+分辨率为3小时，水平空间分辨率为0.1°，为netCDF格式。
 \cite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
 
 该数据集基于世界上现有的GLDAS数据、普林斯顿再分析数据、GEWEX-SRB辐射
@@ -469,8 +405,9 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 和卫星遥感数据之间，优于世界上现有的再分析数据。\cite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}
 
 \section{特征选取与数据集的制作}
-本文数据集基于上述中国区域地面气象要素驱动数据集（1979-2018）构建而成，
-通过Python语言netCDF4库\footnote{提取所用代码请见附录部分1}
+由于气象要素之间都是紧密相关的，本文数据集基于上述中国区域地面气象要素驱动数据
+集（1979-2018）构建而成，通过Python语言netCDF4库
+\footnote{提取所用代码请见附录部分1}
 选取了数据集中的全部气象要素，并选择了甘肃中电酒泉第四风力发电有限公司附近
 （北纬40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
 \footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}
@@ -480,7 +417,7 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 \begin{table}[H]
     \centering
     \caption{选取特征说明}
-    \begin{tabular}{cccccc}
+    \begin{tabular}{cccc}
     \toprule
     特征 & 名称 & 单位 & 含义 \\
     \midrule
@@ -498,10 +435,74 @@ Nadam 优化器 以及 Huber损失函数的原理介绍。
 \end{table}
 
 \section{特征数据分析}
+\subsection{描述性统计分析}
+
+\begin{table}[H]
+    \centering
+    \caption{七种气象要素的描述性统计分析$^1$}
+    \begin{tabular}{cccccccc}
+    \toprule
+    指标 & lrad & prec & pres & shum & srad & temp & wind \\
+    \midrule
+    算术均值 & 269.3683 & 0.008937 & 85520.866438 & 0.00299 & 192.830351 & 281.409456 & 4.03706 \\
+    标准差 & 64.8436 & 0.085937 & 611.25746 & 0.002662 & 267.654341 & 13.825424 & 2.358024 \\
+    最小值 & 132.25 & 0 & 83722 & 0.000015 & 0 & 245.62999 & 0.051998 \\
+    25\%值 & 216.25 & 0 & 85050 & 0.001126 & 0 & 270.3075 & 2.281998 \\
+    50\%值 & 265.5 & 0 & 8552 & 0.001964 & 3 & 282.73499 & 3.528997 \\
+    75\%值 & 321 & 0 & 85974 & 0.004003 & 351.9375 & 292.57 & 5.257996 \\
+    最大值 & 449.5 & 2.692501 & 8682 & 0.015863 & 989.5 & 311.25 & 16.23 \\
+    极差 & 317.25 & 2.692501 & 3098 & 0.015848 & 989.5 & 65.62001 & 16.178002 \\
+    四分位差 & 104.75 & 0 & 924 & 0.002878 & 351.9375 & 22.2625 & 2.975998 \\
+    离散系数 & 0.2407 & 9.616155 & 0.007147 & 0.890314 & 1.38803 & 0.049129 & 0.584095 \\
+    平均离差 & 54.7553 & 0.016416 & 508.741895 & 0.002045 & 223.389189 & 11.77691 & 1.845357 \\
+    偏态 & 0.180516 & 19.282541 & 0.002316 & 1.564872 & 1.212509 & -0.236851 & 1.115394 \\
+    峰度 & -0.874286 & 443.987109 & -0.726484 & 2.039496 & 0.206402 & -0.895183 & 1.404608 \\
+    \bottomrule \\
+    \end{tabular} \\
+    \footnotesize{$^1$ 该表格数据生成代码见附录部分2} \\
+    \label{analysis}
+\end{table}
+
+由表\ref{analysis}统计数据可见，选址地（甘肃中电酒泉第四风力发电有限公司附近
+，北纬40.65 度，东经 96.95 度）处2017-2018年两年全年最低气温-27.5摄氏度，
+最高38.1摄氏度，温差较大，冷热对流明显。同时该地区降水非常稀少，空气干燥，太阳
+辐射强，易产生空气的稳定辐射型对流。该地区出现过的最大风力为7级（16.23 m/s），
+风力平均为3级（4.04m/s），因而风速较大，且风速的方差较小，风力资源丰富且平稳，
+的确是风力发电的一个很好的选址。
+
+\subsection{相关性分析和显著性检验}
+因为传统的皮尔逊（Pearson）相关系数衡量的只是线性相关关系，并且皮尔逊相关系数
+对数据的要求较高，不适用于非平稳且非线性的风速数据。因而这里采用可以度量单调关
+系的斯皮尔曼（Spearman）相关系数。
+
+\begin{table}[H]
+    \centering
+    \caption{风速与其他六种气象要素的斯皮尔曼相关性分析$^1$}
+    \begin{tabular}{ccccccc}
+    \toprule
+    wind & 相关系数 & 显著水平 \\
+    \midrule
+    lrad & $0.03528229315199814^{**}$ & 0.0070065793090313055 \\
+    prec & $0.008443728183433091$ & 0.5188350558375361 \\
+    pres & $0.07156398261497926^{**}$ & $4.3810149807651604\times10^{-8}$ \\
+    shum & $-0.08302721983053592^{**}$ & $2.0904230457715092\times10^{-10}$ \\
+    srad & $0.24649937697179994^{**}$ & $1.4389507268798562\times10^{-81}$ \\
+    temp & $0.05948229496676412^{**}$ & $5.398211275459676\times10^{-6}$ \\
+    \bottomrule \\
+    \end{tabular} \\
+    \footnotesize{$^1$ 该表格数据生成代码见附录部分3} \\
+    \footnotesize{$^{**}$ 表示在0.01级别（双尾），相关性显著} \\
+    \label{relativity-analysis}
+\end{table}
+
+由表\ref{relativity-analysis}所示，排除由于选址地区降水数据过于稀少，导致地面降水率与其相关性不大的因素，
+风速与其他剩余五种气象要素的相关系数都较大，有较强的相关性，并且相关性都在99\%
+的置信水平下通过检验，相关性极其显著。其中与风速相关性最强的是地面向下短波辐射。
 
 
-\chapter{使用技术介绍}
-\section{ICEEMDAN分解}
+
+\chapter{使用技术的介绍和比较}
+\section{基于EMD的信号分解技术}
 \subsection{EMD}
 经验模态分解（EMD，Empirical Mode Decomposition）是一种适用于处理非平稳
 非线性时间序列的自适应时域-频域分析方法，由Huang, Norden E等人于1998年
@@ -599,29 +600,133 @@ ICEEMDAN将上述步骤3的重复迭代过程中的第x次迭代时使用的噪�
 
 ICEEMDAN分解相对于CEEMDAN进一步降低了出现多个无意义的低幅值低频伪IMF分量的频率。
 
-\section{Prophet}
+由于ICEEMDAN是基于EMD的信号分解技术的集大成者，因而本文最终决定选用ICEEMDAN。
 
+\section{基于统计学的时间序列预测方法}
+\subsection{SARIMA}
+SARIMA模型一般分为简单季节模型和乘积季节模型：
+
+\begin{itemize}
+\item[1. ] 简单季节模型：
+
+简单季节模型是指序列中的季节效应和其它效应之间是加法关系：
+$$x_t=S_t+T_t+I_t$$
+
+简单季节模型通过简单的趋势差分、季节差分之后序列即可转化为平稳，
+它的模型结构通常如下：
+$$\nabla_D\nabla^dx_t=\frac{\Theta(B)}{\Phi(B)}\varepsilon_t$$
+
+其中:
+$$
+\begin{matrix}
+\nabla_Dx_t=\left(1+B^D\right)X_t,{\ }\nabla^dx_t=\left(1-B^D\right)X_t\\
+\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
+\Phi(B)=1-\varphi_1B-\varphi_2B^2-\cdots-\varphi_pB^p\\
+\end{matrix}
+$$
+
+\item[2. ] 乘积季节模型：
+
+由于序列的季节效应、长期趋势效应和随机波动之间有着复杂的相互关联性，
+简单的季节模型不能充分地提取其中的相关关系。乘积季节模型的构造原理是，
+短期相关性用低阶 ARMA(p,q) 模型提取，季节相关性用以周期步长s为单位
+的 ARMA(p,q) 模型提取，假设短期相关和季节效应之间具有乘积关系，
+模型结构如下:
+$$\nabla^d\nabla_S^Dx_t=\frac{\Theta(B)}{\Phi(B)}\frac{\Theta_S(B)}{\Phi_S(B)}\varepsilon_t$$
+
+由于短期相关性和季节效应之间具有乘积关系，所以，可以将差分后的序列拟合成 ARMA(p,q) 模型和 ARMA(p,q) 模型的乘积形式，最终原序列乘积季节模型的完整结构可采取如下表达式：
+$$\Phi(B)\Phi_S(\mathrm{\ }B)\nabla_S^D\nabla^dx_t=\Theta(B)\Theta_S(B)\varepsilon_t$$
+
+其中：
+
+$$
+\begin{matrix}
+\nabla^dx_t=(1-B)^dx_t,\nabla_S^Dx_t=\left(1-B^S\right)^Dx_t\\
+\Phi(B)=1-\varphi_1B-\varphi_2B-\cdots-\varphi_pB^p\\
+\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
+\Phi_S(B)=1-\varphi_1B^S-\cdots-\varphi_PB^{PS}\\
+\Theta_S(B)=1-\theta_1B^S-\cdots-\theta_QB^{QS}\\
+\end{matrix}
+$$
+
+该乘积季节模型通常简记为$SARIMA(p,d,q)\times(P,D,Q)_S$。
+\end{itemize}
+
+使用 SARIMA 进行模型构建主要有三个主要步骤，分别为平滑处理、平稳性检验
+以及时间序列定阶\cite{Foneone2019时间序列}：
+
+\begin{itemize}
+\item 由于SARIMA需要时间序列满足平稳性和非白噪声的要求，所以要首先用差分法
+和平滑法（滚动平均和滚动标准差）来实现序列的平稳性操作，并确定确定
+季节性与非季节性差分数。
+\item 其次利用增强迪基-福勒检验(ADF test, Augmented Dickey Fuller test)判断
+序列是否平稳，利用白噪声检验判断序列是否为随机性序列。
+\item 最后进行时间序列的定阶。自相关函数 (ACF, AutoCorrelation Function)
+和偏自相关函数 (PACF, Partial AutoCorrelation Function) 利用拖尾
+和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML，Maximum
+Likelihood) 函数估计。
+\end{itemize}
+
+\subsection{Prophet}
 Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
-列预测算法框架。其基于累加模型，可以学习年、周和日季节性以及假日效应等非线性
-趋势，最适用于具有强烈季节性影响的时间序列，可以通过R和Python实现调
-用。Prophet的预测速度快，并且提供了完全自动化的时间序列预测功能，无需手动操
-作即可对杂乱的数据进行合理预测，其对异常值、缺失数据和时间序列中的剧烈
+列预测算法框架。其核心部分使用类似于SARIMA的方法进行时间序列预测，可以
+学习年、周和日季节性以及假日效应等非线性趋势，最适用于具有强烈季节性影响的时
+间序列，可以通过R和Python实现调用。Prophet的预测速度快，不同于SARIMA需要手动
+对时间序列进行处理判断以及定阶，Prophet提供了完全自动化的时间序列预测功能，
+无需手动操作即可对杂乱的数据进行合理预测，其对异常值、缺失数据和时间序列中的剧烈
 变化都具有十分强大的健壮性，并且为用户提供了许多超参数，因而是可调优的。
-\section{GRU}
+\section{主成分分析}
+主成分分析（PCA）是一种降低数据集的维度，从而达到简化数据集目的的方法。
+其利用正交变换对一系列可能的相关变量的观测值进行线性变换，从而将其投影为一系列
+线性不相关的变量特征，并同时保留对彼此差异贡献最大的特征。这种变换这是通过忽略高维
+成分并保留低维成分并来实现的。
 
-\section{Nadam优化器}
+\section{基于RNN的深度学习神经网络模型}
+\subsection{循环神经网络}
 
-\section{Huber损失函数}
+\subsection{LSTM}
+
+\subsection{GRU}
+本文之所以选择GRU而非LSTM，是因为相较于LSTM的结构，有三个门控单元，GRU只有两个，
+因而GRU的参数更少，复杂度更低，收敛速度更快，并且GRU和LSTM所能达到的训练以及预测
+效果同样出色，因而对于效果成本比而言GRU要更高\cite{chung2014empirical}。
+
+\section{深度学习模型优化器}
+\subsection{Adagrad}
+
+\subsection{RMSprop}
+
+\subsection{Adam}
+
+\subsection{Nadam}
+
+
+\section{深度学习模型损失函数}
+\subsection{均方误差（MSE）}
+$$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)$$
+
+\subsection{平均绝对误差（MAE）}
+$$MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
+
+\subsection{Huber}
 
 
 \chapter{模型的建立和评估}
 \section{模型评价指标介绍}
+\subsection{平均绝对误差百分比（MAPE）}
+$$MAPE=100\times\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$$
+
+\subsection{均方根误差（RMSE）}
+$$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)}$$
+
+\subsection{决定系数（$R^2$）}
+$$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$$
 
 \section{七种特征数据的CEEMDAN分解}
 
 \section{仅使用风速历史时间序列数据的Prophet模型}
 
-\section{仅使用风速历史时间序列数据的Prophet-GRU模型}
+\section{仅使用风速历史时间序列数据的CEEDMAN-Prophet-GRU模型}
 
 \section{多特征CEEDMAN-Prophet-GRU模型}
 
@@ -650,42 +755,70 @@ Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间
 \end{itemize}
 
 \begin{lstlisting}[language = python]
-    from netCDF4 import Dataset
-    import datetime
-    
-    # 甘肃中电酒泉第四风力发电有限公司
-    lat_index = 256
-    lon_index = 269
-    variable_list = ["lrad", "prec", "pres", "shum",
-                     "srad", "temp", "wind"]
-    
-    with open('data.csv', 'w') as f:
-        f.write("ds")
-        for variable in variable_list:
-            f.write(',' + variable)
-        f.write('\n')
-        for year in range(2017, 2019):
-            for month in range(1, 13):
-                dataset = []
-                time_data = []
-                for name in variable_list:
-                    data = Dataset("data/" + name + 
-                                   "_ITPCAS-CMFD_V0106_B-01_03hr_010deg_"
-                                   + str(year) + str(month).zfill(2) +
-                                   ".nc")
-                    dataset.append(data.variables[name][:])
-                    time_data = data.variables['time'][:]
-    
-                for index in range(len(time_data)):
-                    f.write(datetime.datetime.utcfromtimestamp(
-                        (time_data[index]-613608)*3600).strftime(
-                            "%Y-%m-%d %H:%M:%S"))
-                    for data in dataset:
-                        f.write(',' + str(
-                                data[index][lat_index][lon_index]))
-                    f.write('\n')
+from netCDF4 import Dataset
+import datetime
+
+# 甘肃中电酒泉第四风力发电有限公司
+lat_index = 256
+lon_index = 269
+variable_list = ["lrad", "prec", "pres", "shum",
+                    "srad", "temp", "wind"]
+
+with open('data.csv', 'w') as f:
+    f.write("ds")
+    for variable in variable_list:
+        f.write(',' + variable)
+    f.write('\n')
+    for year in range(2017, 2019):
+        for month in range(1, 13):
+            dataset = []
+            time_data = []
+            for name in variable_list:
+                data = Dataset("data/" + name + 
+                                "_ITPCAS-CMFD_V0106_B-01_03hr_010deg_"
+                                + str(year) + str(month).zfill(2) +
+                                ".nc")
+                dataset.append(data.variables[name][:])
+                time_data = data.variables['time'][:]
+
+            for index in range(len(time_data)):
+                f.write(datetime.datetime.utcfromtimestamp(
+                    (time_data[index]-613608)*3600).strftime(
+                        "%Y-%m-%d %H:%M:%S"))
+                for data in dataset:
+                    f.write(',' + str(
+                            data[index][lat_index][lon_index]))
+                f.write('\n')
 \end{lstlisting}
 
+\begin{itemize}
+\item[2. ] 表\ref{analysis} 中的数据源制作代码：
+\end{itemize}
+
+\begin{lstlisting}[language = python]
+import pandas as pd
+data = pd.read_csv('data.csv')
+stat = data.describe()
+stat.loc['range'] = stat.loc['max']-stat.loc['min']
+stat.loc['dis'] = stat.loc['75%']-stat.loc['25%']
+stat.loc['var'] = stat.loc['std']/stat.loc['mean']
+stat.loc['mad'] = data.mad()
+stat.loc['skew'] = data.skew()
+stat.loc['kurt'] = data.kurt()
+print(stat)
+\end{lstlisting}
+
+\begin{itemize}
+\item[3. ] 表\ref{relativity-analysis} 中的数据源制作代码：
+\end{itemize}
+
+\begin{lstlisting}[language = python]
+import pandas as pd
+data = pd.read_csv('data.csv')
+from scipy import stats
+for item in ['lrad', 'prec', 'pres', 'shum', 'srad', 'temp']:
+    print(stats.spearmanr(data[[item]].to_numpy().ravel(), data[['wind']].to_numpy().ravel()))
+\end{lstlisting}
 \Thanks
 
 时光荏苒，岁月如梭。转眼间，近四年的本科生活就要结束了。这四年是充满了挑战

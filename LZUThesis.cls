@@ -581,7 +581,7 @@
 \setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
 
-
+\usepackage{footnote}
 
 %======%math theorem
 % 英文名称改为汉字

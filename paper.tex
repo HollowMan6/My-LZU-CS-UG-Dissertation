@@ -119,7 +119,7 @@
 析，得到Prophet拟合预测的结果以及统计分析预测得出的趋势分量、累加式季节性分量
 、日分量、年分量以及上述分量所对应的预测最大边界和最小边界，进一步降低七种特征
 对应时间序列的复杂度，便于神经网络的训练。最终，将所有由 Prophet 分析预测的时
-段对应的结果以及分量进行主成分分析（PCA），降低数据维度，然后输入进一个由三层
+段对应的结果以及分量进行核主成分分析（KPCA），降低数据维度，然后输入进一个由三层
 门控循环单元（GRU）构成的深度学习模型，采用最新科研成果 Nadam 优化器 以及 Huber
 损失函数训练模型，输出预测的时段对应的近地面全风速，从而达成预测实际的短期风速的目的。
 
@@ -168,8 +168,8 @@ of above. These features further help reduce the complexity of the time
 series corresponding to the seven meteorological elements and facilitate
 the training of the neural network. Finally, all the predictions and
 components corresponding to the time series elements predicted by the
-Prophet analysis are first performed a Principal Component Analysis
-(PCA), then inputted into a deep learning model composed of a three-layer
+Prophet analysis are first performed a Kernel Principal Component Analysis
+(KPCA), then inputted into a deep learning model composed of a three-layer
 Gated Recurrent Unit (GRU). Use the latest scientific
 research results Nadam optimizer and Huber loss function to train the
 model. Output the near-surface total wind speed corresponding to the
@@ -444,19 +444,19 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
     \toprule
     指标 & lrad & prec & pres & shum & srad & temp & wind \\
     \midrule
-    算术均值 & 269.3683 & 0.008937 & 85520.866438 & 0.00299 & 192.830351 & 281.409456 & 4.03706 \\
-    标准差 & 64.8436 & 0.085937 & 611.25746 & 0.002662 & 267.654341 & 13.825424 & 2.358024 \\
+    算术均值 & 269.37 & 0.0089 & 85520.87 & 0.00299 & 192.830351 & 281.409456 & 4.03706 \\
+    标准差 & 64.847 & 0.0859 & 611.25746 & 0.002662 & 267.654341 & 13.825424 & 2.358024 \\
     最小值 & 132.25 & 0 & 83722 & 0.000015 & 0 & 245.62999 & 0.051998 \\
     25\%值 & 216.25 & 0 & 85050 & 0.001126 & 0 & 270.3075 & 2.281998 \\
     50\%值 & 265.5 & 0 & 8552 & 0.001964 & 3 & 282.73499 & 3.528997 \\
     75\%值 & 321 & 0 & 85974 & 0.004003 & 351.9375 & 292.57 & 5.257996 \\
-    最大值 & 449.5 & 2.692501 & 8682 & 0.015863 & 989.5 & 311.25 & 16.23 \\
-    极差 & 317.25 & 2.692501 & 3098 & 0.015848 & 989.5 & 65.62001 & 16.178002 \\
+    最大值 & 449.5 & 2.6925 & 8682 & 0.015863 & 989.5 & 311.25 & 16.23 \\
+    极差 & 317.25 & 2.6925 & 3098 & 0.015848 & 989.5 & 65.62001 & 16.178002 \\
     四分位差 & 104.75 & 0 & 924 & 0.002878 & 351.9375 & 22.2625 & 2.975998 \\
-    离散系数 & 0.2407 & 9.616155 & 0.007147 & 0.890314 & 1.38803 & 0.049129 & 0.584095 \\
-    平均离差 & 54.7553 & 0.016416 & 508.741895 & 0.002045 & 223.389189 & 11.77691 & 1.845357 \\
-    偏态 & 0.180516 & 19.282541 & 0.002316 & 1.564872 & 1.212509 & -0.236851 & 1.115394 \\
-    峰度 & -0.874286 & 443.987109 & -0.726484 & 2.039496 & 0.206402 & -0.895183 & 1.404608 \\
+    离散系数 & 0.2407 & 9.6161 & 0.007147 & 0.890314 & 1.38803 & 0.049129 & 0.584095 \\
+    平均离差 & 54.755 & 0.0164 & 508.7419 & 0.002045 & 223.389189 & 11.77691 & 1.845357 \\
+    偏态 & 0.1805 & 19.283 & 0.002316 & 1.564872 & 1.212509 & -0.236851 & 1.115394 \\
+    峰度 & -0.8743 & 443.99 & -0.726484 & 2.039496 & 0.206402 & -0.895183 & 1.404608 \\
     \bottomrule \\
     \end{tabular} \\
     \footnotesize{$^1$ 该表格数据生成代码见附录部分2} \\
@@ -540,7 +540,6 @@ EMD分解步骤如下：
 \end{itemize}
 
 由上述推导过程可得：
-
 $$
 X(t)=\displaystyle\sum_{i=1} ^n IMF_i(t) +R(t)
 $$
@@ -638,7 +637,6 @@ $$\nabla^d\nabla_S^Dx_t=\frac{\Theta(B)}{\Phi(B)}\frac{\Theta_S(B)}{\Phi_S(B)}\v
 $$\Phi(B)\Phi_S(\mathrm{\ }B)\nabla_S^D\nabla^dx_t=\Theta(B)\Theta_S(B)\varepsilon_t$$
 
 其中：
-
 $$
 \begin{matrix}
 \nabla^dx_t=(1-B)^dx_t,\nabla_S^Dx_t=\left(1-B^S\right)^Dx_t\\
@@ -670,54 +668,219 @@ Likelihood) 函数估计。
 \subsection{Prophet}
 Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
 列预测算法框架。其核心部分使用类似于SARIMA的方法进行时间序列预测，可以
-学习年、周和日季节性以及假日效应等非线性趋势，最适用于具有强烈季节性影响的时
+学习年、周和日、年的季节性以及假日效应等非线性趋势，最适用于具有强烈季节性影响的时
 间序列，可以通过R和Python实现调用。Prophet的预测速度快，不同于SARIMA需要手动
 对时间序列进行处理判断以及定阶，Prophet提供了完全自动化的时间序列预测功能，
 无需手动操作即可对杂乱的数据进行合理预测，其对异常值、缺失数据和时间序列中的剧烈
-变化都具有十分强大的健壮性，并且为用户提供了许多超参数，因而是可调优的。
-\section{主成分分析}
-主成分分析（PCA）是一种降低数据集的维度，从而达到简化数据集目的的方法。
-其利用正交变换对一系列可能的相关变量的观测值进行线性变换，从而将其投影为一系列
-线性不相关的变量特征，并同时保留对彼此差异贡献最大的特征。这种变换这是通过忽略高维
-成分并保留低维成分并来实现的。
+变化都具有十分强大的健壮性，并且为用户提供了许多超参数，支持通过交叉验证进行超参数调优。
+
+Prophet的算法模型为：
+$$y(t)=g(t)+s(t)+h(t)+\epsilon_{(t)}$$
+
+该公式中g(t) 表示的是趋势分量，代表时间序列数据在非周期性规律中的变化趋势；
+s(t) 表示周和日、年的季节性分量；h(t) 表示节假日项，此处和风速预测无关；
+$\epsilon_{t}$为剩余项，表示噪声分量，其服从高斯白噪声分布；
+
+\section{基于PCA的降维方法}
+\subsection{主成分分析}
+主成分分析（PCA，Principal Component Analysis）是一种基于线性变换降低数据集的维度
+，从而达到简化数据集目的的方法。其利用正交变换对一系列可能的相关变量的观测值进行线性
+变换，从而将其投影为一系列线性不相关的变量特征，并同时保留对彼此差异贡献最大的特征。
+这种变换这是通过忽略高维成分并保留低维成分并来实现的。
+
+假设待降为的原始数据有m条，每条数据为n维，组成了n行m列的矩阵X，则PCA的步骤如下：
+
+\begin{itemize}
+    \item 首先将X的每一行进行零均值化（减去这一行的均值）。
+    \item 求解协方差矩阵$C=\frac{1}{m}XX^\mathsf{T}$，以及其特征值及对应的特征向量。
+    \item 将协方差矩阵C的特征向量按对应特征值大小从前到后按行排列成矩阵，取前k行组成新矩阵P。
+    \item $Y=PX$即为降维到k维后的数据。
+\end{itemize}
+
+\subsection{核主成分分析}
+PCA可以很好的解除线性相关，但是对于非线性的高阶相关性，PCA无法处理
+\cite{jolliffe2016principal}。核主成分分析（KPCA）是一种基于核函数的主成分
+分析方法，其通过核函数将非线性相关变换到更高维度，使其转换为线性相关，然后再采取
+传统PCA的方法进行降维。因而，KPCA方法可以用于解决非线
+性的高阶相关性问题，适用于非平稳非线性关系较强的天气要素数据。
 
 \section{基于RNN的深度学习神经网络模型}
 \subsection{循环神经网络}
+循环神经网络（RNN，Recurrent Neural Network）是一种深度学习模型。经典的神经网络
+\cite{rumelhart1986learning}，多用于图像处理。由于其时序无关，采用了层状传递结构，
+模型的内部前一层神经元直接传递给后一层神经元，这样做模型由于无记忆功能，
+无法处理时序数据中的历史相关性，因而需要循环层内部传递数据来处理这种时序数据。
 
-\subsection{LSTM}
+\begin{figure}[H]
+	\centering
+	\subfloat[经典BP神经网络]{
+        \includegraphics[width=0.5\textwidth]{figures/ANN.pdf}
+    }
+	\subfloat[循环神经网络]{
+        \includegraphics[width=0.5\textwidth]{figures/RNN.pdf}
+    }
+    \caption{两种神经网络结构示意图}
+    \label{fig_nn}
+\end{figure}
+
+假设激活函数为sigmoid，RNN神经网络的每个神经元都是通过输入值和上一层的记忆值同时乘对
+应权重并与偏差相加，最终再通过sigmoid 激活函数将结果压缩在 0 和 1 之间得出输出。
+上述过程得到如下所示公式：
+$$h_t=\sigma(Wx_t+Uh_{t-1}+b_z)$$
+
+其中sigmoid激活函数为：
+$$\sigma(x)=\frac{1}{1+e^{-x}}$$
+
+公式中W代表权重，$b_z$是偏差，$x_t$是t时刻的神经元输入值，$h_{t-1}$是t-1时刻神经
+元的记忆输出值，W和U为对应的值的权重，$h_t$是当前神经元的输出值。训练时
+对每个神经元采用反向传播(BP)算法，使用训练集中的数据，通过指定学习优化器和损失函数
+来迭代计算权重和偏差，从而使误差的最小化。
+
+由循环神经网络的结构和原理也可以看到，由于其在训练反向传播时权重产生的误差都会累加
+迭代，因而很容易误差累加数值过大，造成梯度爆炸。同时，由sigmoid激活函数的性质可知，当
+值较大时，函数趋于1，并变得平缓，此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，
+循环神经网络的训练过程中每个神经元权重都是直接记忆学习临近时刻的，因而对可能会存在季节
+性效应的长期关系的学习不佳。
 
 \subsection{GRU}
-本文之所以选择GRU而非LSTM，是因为相较于LSTM的结构，有三个门控单元，GRU只有两个，
+上述RNN的三个问题中，梯度爆炸可以采用阈值范围对梯度进行裁剪就可以解决，但是梯度消失和
+长期依赖关系的问题则必须要改变模型的结构。LSTM是首先被提出的解决方案
+\cite{hochreiter1997long}，GRU则是相对于LSTM更简单且更优异的方案。
+
+GRU是由Cho等人于2014年提出的一种类似于LSTM的神经网络模型\cite{cho2014learning}。
+本文之所以选择GRU而非LSTM，是因为相较于LSTM的结构有三个门控单元输入门、遗忘门和输出门，
+GRU只有两个，分别为更新门和重置门。并且GRU的单个神经元中并不会保留内部记忆，
 因而GRU的参数更少，复杂度更低，收敛速度更快，并且GRU和LSTM所能达到的训练以及预测
 效果同样出色，因而对于效果成本比而言GRU要更高\cite{chung2014empirical}。
 
-\section{深度学习模型优化器}
-\subsection{Adagrad}
+GRU的工作原理如下：
 
-\subsection{RMSprop}
+首先更新门确定有多少过去的信息（来自之前的时间步长）需要传递到未来。计算时间t的更新
+门 $z_t$的值，执行计算公式如下：
+$$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$$
+
+该公式和标准RNN的计算公式类似。
+
+重置门决定要忘记多少过去的信息，其公式与更新门的公式相同：
+$$r_t=\sigma(W^{(r)}x_t+U^{(r)}h_{t-1})$$
+
+然后执行以下计算公式：
+$$h^{\prime}_t=tanh(Wx_t+r_t\odot Uh_{t-1})$$
+
+其中tanh激活函数表达式如下：
+$$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
+
+该步骤中重置门和过去的神经元输出进行元素积，确定遗忘掉多少过去的信息
+，并和当前的输入值进行整理相加。在此步中，若选择使$r_t$（重置门）的值
+接近0，则可以遗忘掉过去的大部分信息。
+
+最后一步，确定当前步骤需要记忆的信息：
+$$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
+
+该模型可以选择使$z_t$（更新门）的值接近1，从而并保留大部分过去的信息
+。并且由于此时$1-z_t$接近0，因而将忽略对当前内容的记忆。
+
+从上述推导步骤可以得出GRU模型解决长期记忆问题的方法。同时接近1和接近0的同时出现也
+解决了梯度消失的问题。
+
+从上述推导过程还可以得出，如果选择将重置门设置为1，更新门设置为0，那么GRU将
+变为标准的 RNN 模型。
+
+\section{深度学习模型优化器}
+本部分内容参考了Ruder, Sebastian的梯度下降优化算法综述\cite{ruder2016overview}。
+\subsection{SGD}
+随机梯度下降（SGD，Stochastic Gradient Descent）是深度学习神经网络的训练基础算法，
+它是一种比较简单的梯度下降算法。假设目标神经网络函数为$J(\theta)$，神经网络的参数值
+为$\theta$。则SGD根据固定的学习率η，通过在目标函数梯度的相反方向上$\nabla_\theta J( \theta)$
+更新参数$\theta$来搜寻神经网络的参数，使得目标神经网络达到局部最优点。
+
+SGD的更新公式为：
+$$\theta = \theta - \eta\nabla_\theta J( \theta)$$
+
+\subsection{Momentum}
+Momentum是Qian, Ning研究出的\cite{qian1999momentum}一种有助于在梯度下降的
+方向加速 SGD 并抑制SGD振荡的方法。它通过添加动量项比值γ，将过去时间步的更新向
+量到添加到当前的更新向量，来实现这一目的。
+
+Momentum的更新公式为：
+$$
+\begin{matrix}
+v_t = \gamma v_{t-1} + \eta \nabla_\theta J( \theta)\\
+\theta = \theta - v_t
+\end{matrix}
+$$
+
+\subsection{NAG}
+涅斯捷罗夫加速梯度下降（NAG，Nesterov Accelerated Gradient）\cite{nesterov1983method}
+基于Momentum，通过$\theta - \gamma v_{t-1}$项使其能够预知未来的更新方向，
+从而使得更新更加稳定而不至于一直遵循梯度更新的惯性。这种预期性的更新可以防止
+梯度更新得太快，从而提高响应能力。NAG显著提高了 RNN 在许多训练任务中的性能
+\cite{bengio2013advances}。
+
+NAG的更新公式为：
+$$
+\begin{matrix}
+v_t = \gamma v_{t-1} + \eta \nabla_\theta J( \theta - \gamma v_{t-1} )\\ 
+\theta = \theta - v_t 
+\end{matrix}
+$$
 
 \subsection{Adam}
+Adam\cite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动化调整学习率，
+对与频繁出现的特征相关的参数执行较小的更新（低学习率），对与不常见特征相关的参数
+执行较大的更新（高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
+其本质上为带Momentum动量项的RMSProp。
 
 \subsection{Nadam}
-
+Nadam\cite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，向Adam中添加
+了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
+任务中的性能，最终期望使用Nadam取得比Adam更好的效果。
 
 \section{深度学习模型损失函数}
+\subsection{均方损失函数（MSE）}
+$$MSE=\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
+
+MSE 是平方损失函数，其光滑连续且可导，并且随着误差的减小，梯度也在减小，从而利
+于函数的收敛。因而MSE适合于对其使用梯度下降算法。但是，由于MSE的梯度会随着误差
+的增大而增大，如果样本中存在较多的异常点，MSE 会给这些异常点平方倍的权重，从而牺
+牲正常点的回归预测效果。
+
+\subsection{平均绝对损失函数（MAE）}
+$$MAE=\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
+MAE 是连续且在非零点处可导的，但是由于其是线性损失函数，梯度始终保持不变。因而在优化
+器学习率保持不变的情况下，MAE不利于函数的收敛。但是，由于MAE将异常点和正常点同等
+看待，因而克服了MSE的缺点。
+
+\subsection{Huber损失函数}
+$$
+Huber=
+\left\{\begin{matrix}
+    \frac{1}{2}(y\left(t\right) - \hat{y}\left(t\right))^{2}, & \left | (y - \hat{y})  \right | < \delta\\
+    ((y\left(t\right) - \hat{y}\left(t\right)) - \frac1 2 \delta)\delta, & \left | (y - \hat{y})  \right | \geq \delta
+\end{matrix}\right.
+$$
+
+Huber 损失函数\cite{huber1992robust}包含了一个超参数 δ。当预测偏差小于 δ 时，
+它采类似于MSE的平方损失函数；当预测偏差大于等于 δ 时，采用类似于MAE的线性损失函数。
+因而，Huber同时综合了MSE和MAE的优点并同时客服了他们的缺点。
+
+Huber 光滑连续且可导，当误差达到临界点δ时随着误差的减小，梯度也在减小，对于异常点
+的误差超出临界点δ时，不会给这些异常点很大的的权重，从而同时达到一个很好的收敛和预测
+效果。
+
+\chapter{模型的建立和评估}
+\section{模型评价指标公式}
 \subsection{均方误差（MSE）}
-$$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)$$
+$$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
 
 \subsection{平均绝对误差（MAE）}
 $$MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
 
-\subsection{Huber}
-
-
-\chapter{模型的建立和评估}
-\section{模型评价指标介绍}
 \subsection{平均绝对误差百分比（MAPE）}
 $$MAPE=100\times\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$$
 
 \subsection{均方根误差（RMSE）}
-$$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)}$$
+$$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$$
 
 \subsection{决定系数（$R^2$）}
 $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$$

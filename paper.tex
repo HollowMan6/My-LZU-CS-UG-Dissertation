@@ -110,26 +110,26 @@
 是一个时间序列回归问题，由于风速的波动具有随机性，其影响因素也十分复杂，呈现出
 非平稳且非线性的特征，因而对短期风速的预测难度较大。
 
-本文选取数值天气预报中常见的六种气象要素历史数据，包括近地面气温、近地面气压、
-近地面空气比湿、地面向下短波辐射、地面向下长波辐射、地面降水率，结合近地面全
+本文选取数值天气预报中常见的六种气象要素历史数据，包括地面向下长波辐射、地面降水率、
+近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温，结合近地面全
 风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的改进自适应噪声完备
 集合经验模态分解（ICEEMDAN）算法，对上述七种特征历史数据进行分解，将高频噪声和
 低频信号进行分离，降低时间序列数据分析的复杂度，从而提高准确性。然后，将分解结
 果序列输入由 Facebook 推出的主流时间序列预测框架 Prophet 进行预测以及统计分
 析，得到Prophet拟合预测的结果以及统计分析预测得出的趋势分量、累加式季节性分量
-、日分量、年分量以及上述分量所对应的预测最大边界和最小边界，进一步降低七种特征
-对应时间序列的复杂度，便于神经网络的训练。最终，将所有由 Prophet 分析预测的时
-段对应的结果以及分量进行基于径向基函数的核主成分分析（KPCA），将数据升维，分解
+、日分量、年分量以及上述分量所对应的预测最大边界和最小边界。这些处理后的数据进
+一步降低七种特征对应时间序列的复杂度，便于神经网络的训练。最终，将所有由 Prophet 分析预测的时
+段对应的结果以及分量进行基于径向基函数（RBF）的核主成分分析（KPCA），将数据升维，分解
 非线性相关，更进一步降低数据复杂度。然后输入进一个由三层门控循环单元（GRU）构成
 的深度学习模型，采用最新科研成果 Nadam 优化器 以及 Huber损失函数训练模型，并部
-分应用GELU激活函数，输出预测的时段对应的近地面全风速，从而来预测实际的短期风速。
+分应用GELU激活函数，输出预测的时段对应的近地面全风速，从而来预测实际短期风速。
 
 为了验证模型的实际效果，本文选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
 40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
 \footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}间
 隔三小时的历史数据，使用均方误差（MSE）、平均绝对误差（MAE）、平均绝对误
 差百分比（MAPE）、均方根误差（RMSE）、决定系数（$R^2$）等多项指标，以及对模型的预
-测结果进行可视化分析，与只使用近地面全风速历史数据、未进行时间序列分解剔除噪声、
+测结果进行可视化分析，与只使用近地面全风速历史数据、未进行时间序列分解噪声、
 只使用单一模型的情况进行对比，对模型全方面综合评估。结果表明，使用本文提出的模型
 ，预测短期风速的精度会明显提升，因而具有优越性。
 }{风速影响因素，短期风速预测，组合模型，改进自适应噪声完备集合经验模态分解，Prophet，门控循环单元神经网络，深度学习，数据科学}
@@ -149,16 +149,16 @@ and nonlinear characteristics, so it is difficult to predict short-term wind
 speed.
 
 This paper selects the historical data of six common meteorological
-elements in numerical weather prediction, including near-surface air
-temperature, near-surface air pressure, near-surface specific humidity,
-surface downwelling shortwave radiation, surface downwelling longwave
-radiation, and surface precipitation rate. Combine historical time series
+elements in numerical weather prediction, including surface downwelling
+longwave radiation, surface precipitation rate, near-surface air pressure,
+near-surface specific humidity, surface downwelling shortwave radiation and
+near-surface air temperature. Combine historical time series
 data of near-surface total wind speed with the aforementioned elements
-and build the short-term wind speed, forecasting model. Firstly, the
+and build the short-term wind speed forecasting model. Firstly, the
 ICEEMDAN (Improved Complete Ensemble Empirical Mode Decomposition with
 Adaptive Noise) algorithm, which is at the forefront of current scientific
 research, decomposes the above seven elements' historical data. The
-decomposition can separate high-frequency and low-frequency signals,
+decomposition can separate between high-frequency noise and low-frequency signals,
 which eventually reduces the complexity of time series data analysis
 and improves accuracy. Then, input the decomposed sequence into Prophet,
 a mainstream time series forecasting framework developed by Facebook,
@@ -170,7 +170,7 @@ series corresponding to the seven meteorological elements and facilitate
 the training of the neural network. Finally, all the predictions and
 components corresponding to the time series elements predicted by the
 Prophet analysis are first performed a Kernel Principal Component Analysis
-(KPCA) with radial basis function, so as to upscale the data dimension and
+(KPCA) with Radial Basis Function (RBF), so as to upscale the data dimension and
 decompose nonlinear correlations to further reduce data complexity. Then 
 input the data into a deep learning model composed of a three-layer
 Gated Recurrent Unit (GRU). Use the latest scientific research results Nadam 
@@ -183,12 +183,12 @@ historical data at a location near Gansu Zhongdian Jiuquan Fourth Wind Power
 Co., Ltd. (latitude 40.65 degrees north, longitude 96.95 degrees east) from
 0:00 on January 1, 2017, to 21:00 on December 31, 2018, 
 \footnote{The times mentioned here are all in UTC (Universal Time Coordinated). }
-at three-hourintervals. Using various evaluating indicators like Mean Squared
+at three-hour intervals. Using various evaluating indicators like Mean Squared
 Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE),
 Root Mean Squared Error (RMSE), Coefficient of Determination ($R^2$), etc.
 for verification. The predicted results are visualized and compared with the
 case of only using the near-ground full wind speed historical data, without
-time series decomposition to remove noise, and only using a single model.
+time series decomposition to separate noise, and only using a single model.
 The model is comprehensively evaluated in all aspects. The results show
 that using the model proposed in this paper, the accuracy for predicting
 short-term wind speed will be significantly improved, so it has supremacy.
@@ -241,7 +241,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 湿度等，而地形因素包括地貌、地表障碍等。
 
 对于短期近地面风速的预测能够很好的帮助并促进风能的应用。首先，风力发电厂管理人员
-可以通过预测结果优化电力分配，提高发电量；其次，风力发电厂还可以准确的在风速
+可以通过预测结果优化电力分配，提高发电量；其次，风力发电厂还可以准确地在风速
 过大之前对风力发电机指示停机，预防风力发电机的过载损毁，避免或者减少相应的损
 失；最后，还可以有效安排好风力发电的电网并网问题，减少因为风速的剧烈波动对电
 网电业的稳定性影响，降低运营成本，增加风电场的效益。
@@ -250,7 +250,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 深度学习模型。他们各自都存在一定的优点和缺陷，单一模型并不能很好的进行预测
 \cite{陆冰鉴2020基于}。同时，由于风速数据中往往包含着较大的噪声问题，如何
 有效地对其数据集进行降噪处理也是目前研究的方向。由于单一的预测方法无法做到
-很好的风速预测，如果能通过组合模型，对其进行精确的预测，将会对风力发电的应
+很好的风速预测，如果能通过组合模型，对其进行精确地预测，将会对风力发电的应
 用起到巨大的促进作用。
 
 \section{选题已有研究成果综述}
@@ -273,7 +273,7 @@ ECWMF，GRAPES和JAPAN模式对于贵州省范围内84个站点的风速预报�
 
 \subsection{统计与传统机器学习方法}
 不同于数值预报方法，统计与传统机器学习方法基于风速历史数据的时间序列，
-通过训练机器学习模型来预测未来天气，并且可以对数据进行预处理，从而可以
+通过训练机器学习模型来进行预测，并且可以对数据进行预处理，从而可以
 从历史数据中挖掘出风速数据的潜在规律，因而相对于数值预报方法，模型的训练
 和预测更加简单，无需使用超级计算机进行大量的计算。
 
@@ -342,10 +342,10 @@ SARIMA和反向传播（BP，Back Propagation）神经网络的组合模型方�
 网络，一种动态递归神经网络，次之。
 
 \subsection{降噪方法}
-由于风速数据的非平稳性，其时间序列数据中往往参杂着较大的噪声。这些噪声
-如果不加以平滑处理从而去除，将会严重影响到模型对风速时间序列的预测精度
+由于风速数据的非平稳性，其时间序列数据中往往掺杂着较大的噪声。这些噪声
+如果不分离出来，将会一定程度上影响到模型对风速时间序列的预测精度
 和泛化能力，加大对其非线性关系的学习难度。许多常见的信号分解技术包括傅里叶
-变换以及小波变换，将时间序列信号从时域变换到频域，从而将高频噪声剔除。
+变换以及小波变换，将时间序列信号从时域变换到频域，从而将高频噪声分离。
 常见的降噪方法包括小波分解（WD，Wavelet Decomposition）、
 变分模式分解（Variational Mode Decomposition）、Hilbert-Huang变换
 （HHT，Hilbert-Huang Transform）以及经验模式分解
@@ -381,8 +381,8 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
 最终选择ICEEMDAN分解技术、Prophet、基于RBF的KPCA、GRU网络、Nadam 优化器、
 Huber损失函数以及GELU激活函数的原因。
 
-第四章：模型的建立和评估。主要讲述模型的评估指标介绍、模型的细节、训练以及调参
-过程、与普通使用模型的情况进行对比。
+第四章：模型的建立和评估。主要讲述模型的评估指标介绍、细节、训练以及调参过程，
+并与使用普通模型的情况进行对比。
 
 第五章：总结与展望。对全文进行总结，指出创新点与有待进一步研究的方向。
 
@@ -396,8 +396,8 @@ Huber损失函数以及GELU激活函数的原因。
 \section{数据来源}
 本文数据来源于中国区域地面气象要素驱动数据集（1979-2018）
 \cite{8028b944-daaa-4511-8769-965612652c49}，该数据集常用于数值天气
-预报。该数据集包括近地面气温、近地面气压、近地面空气比湿、近地面全风速、
-地面向下短波辐射、地面向下长波辐射、地面降水率共7个气象要素。数据时间
+预报。该数据集包括地面向下长波辐射、地面降水率、近地面气压、近地面空气比
+湿、地面向下短波辐射、近地面气温共7个气象要素。数据时间
 分辨率为3小时，水平空间分辨率为0.1°，为netCDF格式。
 \cite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
 
@@ -415,7 +415,7 @@ Huber损失函数以及GELU激活函数的原因。
 （北纬40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
 \footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}
 共5840条数据。生成数据格式为CSV（逗号分隔值，Comma-Separated Values）文件，包
-含数据内容如下：
+含数据内容如表\ref{features}所示：
 
 \begin{table}[H]
     \centering
@@ -428,7 +428,7 @@ Huber损失函数以及GELU激活函数的原因。
     lrad & 地面向下长波辐射 & $W/m^2$ & 从当前时间1.5小时前开始的3小时平均值 \\
     prec & 地面降水率 & $mm/h$ & 从当前时间3小时前开始的3小时平均值 \\
     pres & 近地面气压 & $Pa$ & 近地面(距地面2米处)瞬时值 \\
-    shum & 近地面空气比湿 & 比值，无单位 & 近地面(距地面2米处)瞬时值 \\
+    shum & 近地面空气相对湿度 & 比值，无单位 & 近地面(距地面2米处)瞬时值 \\
     srad & 地面向下短波辐射 & $W/m^2$ & 从当前时间1.5小时前开始的3小时平均值 \\
     temp & 近地面气温 & $K$ & 近地面(距地面2米处)瞬时值 \\
     wind & 近地面全风速 & $m/s$ & 近地面(距地面2米处)瞬时值 \\
@@ -466,17 +466,19 @@ Huber损失函数以及GELU激活函数的原因。
     \label{analysis}
 \end{table}
 
+使用python的pandas库自带的统计功能计算得到表\ref{analysis}中统计数据。
 由表\ref{analysis}统计数据可见，选址地（甘肃中电酒泉第四风力发电有限公司附近
-，北纬40.65 度，东经 96.95 度）处2017-2018年两年全年最低气温-27.5摄氏度，
-最高38.1摄氏度，温差较大，冷热对流明显。同时该地区降水非常稀少，空气干燥，太阳
+，北纬40.65 度，东经 96.95 度）处2017-2018年两年全年最低气温-27.5$^{\circ}$C，
+最高38.1$^{\circ}$C，温差较大，冷热对流明显。同时该地区降水非常稀少，空气干燥，太阳
 辐射强，易产生空气的稳定辐射型对流。该地区出现过的最大风力为7级（16.23 m/s），
-风力平均为3级（4.04m/s），因而风速较大，且风速的方差较小，风力资源丰富且平稳，
+风力平均为3级（4.04 m/s），因而风速较大，且风速的方差较小，风力资源丰富且平稳，
 的确是风力发电的一个很好的选址。
 
 \subsection{相关性分析和显著性检验}
 因为传统的皮尔逊（Pearson）相关系数衡量的只是线性相关关系，并且皮尔逊相关系数
 对数据的要求较高，不适用于非平稳且非线性的风速数据。因而这里采用可以度量单调关
-系的斯皮尔曼（Spearman）相关系数。
+系的斯皮尔曼（Spearman）相关系数。使用python的scipy库相关方法计算得到
+表\ref{relativity-analysis}中统计数据。
 
 \begin{table}[H]
     \centering
@@ -531,10 +533,10 @@ EMD分解不是基于物理性质。但是，EMD依据信号自身的时间尺�
 
 EMD分解步骤如下：
 \begin{itemize}
-\item[1. ] 找出待分解时间序列$X(t)$的所有极大值点，并将所有极大值点用三次样条差值
+\item[1. ] 找出待分解时间序列$X(t)$的所有极大值点，并将所有极大值点用三次样条插值
 函数拟合形成原数据的上包络线。
 \item[2. ] 同理，找出待分解时间序列$X(t)$的所有极小值点，并将所有极小值点用三次样
-条插值函数拟合形成数据的下包络线，
+条插值函数拟合形成数据的下包络线。
 \item[3. ] 设上包络线和下包络线的均值函数为$M(t)$，设$X(t)-M(t)=H(t)$，得到新的
 时间序列$H(t)$。如果$H(t)$不满足本征模函数的两个性质，则对$H(t)$重复步骤
 1-3，否则得到一个IMF分量$H(t)=IMF_i(t)$。
@@ -575,7 +577,7 @@ Empirical Mode Decomposition with Adaptive Noise) 由Torres
 
 CEEMDAN分解步骤如下：
 \begin{itemize}
-\item[1. ] 对待分解时间序列$X(t)$添加一个幅值为r白噪声序列$N(t)$，得到新序列$K(t)$。
+\item[1. ] 对待分解的时间序列$X(t)$添加一个幅值为r的白噪声序列$N(t)$，得到新序列$K(t)$。
 \item[2. ] 对$K(t)$进行一次EMD分解迭代，得到一个IMF分量。
 \item[3. ] 对步骤1-2重复n次，将得到的共计n组的IMF进行系综平均（Ensemble Average），得到$IMF_i(t)$
 用$X(t)-IMF_i(t)$作为新序列，返回步骤1迭代j次。
@@ -596,87 +598,22 @@ CEEMDAN相较于EEMD方法有如下优点：
 \subsection{ICEEMDAN}
 
 ICEEMDAN由Colominas等人提出\cite{colominas2014improved}，其为CEEMDAN的改进版本。
-ICEEMDAN将上述步骤3的重复迭代过程中的第x次迭代时使用的噪声更改为原第一次添加噪声的
-的对噪声的EMD分解的第x个IMF分量乘以添加噪声相对于待分解时间序列的信噪比，再除以白噪
+ICEEMDAN将上述步骤3的重复迭代过程中的第x次迭代时使用的噪声更改为原第一次添加噪声
+的对噪声进行EMD分解的第x个IMF分量乘以添加噪声相对于待分解时间序列的信噪比，再除以白噪
 声的标准差。
 
 ICEEMDAN分解相对于CEEMDAN进一步降低了出现多个无意义的低幅值低频伪IMF分量的频率。
 
 由于ICEEMDAN是基于EMD的信号分解技术的集大成者，因而本文最终决定选用ICEEMDAN。
 
-\section{基于统计学的时间序列预测方法}
-\subsection{SARIMA}
-SARIMA模型一般分为简单季节模型和乘积季节模型：
-
-\begin{itemize}
-\item[1. ] 简单季节模型：
-
-简单季节模型是指序列中的季节效应和其它效应之间是加法关系：
-$$x_t=S_t+T_t+I_t$$
-
-简单季节模型通过简单的趋势差分、季节差分之后序列即可转化为平稳，
-它的模型结构通常如下：
-$$\nabla_D\nabla^dx_t=\frac{\Theta(B)}{\Phi(B)}\varepsilon_t$$
-
-其中:
-$$
-\begin{matrix}
-\nabla_Dx_t=\left(1+B^D\right)X_t,{\ }\nabla^dx_t=\left(1-B^D\right)X_t\\
-\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
-\Phi(B)=1-\varphi_1B-\varphi_2B^2-\cdots-\varphi_pB^p\\
-\end{matrix}
-$$
-
-\item[2. ] 乘积季节模型：
-
-由于序列的季节效应、长期趋势效应和随机波动之间有着复杂的相互关联性，
-简单的季节模型不能充分地提取其中的相关关系。乘积季节模型的构造原理是，
-短期相关性用低阶 ARMA(p,q) 模型提取，季节相关性用以周期步长s为单位
-的 ARMA(p,q) 模型提取，假设短期相关和季节效应之间具有乘积关系，
-模型结构如下:
-$$\nabla^d\nabla_S^Dx_t=\frac{\Theta(B)}{\Phi(B)}\frac{\Theta_S(B)}{\Phi_S(B)}\varepsilon_t$$
-
-由于短期相关性和季节效应之间具有乘积关系，所以，可以将差分后的序列拟合成 ARMA(p,q) 模型和 ARMA(p,q) 
-模型的乘积形式，最终原序列乘积季节模型的完整结构可采取如下表达式：
-$$\Phi(B)\Phi_S(\mathrm{\ }B)\nabla_S^D\nabla^dx_t=\Theta(B)\Theta_S(B)\varepsilon_t$$
-
-其中：
-$$
-\begin{matrix}
-\nabla^dx_t=(1-B)^dx_t,\nabla_S^Dx_t=\left(1-B^S\right)^Dx_t\\
-\Phi(B)=1-\varphi_1B-\varphi_2B-\cdots-\varphi_pB^p\\
-\Theta(B)=1-\theta_1B-\theta_2B^2-\cdots-\theta_qB^q\\
-\Phi_S(B)=1-\varphi_1B^S-\cdots-\varphi_PB^{PS}\\
-\Theta_S(B)=1-\theta_1B^S-\cdots-\theta_QB^{QS}\\
-\end{matrix}
-$$
-
-该乘积季节模型通常简记为$SARIMA(p,d,q)\times(P,D,Q)_S$。
-\end{itemize}
-
-使用 SARIMA 进行模型构建主要有三个主要步骤，分别为平滑处理、平稳性检验
-以及时间序列定阶\cite{Foneone2019时间序列}：
-
-\begin{itemize}
-\item 由于SARIMA需要时间序列满足平稳性和非白噪声的要求，所以要首先用差分法
-和平滑法（滚动平均和滚动标准差）来实现序列的平稳性操作，并确定确定
-季节性与非季节性差分数。
-\item 其次利用增强迪基-福勒检验(ADF test, Augmented Dickey Fuller test)判断
-序列是否平稳，利用白噪声检验判断序列是否为随机性序列。
-\item 最后进行时间序列的定阶。自相关函数 (ACF, AutoCorrelation Function)
-和偏自相关函数 (PACF, Partial AutoCorrelation Function) 利用拖尾
-和截尾来确定，并应用他们来给时间序列定阶，模型的参数由最大似然 (ML，Maximum
-Likelihood) 函数估计。
-\end{itemize}
-
-\subsection{Prophet}
+\section{基于Prophet框架的时间序列预测方法}
 Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
 列预测算法框架。其核心部分使用类似于SARIMA的方法进行时间序列预测，可以
 学习年、周和日、年的季节性以及假日效应等非线性趋势，最适用于具有强烈季节性影响的时
 间序列，可以通过R和Python实现调用。Prophet的预测速度快，不同于SARIMA需要手动
-对时间序列进行处理判断以及定阶，Prophet提供了完全自动化的时间序列预测功能，
-无需手动操作即可对杂乱的数据进行合理预测，其对异常值、缺失数据和时间序列中的剧烈
-变化都具有十分强大的健壮性，并且为用户提供了许多超参数，支持通过交叉验证进行超参数调优。
+对时间序列进行处理判断以及定阶，Prophet提供了完全自动化的时间序列预测功能，因而
+无需手动操作即可对杂乱的数据进行合理预测。其对异常值、缺失数据和时间序列中的剧烈
+变化也都具有十分强大的健壮性，并且为用户提供了许多超参数，支持通过交叉验证进行超参数调优。
 
 Prophet的算法模型为：
 $$y(t)=g(t)+s(t)+h(t)+\epsilon_{(t)}$$
@@ -732,7 +669,7 @@ $$sigmoid(x)=\frac{1}{1+e^{-x}}$$
     \caption{sigmoid函数图像}
     \label{fig_sigmoid}
 \end{figure}
-sigmoid函数在$-\infty$上趋近于0，在$+\infty$上趋近于1。
+如图\ref{fig_sigmoid}所示，sigmoid函数在$-\infty$上趋近于0，在$+\infty$上趋近于1。
 
 \subsection{tanh}
 $$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
@@ -742,7 +679,7 @@ $$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
     \caption{tanh函数图像}
     \label{fig_tanh}
 \end{figure}
-tanh函数在$-\infty$上趋近于-1，在$+\infty$上趋近于1，且过原点。其实质上是
+如图\ref{fig_tanh}所示，tanh函数在$-\infty$上趋近于-1，在$+\infty$上趋近于1，且过原点。其实质上是
 sigmoid函数的缩放移动版本。
 
 \subsection{GELU}
@@ -761,7 +698,7 @@ $$
     \label{fig_relu_gelu}
 \end{figure}
 
-尽管整流线性单元（ReLU，Rectified Linear Unit）在x取负值时为0，符合近地面全风速数据不为负
+如图\ref{fig_relu_gelu}所示，尽管整流线性单元（ReLU，Rectified Linear Unit）在x取负值时为0，符合近地面全风速数据不为负
 的特点，但是由于ReLU是线性激活函数，而风速数据具有较强的非线性特征，因而用于风速数据效果
 不是很理想。
 
@@ -776,6 +713,7 @@ $x\Phi(x)$，其中$\Phi(x)$是标准高斯累积分布函数。GELU 是非线�
 \cite{rumelhart1986learning}，多用于图像处理。由于其时序无关，采用了层状传递结构，
 模型的内部前一层神经元直接传递给后一层神经元，这样做模型由于无记忆功能，
 无法处理时序数据中的历史相关性，因而需要循环层内部传递数据来处理这种时序数据。
+图\ref{fig_nn}展示了两种神经网络的结构区别。
 
 \begin{figure}[H]
 	\centering
@@ -907,7 +845,7 @@ $$MSE=\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
     \label{fig_mse}
 \end{figure}
 
-MSE 是平方损失函数，如图\label{fig_mse}所示，其光滑连续且可导，并且随着误差的减小，
+MSE 是平方损失函数，如图\ref{fig_mse}所示，其光滑连续且可导，并且随着误差的减小，
 梯度也在减小，从而利于函数的收敛。因而MSE适合于对其使用梯度下降算法。但是，由于MSE
 的梯度会随着误差的增大而增大，如果样本中存在较多的异常点，MSE 会给这些异常点平方倍
 的权重，从而牺牲正常点的回归预测效果。
@@ -919,10 +857,10 @@ $$MAE=\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
 	\centering
     \includegraphics[width=0.5\textwidth]{figures/mae.pdf}
     \caption{mae函数图像}
-    \label{fig_mse}
+    \label{fig_mae}
 \end{figure}
 
-如图\label{fig_mae}所示，MAE 是连续且在非零点处可导的，但是由于其是线性损失函数，
+如图\ref{fig_mae}所示，MAE 是连续且在非零点处可导的，但是由于其是线性损失函数，
 梯度始终保持不变。因而在优化器学习率保持不变的情况下，MAE不利于函数的收敛。但是，
 由于MAE将异常点和正常点同等看待，因而克服了MSE的缺点。
 
@@ -944,11 +882,11 @@ $$
 
 Huber 损失函数\cite{huber1992robust}包含了一个超参数 δ。当预测偏差小于 δ 时，
 它采用MSE变换形式的平方损失函数；当预测偏差大于等于 δ 时，采用MAE变换形式的线性损失函数，
-如图\label{fig_huber}所示。
+如图\ref{fig_huber}所示。
 因而，Huber同时综合了MSE和MAE的优点并同时客服了他们的缺点。
 
 Huber 光滑连续且可导，当误差达到临界点δ时随着误差的减小，梯度也在减小，对于异常点
-的误差超出临界点δ时，不会给这些异常点很大的的权重，从而同时达到一个很好的收敛和预测
+的误差超出临界点δ时，不会给这些异常点很大的权重，从而同时达到一个很好的收敛和预测
 效果。
 
 \chapter{模型的建立和评估}
@@ -1022,15 +960,15 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为9个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于500HZ-2300HZ处。
 
-\subsection{近地面空气比湿}
+\subsection{近地面空气相对湿度}
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/shum.pdf}
-    \caption{近地面空气比湿的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
+    \caption{近地面空气相对湿度的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_shum}
 \end{figure}
 
-从图\ref{fig_shum}中可以看到，原始信号中高频噪声含量也较高。ICEEMDAN将近地面空气比湿
+从图\ref{fig_shum}中可以看到，原始信号中高频噪声含量也较高。ICEEMDAN将近地面空气相对湿度
 的原始时间序列分解为10个本征模函数（IMF）分量，分解效果较好。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于750HZ-3000HZ处。
 
@@ -1077,7 +1015,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 数据选择前438天（3504条数据）作为初始训练数据。对于后290天（2320条数据），每隔5天对
 未来5天的情况进行一次预测，共计验证58次，搜寻Prophet的最优超参数，从而使得平均绝对
 误差百分比（MAPE）值最小化。使用的代码见附录部分A.6。最终得到对于风速序列的最优参数
-如下表所示：
+如表\ref{prophet_param}所示：
 
 \begin{table}[H]
     \centering
@@ -1100,7 +1038,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 将数据集前5800条（725天）作为训练集，后40条（5天）作为测试集。最终将上述超参数带
 入Prophet模型中建模，对5800条时序数据输入Prophet模型进行训练。代码部分见附录部分A.7。
 
-模型预测结果和实际值之间的比较：
+模型预测结果和实际值之间的比较如图\ref{fig_prophet_wind}所示：
 
 \begin{figure}[H]
 	\centering
@@ -1109,7 +1047,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
     \label{fig_prophet_wind}
 \end{figure}
 
-最终模型的评价指标情况：
+最终模型的评价指标情况如表\ref{wind_prophet_result}所示：
 
 \begin{table}[H]
     \centering
@@ -1129,8 +1067,8 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 
 \section{仅使用风速历史时间序列数据的ICEEDMAN-Prophet模型}
 将对风速历史时间序列数据ICEEDMAN分解所得的所有IMF分量以及残差共计12项，每项5800条数据
-作为Prophet输入，对每项分别进行Prophet模型的预测，最终将12个Prophet模型所得的结果相加，计算模型的指
-标值。代码部分见附录部分A.8。
+作为Prophet输入，对每项分别进行Prophet模型的预测，最终将12个Prophet模型所得的结果相加，
+计算得到的模型的指标值如表\ref{wind_iceemdan_prophet_result}所示。代码部分见附录部分A.8。
 
 \begin{table}[H]
     \centering
@@ -1170,7 +1108,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 \end{figure}
 
 该模型四层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，5799）的
-向量，代表经过Prophet处理的的初步预测值。第二层为一个使用标准GRU模型（即激活函数为sigmoid，
+向量，代表经过Prophet处理的初步预测值。第二层为一个使用标准GRU模型（即激活函数为sigmoid，
 循环激活函数为tanh）的隐藏层，其一共有1024个GRU单元，输出为（1，1024）的向量，可训练参数
 共计20966400个。第三层为一个将激活函数和循环激活函数都改为gelu的GRU模型，其共计512个GRU单
 元，输出为（1，512）的向量，可训练参数为2362368个。第四层为输出层，将前一层的输出值通过全连
@@ -1183,7 +1121,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结束时得到的最优模型的Huber损失
 值为0.0122。
 
-训练过程中Huber损失函数的变化情况：
+训练过程中Huber损失函数的变化情况见图\ref{fig_wind_prophet_gru_training_loss}：
 
 \begin{figure}[H]
 	\centering
@@ -1192,7 +1130,7 @@ Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结
     \label{fig_wind_prophet_gru_training_loss}
 \end{figure}
 
-最终模型在训练集中的拟合情况：
+最终模型在训练集中的拟合情况见图\ref{fig_wind_prophet_gru_predict_train}：
 
 \begin{figure}[H]
 	\centering
@@ -1201,7 +1139,7 @@ Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结
     \label{fig_wind_prophet_gru_predict_train}
 \end{figure}
 
-最终模型的评价指标数值：
+最终模型的评价指标数值见表\ref{wind_prophet_gru_result}：
 
 \begin{table}[H]
     \centering
@@ -1221,15 +1159,15 @@ Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结
 
 \section{多特征ICEEDMAN-Prophet-GRU模型}
 
-和上一种模型类似，将近地面气温、近地面气压、近地面空气比湿、地面向下短波辐射、地面向下长
-波辐射、地面降水率，和近地面全风速7种气象要素的原始历史数据以及ICCEMDAN分解得到的每个IMF
+和上一种模型类似，将地面向下长波辐射、地面降水率、近地面气压、近地面空气相对湿度、地面向下
+短波辐射、近地面气温，和近地面全风速7种气象要素的原始历史数据以及ICCEMDAN分解得到的每个IMF
 分量以及残差分别输入进Prophet模型进行预测，最终得到的86个模型，每个模型的（5840，
 15）形状的输出矩阵和上一个模型进行同样的整理，得到形状为（5840，1290）的矩阵，再对数据和
 上一个模型进行同样的处理，得到GRU的输入矩阵（5800，5799），GRU的各种参数以及训练方法
 和上一个模型的步骤一样。最终100个epoch结束时得到的最优模型的Huber损失为0.0081。
 代码部分见附录部分A.10。
 
-训练过程中Huber损失函数的变化情况：
+训练过程中Huber损失函数的变化情况见图\ref{fig_all_prophet_gru_training_loss}：
 
 \begin{figure}[H]
 	\centering
@@ -1238,7 +1176,7 @@ Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结
     \label{fig_all_prophet_gru_training_loss}
 \end{figure}
 
-最终模型在训练集中的拟合情况：
+最终模型在训练集中的拟合情况\ref{fig_all_prophet_gru_predict_train}：
 
 \begin{figure}[H]
 	\centering
@@ -1247,7 +1185,7 @@ Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结
     \label{fig_all_prophet_gru_predict_train}
 \end{figure}
 
-最终模型的评价指标数值：
+最终模型的评价指标数值见表\ref{all_prophet_gru_result}：
 
 \begin{table}[H]
     \centering

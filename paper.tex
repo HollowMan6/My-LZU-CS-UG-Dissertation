@@ -16,7 +16,7 @@
 % 	      长标题 \title{{第一行}{第二行}}
 %             超长标题\tiitle{{第一行}{...}{第N行}}
 
-\title{{基于 ICEEMDAN 多特征分解和}{Prophet 与 GRU 组合模型预测短期风速}}
+\title{{基于 ICEEMDAN 多特征分解和Prophet-}{GRU-NN组合模型多步预测短期风速}}
 
 
 
@@ -25,7 +25,7 @@
 % 	      长标题 \entitle{{First row}{ Second row}}
 %             超长标题\entitle{{First row}{...}{ Next N row}}
 % 注意：  英文标题多行时 需要在开头加个空格 防止摘要标题处英语单词粘连。
-\entitle{{Forecast Short-term Wind Speed through ICEEMDAN}{ Decomposed Multi-features and Prophet \& GRU Hybrid Model}}
+\entitle{{Multistep-Ahead Forecast Short-Term Wind Speed }{through ICEEMDAN Decomposed Multi-features }{and Prophet-GRU-NN Hybrid Model}}
 
 \author{蒋嵩林}
 \major{计算机科学与技术（基础理论班）}
@@ -106,31 +106,15 @@
 \ZhAbstract{
 气候变化和环保问题关乎人类未来命运。在石油危机以及全球变暖问题愈发严重的现在，
 可再生清洁能源相关研究成为了学界的关注热点。风能，作为触手可得的一种能源，正成为新能
-源的主力军之一。准确预测风速，从而保证电网的稳定性，具有十分重大的意义。风速预测
-是一个时间序列回归问题，由于风速的波动具有随机性，其影响因素也十分复杂，呈现出
-非平稳且非线性的特征，因而对短期风速的预测难度较大。
+源的主力军之一。准确预测风速，从而保证电网的稳定性，具有十分重大的意义。
 
-本文选取数值天气预报中常见的六种气象要素历史数据，包括地面向下长波辐射、地面降水率、
-近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温，结合近地面全
-风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的改进自适应噪声完备
-集合经验模态分解（ICEEMDAN）算法，对上述七种特征历史数据进行分解，将高频噪声和
-低频信号进行分离，降低时间序列数据分析的复杂度，从而提高准确性。然后，将分解结
-果序列输入由 Facebook 推出的主流时间序列预测框架 Prophet 进行预测以及统计分
-析，得到Prophet拟合预测的结果以及统计分析预测得出的趋势分量、累加式季节性分量
-、日分量、年分量以及上述分量所对应的预测最大边界和最小边界。这些处理后的数据进
-一步降低了七种特征对应时间序列的复杂度，便于神经网络的训练。最终，将所有由 Prophet 分析预测的时
-段对应的结果以及分量进行基于径向基函数（RBF）的核主成分分析（KPCA），将数据升维，分解
-非线性相关，更进一步降低了数据复杂度。然后输入进一个由三层门控循环单元（GRU）构成
-的深度学习模型，采用最新科研成果 Nadam 优化器 以及 Huber损失函数训练模型，并部
-分应用GELU激活函数，输出预测的时段对应的近地面全风速。
+风速预测是一个时间序列回归问题，由于风速的波动具有随机性，其影响因素也十分复杂，呈现出
+非平稳且非线性的特征，因而对短期风速的预测难度较大。本文基于前人研究成果，
+选用ICEEMDAN分解技术，并使用当前最新循环神经网络结构GRU，结合Facebook Prophet框架，形成ICEEMDAN-Prophet-GRU模型。同时结合数值
+预报方法提供的灵感，将其他天气要素特征也输入到模型中，最后使用神经网络（NN）整合
+校正，提高模型的泛化能力。
 
-为了验证模型的实际效果，本文选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
-40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
-\footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}间
-隔三小时的历史数据，使用均方误差（MSE）、平均绝对误差（MAE）、平均绝对误
-差百分比（MAPE）、均方根误差（RMSE）、决定系数（$R^2$）等多项指标，以及对模型的预
-测结果进行可视化分析，与只使用近地面全风速历史数据、未进行时间序列分解噪声、
-只使用单一模型的情况进行对比，对模型全方面综合评估。结果表明，使用本文提出的模型
+最终结果表明，使用本文提出的多特征ICEEMDAN-Prophet-GRU-NN模型
 ，预测短期风速的精度会明显提升，因而具有优越性。
 }{风速影响因素，短期风速预测，组合模型，改进自适应噪声完备集合经验模态分解，Prophet，门控循环单元神经网络，深度学习，数据科学}
 
@@ -142,56 +126,24 @@ With the oil crisis and global warming worsening, renewable energy-related
 research has become a hot spot attracting great academic attention. Wind is
 becoming mainstream renewable energy as a readily available energy source.
 As a result, it is essential to predict the wind speed accurately to ensure
-power system stability. Wind speed forecast is a time series regression
+power system stability.
+
+Wind speed forecast is a time series regression
 problem. Due to the randomness of wind speed fluctuations, influencing
 factors for wind speed are very complex. The wind speed has non-stationary
 and nonlinear characteristics, so it is difficult to predict short-term wind
-speed.
+speed. Based on the previous research results, this dissertation selects
+the ICEEMDAN decomposition technology, and uses the latest
+recurrent neural network model GRU, combined with the Facebook Prophet
+framework, to form the ICEEMDAN-Prophet-GRU model. At the same time, combined
+with the inspiration provided by the numerical weather prediction method,
+other common meteorological elements are also inputted into the model. Finally
+the neural network (NN) is used to integrate and correct, so that the
+generalization ability of the model can be improved.
 
-This paper selects the historical data of six common meteorological
-elements in numerical weather prediction, including surface downwelling
-longwave radiation, surface precipitation rate, near-surface air pressure,
-near-surface specific humidity, surface downwelling shortwave radiation and
-near-surface air temperature. Combine historical time series
-data of near-surface total wind speed with the aforementioned elements
-and build the short-term wind speed forecasting model. Firstly, the
-ICEEMDAN (Improved Complete Ensemble Empirical Mode Decomposition with
-Adaptive Noise) algorithm, which is at the forefront of current scientific
-research, decomposes the above seven elements' historical data. The
-decomposition can separate between high-frequency noise and low-frequency signals,
-which eventually reduces the complexity of time series data analysis
-and improves accuracy. Then, input the decomposed sequence into Prophet,
-a mainstream time series forecasting framework developed by Facebook,
-for forecasting and statistical analysis. Obtain the result of Prophet
-fitting prediction, the trend component, additive seasonality component,
-daily component, yearly component, as well as maximum and minimum boundaries
-of above. These features further help reduce the complexity of the time
-series corresponding to the seven meteorological elements and facilitate
-the training of the neural network. Finally, all the predictions and
-components corresponding to the time series elements predicted by the
-Prophet analysis are first performed a Kernel Principal Component Analysis
-(KPCA) with Radial Basis Function (RBF), so as to upscale the data dimension and
-decompose nonlinear correlations to further reduce data complexity. Then 
-input the data into a deep learning model composed of a three-layer
-Gated Recurrent Unit (GRU). Use the latest scientific research results Nadam 
-optimizer and Huber loss function as well as GELU activation function to 
-train the model. Output the near-surface total wind speed corresponding to the
-predicted period so that the actual short-term wind speed can get predicted.
-
-In order to verify the actual effect of the model, this paper selects the
-historical data at a location near Gansu Zhongdian Jiuquan Fourth Wind Power
-Co., Ltd. (latitude 40.65 degrees north, longitude 96.95 degrees east) from
-0:00 on January 1, 2017, to 21:00 on December 31, 2018, 
-\footnote{The times mentioned here are all in UTC (Universal Time Coordinated). }
-at three-hour intervals. Using various evaluating indicators like Mean Squared
-Error (MSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE),
-Root Mean Squared Error (RMSE), Coefficient of Determination ($R^2$), etc.
-for verification. The predicted results are visualized and compared with the
-case of only using the near-ground full wind speed historical data, without
-time series decomposition to separate noise, and only using a single model.
-The model is comprehensively evaluated in all aspects. The results show
-that using the model proposed in this paper, the accuracy for predicting
-short-term wind speed will be significantly improved, so it has supremacy.
+The final results show that using the multi-feature ICEEMDAN-Prophet-GRU-NN
+model proposed in this paper, we can significantly improve the accuracy of
+short-term wind speed prediction, so it has supremacy.
 }}
 {wind speed influencing factors; short-term wind speed forecast; 
 hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
@@ -341,9 +293,8 @@ SARIMA和反向传播（BP，Back Propagation）神经网络的组合模型方�
 \cite{朱丽娜2021风电}得出结论：LSTM适用于预测非平稳序列风速，Elman神经
 网络，一种动态递归神经网络，次之。
 
-\subsection{降噪方法}
 由于风速数据的非平稳性，其时间序列数据中往往掺杂着较大的噪声。这些噪声
-如果不分离出来，将会一定程度上影响到模型对风速时间序列的预测精度
+如果不分离出来，将会一定程度上影响到深度学习模型对风速时间序列的预测精度
 和泛化能力，加大对其非线性关系的学习难度。许多常见的信号分解技术包括傅里叶
 变换以及小波变换，将时间序列信号从时域变换到频域，从而将高频噪声分离。
 常见的降噪方法包括小波分解（WD，Wavelet Decomposition）、
@@ -366,10 +317,29 @@ LSTM模型的组合，提升了对短期风速的预测精度。
 scikit-learn，以及时间序列数据处理预测框架Prophet。
 
 由于注意到直接使用Prophet框架来进行非平稳非线性的风速预测效果并不佳，因而
-本文基于上述前人研究成果，决定选用ICEEMDAN分解技术，并使用当前最新循环神经
-网络结构GRU，结合Prophet框架，形成ICEEMDAN-Prophet-GRU模型。同时结合数值
-预报方法提供的灵感，将其他天气要素特征也输入到模型中，提高模型的泛化能力，
-最终验证模型的优越性。论文的结构如下：
+本文基于上述前人研究成果，决定选取数值天气预报中常见的五种气象要素历史数据，
+包括地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温，结合近地面全
+风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的改进自适应噪声完备
+集合经验模态分解（ICEEMDAN）算法，对上述六种特征历史数据进行分解，将高频噪声和
+低频信号进行分离，降低时间序列数据分析的复杂度，从而提高准确性。然后，将分解结
+果序列按照八个时刻预测未来一个时刻的滑动窗口方法形成样本，输入由 Facebook 推出的主
+流时间序列预测框架 Prophet 进行统计分析，得到Prophet拟合分解的结果以及统计分析
+得出的趋势分量、累加式季节性分量以及上述分量所对应的最大边界和最小边界。这些处理
+后的数据进一步降低了六种特征对应时间序列的复杂度，便于神经网络的训练。最终，将所有由
+Prophet分析的时段对应的结果以及分量和原始数据一起进行基于径向基函数（RBF）的核
+主成分分析（KPCA），将数据升维，分解非线性相关，更进一步降低了数据复杂度。然后输入
+进一个由三层门控循环单元（GRU）构成的深度学习模型，采用最新科研成果 Nadam 优化器
+以及 Huber损失函数训练模型，并部分应用GELU激活函数，输出每个时段预测的六种气象要素
+值，最终使用基于RBF的核主成分分析（KPCA）将预测结果再次升维，输入进神经网络（NN）进行修正，
+最终得到预测的近地面全风速值。
+
+为了验证模型的实际效果，本文选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
+40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月30日21时整
+\footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}间
+隔三小时的历史数据，使用多项指标以及对模型的预
+测结果进行可视化分析，对比模型各要素的优劣，从而对模型全方面综合评估，最终验证模型的优越性。
+
+论文的结构如下：
 
 第一章：绪论。主要讲述选题缘由，风速问题研究背景以及意义，以及对现有研究
 方法的综述。
@@ -412,9 +382,9 @@ Huber损失函数以及GELU激活函数的原因。
 集（1979-2018）构建而成，通过Python语言netCDF4库
 \footnote{提取所用代码请见附录部分A.1}
 选取了数据集中的全部气象要素，并选择了甘肃中电酒泉第四风力发电有限公司附近
-（北纬40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月31日21时整
+（北纬40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月30日21时整
 \footnote{此处所述时间均为协调世界时(UTC, Universal Time Coordinated)。}
-共5840条数据。生成数据格式为CSV（逗号分隔值，Comma-Separated Values）文件，包
+共5832条数据。生成数据格式为CSV（逗号分隔值，Comma-Separated Values）文件，包
 含数据内容如表\ref{features}所示：
 
 \begin{table}[H]
@@ -447,19 +417,19 @@ Huber损失函数以及GELU激活函数的原因。
     \toprule
     指标 & lrad & prec & pres & shum & srad & temp & wind \\
     \midrule
-    算术均值 & 269.37 & 0.0089 & 85520.87 & 0.00299 & 192.830351 & 281.409456 & 4.03706 \\
-    标准差 & 64.847 & 0.0859 & 611.25746 & 0.002662 & 267.654341 & 13.825424 & 2.358024 \\
-    最小值 & 132.25 & 0 & 83722 & 0.000015 & 0 & 245.62999 & 0.051998 \\
-    25\%值 & 216.25 & 0 & 85050 & 0.001126 & 0 & 270.3075 & 2.281998 \\
-    50\%值 & 265.5 & 0 & 8552 & 0.001964 & 3 & 282.73499 & 3.528997 \\
-    75\%值 & 321 & 0 & 85974 & 0.004003 & 351.9375 & 292.57 & 5.257996 \\
-    最大值 & 449.5 & 2.6925 & 8682 & 0.015863 & 989.5 & 311.25 & 16.23 \\
-    极差 & 317.25 & 2.6925 & 3098 & 0.015848 & 989.5 & 65.62001 & 16.178002 \\
-    四分位差 & 104.75 & 0 & 924 & 0.002878 & 351.9375 & 22.2625 & 2.975998 \\
-    离散系数 & 0.2407 & 9.6161 & 0.007147 & 0.890314 & 1.38803 & 0.049129 & 0.584095 \\
-    平均离差 & 54.755 & 0.0164 & 508.7419 & 0.002045 & 223.389189 & 11.77691 & 1.845357 \\
-    偏态 & 0.1805 & 19.283 & 0.002316 & 1.564872 & 1.212509 & -0.236851 & 1.115394 \\
-    峰度 & -0.8743 & 443.99 & -0.726484 & 2.039496 & 0.206402 & -0.895183 & 1.404608 \\
+    算术均值 & 269.5 & 0.009 & 85519.502743 & 0.002993 & 192.962834 & 281.441822 & 4.040625 \\
+    标准差 & 64.77 & 0.085995 & 610.557534 & 0.002663 & 267.761536 & 13.806527 & 2.357598 \\
+    最小值 & 132.3 & 0 & 83722 & 0.000015 & 0 & 245.629990 & 0.051998 \\
+    25\%值 & 216.3 & 0 & 85049.5 & 0.001129 & 0 & 270.36 & 2.285995 \\
+    50\%值 & 265.5 & 0 & 85518 & 0.001971 & 3 & 282.754990 & 3.529999 \\
+    75\%值 & 321.1 & 0 & 85972 & 0.004012 & 352.5625 & 292.5825 & 5.258496 \\
+    最大值 & 449.5 & 2.692501 & 86820 & 0.015863 & 989.5 & 311.25 & 16.23 \\
+    极差 & 317.3 & 2.692501 & 3098 & 0.015848 & 989.5 & 65.620010 & 16.178002 \\
+    四分位差 & 104.8 & 0 & 922.5 & 0.002883 & 352.5625 & 22.2225 & 2.972501 \\
+    离散系数 & 0.24 & 9.609496 & 0.007139 & 0.889654 & 1.387633 & 0.049056 & 0.583474 \\
+    平均离差 & 54.69 & 0.016437 & 508.073047 & 0.002045 & 223.512922 & 11.758743 & 1.844962 \\
+    偏态 & 0.181 & 19.269338 & 0.002976 & 1.563321 & 1.211468 & -0.237797 & 1.115041 \\
+    峰度 & -0.87 & 443.377569 & -0.722968 & 2.034095 & 0.202964 & -0.892140 & 1.404610 \\
     \bottomrule \\
     \end{tabular} \\
     \footnotesize{$^1$ 该表格数据生成代码见附录部分A.2} \\
@@ -487,12 +457,12 @@ Huber损失函数以及GELU激活函数的原因。
     \toprule
     wind & 相关系数 & 显著水平 \\
     \midrule
-    lrad & $0.03528229315199814^{**}$ & 0.0070065793090313055 \\
-    prec & $0.008443728183433091$ & 0.5188350558375361 \\
-    pres & $0.07156398261497926^{**}$ & $4.3810149807651604\times10^{-8}$ \\
-    shum & $-0.08302721983053592^{**}$ & $2.0904230457715092\times10^{-10}$ \\
-    srad & $0.24649937697179994^{**}$ & $1.4389507268798562\times10^{-81}$ \\
-    temp & $0.05948229496676412^{**}$ & $5.398211275459676\times10^{-6}$ \\
+    lrad & $0.032350777005597936^{**}$ & 0.013486168347444174 \\
+    prec & $0.00787600133073642$ & 0.5476061053614518 \\
+    pres & $0.07469086091232147^{**}$ & $1.1250462841430117\times10^{-8}$ \\
+    shum & $-0.08556207603752566^{**}$ & $5.958774799092212\times10^{-11}$ \\
+    srad & $0.246264995629444^{**}$ & $2.650405346230128\times10^{-81}$ \\
+    temp & $0.05671501296224254^{**}$ & $1.4659365394277926\times10^{-5}$ \\
     \bottomrule \\
     \end{tabular} \\
     \footnotesize{$^1$ 该表格数据生成代码见附录部分A.3} \\
@@ -500,10 +470,13 @@ Huber损失函数以及GELU激活函数的原因。
     \label{relativity-analysis}
 \end{table}
 
-由表\ref{relativity-analysis}所示，排除由于选址地区降水数据过于稀少，导致地面降水率与其相关性不大的因素，
+由表\ref{relativity-analysis}所示，排除由于选址地区降水数据过于稀少，导致地面
+降水率与其相关性不大的因素，
 风速与其他剩余五种气象要素的相关系数都较大，有较强的相关性，并且相关性都在99\%
 的置信水平下通过检验，相关性极其显著。其中与风速相关性最强的是地面向下短波辐射。
 
+最终根据上述过程中的数据分析，去除掉地面降水率这一特征，保留剩余的地面向下长波辐射、
+近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温共计五种特征。
 
 
 \chapter{使用技术的介绍和比较}
@@ -620,7 +593,7 @@ $$y(t)=g(t)+s(t)+h(t)+\epsilon_{(t)}$$
 
 该公式中g(t) 表示的是趋势分量，代表时间序列数据在非周期性规律中的变化趋势；
 s(t) 表示周和日、年的季节性分量；h(t) 表示节假日项，此处和风速预测无关；
-$\epsilon_{t}$为剩余项，表示噪声分量，其服从高斯白噪声分布；
+$\epsilon_{t}$为剩余项，表示噪声分量，其服从高斯白噪声分布。
 
 \section{基于PCA的降维方法}
 \subsection{主成分分析}
@@ -659,59 +632,8 @@ $$K(\mathbf x,\mathbf y)=e^{-\gamma\|\mathbf x-\mathbf y\|^2}$$
 需要确定超参数$b$和$c$，比较麻烦，无法实现自动化KPCA。 
 \end{itemize}
 
-\section{深度学习模型激活函数}
-激活函数将深度学习模型中神经单元的输出映射到一个范围，从而起到控制输出数据值域的作用。
-\subsection{sigmoid}
-$$sigmoid(x)=\frac{1}{1+e^{-x}}$$
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=0.5\textwidth]{figures/sigmoid.pdf}
-    \caption{sigmoid函数图像}
-    \label{fig_sigmoid}
-\end{figure}
-如图\ref{fig_sigmoid}所示，sigmoid函数为单调递增函数，在$-\infty$上趋近于0，
-在$+\infty$上趋近于1。
-
-\subsection{tanh}
-$$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=0.5\textwidth]{figures/tanh.pdf}
-    \caption{tanh函数图像}
-    \label{fig_tanh}
-\end{figure}
-如图\ref{fig_tanh}所示，tanh函数为单调递增函数，在$-\infty$上趋近于-1，
-在$+\infty$上趋近于1，且过原点。其实质上是
-sigmoid函数的缩放移动版本。
-
-\subsection{GELU}
-$$
-ReLU=
-\left\{\begin{matrix}
-    0, & x \leq 0 \\
-    x, & x > 0
-\end{matrix}\right.
-$$
-
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=0.5\textwidth]{figures/relu_gelu.pdf}
-    \caption{ReLU和GeLU函数图像}
-    \label{fig_relu_gelu}
-\end{figure}
-
-如图\ref{fig_relu_gelu}所示，尽管整流线性单元（ReLU，Rectified Linear Unit）在x取负
-值时为0，符合近地面全风速数据不为负
-的特点，但是由于ReLU是线性激活函数，而风速数据具有较强的非线性特征，因而用于风速数据效果
-不是很理想。
-
-高斯误差线性单元 (GELU，Gaussian Error Linear Unit）是Hendrycks, Dan等人于2016提出的
-\cite{hendrycks2016gaussian}一种高性能的神经网络激活函数。GELU 激活函数表达式是
-$x\Phi(x)$，其中$\Phi(x)$是标准高斯累积分布函数。GELU 是非线性激活函数，其对输入值进行
-高斯加权处理，能带给训练任务更好的精度和拟合效果。
-
 \section{基于RNN的深度学习神经网络模型}
-\subsection{循环神经网络}
+\subsection{经典循环神经网络原理}
 循环神经网络（RNN，Recurrent Neural Network）是一种深度学习模型。经典的神经网络
 \cite{rumelhart1986learning}，多用于图像处理。由于其时序无关，采用了层状传递结构，
 模型的内部前一层神经元直接传递给后一层神经元，这样做模型由于无记忆功能，
@@ -746,7 +668,7 @@ $$h_t=\sigma(Wx_t+Uh_{t-1}+b_z)$$
 循环神经网络的训练过程中每个神经元权重都是直接记忆学习临近时刻的，因而对可能会存在对类似
 季节性效应的长期关系学习不佳。
 
-\subsection{GRU}
+\subsection{GRU原理}
 上述RNN的三个问题中，梯度爆炸可以采用阈值范围对梯度进行裁剪就可以解决，但是梯度消失和
 长期依赖关系的问题则必须要改变模型的结构。LSTM是首先被提出的解决方案
 \cite{hochreiter1997long}，GRU则是相对于LSTM更简单且更优异的方案。
@@ -787,9 +709,72 @@ $$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
 从上述推导过程还可以得出，如果选择将重置门设置为1，更新门设置为0，那么GRU将
 变为标准的 RNN 模型。
 
-\section{深度学习模型优化器}
+\subsection{神经网络模型激活函数}
+激活函数将神经网络模型中神经单元的输出映射到一个范围，从而起到控制输出数据值域的作用。
+\begin{itemize}
+\item[a. ] sigmoid
+\end{itemize}
+
+$$sigmoid(x)=\frac{1}{1+e^{-x}}$$
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=0.5\textwidth]{figures/sigmoid.pdf}
+    \caption{sigmoid函数图像}
+    \label{fig_sigmoid}
+\end{figure}
+如图\ref{fig_sigmoid}所示，sigmoid函数为单调递增函数，在$-\infty$上趋近于0，
+在$+\infty$上趋近于1。
+
+\begin{itemize}
+    \item[b. ] tanh
+\end{itemize}
+
+$$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=0.5\textwidth]{figures/tanh.pdf}
+    \caption{tanh函数图像}
+    \label{fig_tanh}
+\end{figure}
+如图\ref{fig_tanh}所示，tanh函数为单调递增函数，在$-\infty$上趋近于-1，
+在$+\infty$上趋近于1，且过原点。其实质上是
+sigmoid函数的缩放移动版本。
+
+\begin{itemize}
+\item[c. ] ReLU和GELU
+\end{itemize}
+
+$$
+ReLU=
+\left\{\begin{matrix}
+    0, & x \leq 0 \\
+    x, & x > 0
+\end{matrix}\right.
+$$
+
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=0.5\textwidth]{figures/relu_gelu.pdf}
+    \caption{ReLU和GELU函数图像}
+    \label{fig_relu_gelu}
+\end{figure}
+
+如图\ref{fig_relu_gelu}所示，尽管整流线性单元（ReLU，Rectified Linear Unit）在x取负
+值时为0，符合近地面全风速数据不为负
+的特点，但是由于ReLU是线性激活函数，而风速数据具有较强的非线性特征，因而用于风速数据效果
+不是很理想。
+
+高斯误差线性单元 (GELU，Gaussian Error Linear Unit）是Hendrycks, Dan等人于2016提出的
+\cite{hendrycks2016gaussian}一种高性能的神经网络激活函数。GELU 激活函数表达式是
+$x\Phi(x)$，其中$\Phi(x)$是标准高斯累积分布函数。GELU 是非线性激活函数，其对输入值进行
+高斯加权处理，能带给训练任务更好的精度和拟合效果。
+
+\subsection{神经网络模型优化器}
 本部分内容参考了Ruder, Sebastian的梯度下降优化算法综述\cite{ruder2016overview}。
-\subsection{SGD}
+\begin{itemize}
+    \item[a. ] SGD
+\end{itemize}
+
 随机梯度下降（SGD，Stochastic Gradient Descent）是深度学习神经网络的训练基础算法，
 它是一种比较简单的梯度下降算法。假设目标神经网络函数为$J(\theta)$，神经网络的参数值
 为$\theta$。则SGD根据固定的学习率η，通过在目标函数梯度的相反方向上$\nabla_\theta J( \theta)$
@@ -798,7 +783,10 @@ $$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
 SGD的更新公式为：
 $$\theta = \theta - \eta\nabla_\theta J( \theta)$$
 
-\subsection{Momentum}
+\begin{itemize}
+    \item[b. ] Momentum
+\end{itemize}
+
 Momentum是Qian, Ning研究出的\cite{qian1999momentum}一种有助于在梯度下降的
 方向加速 SGD 并抑制SGD振荡的方法。它通过添加动量项比值γ，将过去时间步的更新向
 量到添加到当前的更新向量，来实现这一目的。
@@ -811,7 +799,10 @@ v_t = \gamma v_{t-1} + \eta \nabla_\theta J( \theta)\\
 \end{matrix}
 $$
 
-\subsection{NAG}
+\begin{itemize}
+    \item[c. ] NAG
+\end{itemize}
+
 涅斯捷罗夫加速梯度下降（NAG，Nesterov Accelerated Gradient）\cite{nesterov1983method}
 基于Momentum，通过$\theta - \gamma v_{t-1}$项使其能够预知未来的更新方向，
 从而使得更新更加稳定而不至于一直遵循梯度更新的惯性。这种预期性的更新可以防止
@@ -826,19 +817,28 @@ v_t = \gamma v_{t-1} + \eta \nabla_\theta J( \theta - \gamma v_{t-1} )\\
 \end{matrix}
 $$
 
-\subsection{Adam}
+\begin{itemize}
+    \item[d. ] Adam
+\end{itemize}
+
 Adam\cite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动化调整学习率，
 对与频繁出现的特征相关的参数执行较小的更新（低学习率），对与不常见特征相关的参数
 执行较大的更新（高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
 其本质上为带Momentum动量项的RMSProp。
 
-\subsection{Nadam}
+\begin{itemize}
+    \item[e. ] Nadam
+\end{itemize}
+
 Nadam\cite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
 了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
 任务中的性能，最终使用Nadam能够取得比Adam更好的效果。
 
-\section{深度学习模型损失函数}
-\subsection{均方损失函数（MSE）}
+\subsection{神经网络模型损失函数}
+\begin{itemize}
+    \item[a. ] 均方损失函数（MSE）
+\end{itemize}
+
 $$MSE=\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
 
 \begin{figure}[H]
@@ -853,7 +853,10 @@ MSE 是平方损失函数，如图\ref{fig_mse}所示，其光滑连续且可导
 的梯度会随着误差的增大而增大，如果样本中存在较多的异常点，MSE 会给这些异常点平方倍
 的权重，从而牺牲正常点的回归预测效果。
 
-\subsection{平均绝对损失函数（MAE）}
+\begin{itemize}
+    \item[b. ] 平均绝对损失函数（MAE）
+\end{itemize}
+
 $$MAE=\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
 
 \begin{figure}[H]
@@ -867,7 +870,10 @@ $$MAE=\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
 梯度始终保持不变。因而在优化器学习率保持不变的情况下，MAE不利于函数的收敛。但是，
 由于MAE将异常点和正常点同等看待，因而克服了MSE的缺点。
 
-\subsection{Huber损失函数}
+\begin{itemize}
+    \item[c. ] Huber损失函数
+\end{itemize}
+
 $$
 Huber=
 \left\{\begin{matrix}
@@ -893,31 +899,8 @@ Huber 光滑连续且可导，当误差达到临界点δ时随着误差的减小
 效果。
 
 \chapter{模型的建立和评估}
-\section{模型评价指标公式}
-下述指标公式使用scikit-learn自带的方法实现，并和25\%准确率（预测值和真实值实际偏差
-数值在25\%以内的比值）封装为print\_metrics函数调用，相关代码见附录部分A.4。
-
-\subsection{均方误差（MSE）}
-$$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
-
-\subsection{平均绝对误差（MAE）}
-$$MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
-
-\subsection{平均绝对误差百分比（MAPE）}
-$$MAPE=\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$$
-
-\subsection{均方根误差（RMSE）}
-$$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$$
-
-上述四种误差指标均为，当对应指标值越小时，模型的精度越高。
-
-\subsection{决定系数（$R^2$）}
-$$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$$
-
-决定系数（$R^2$）取值范围为$(-\infty, 1]$，越接近1代表模型的准确度越好。
-
-\section{七种特征数据的ICEEMDAN分解}
-下述ICEEMDAN分解以及时域转频域和图片生成代码请见附录部分A.5。
+\section{六种特征数据的ICEEMDAN分解}
+下述ICEEMDAN分解以及时域转频域和图片生成代码请见附录部分A.4。
 
 这里使用python的pyEMD库实现ICCEMDAN分解\footnote{尽管pyEMD库中调用方法和类名为CEEMDAN，
 但根据官方文档，其内部实现时是采用的改进的CEEMDAN，即ICEEMDAN发表论文中所述算法。}，并使用
@@ -927,7 +910,10 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 本征模函数（IMF）分量。其中，每行左侧为原始得到的时域数据，横坐标范围为[0,5839]，单位为三小时（3hr）。
 右侧为经过傅里叶变换后得到的频域数据，横坐标范围为[0,2919]，单位为赫兹（HZ）。
 
-\subsection{地面向下长波辐射}
+\begin{itemize}
+    \item[1. ] 地面向下长波辐射
+\end{itemize}
+
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/lrad.pdf}
@@ -939,19 +925,10 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为10个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
 主要集中在IMF1分量和IMF2分量中，集中于500HZ-3000HZ处。
 
-\subsection{地面降水率}
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=1\textwidth]{figures/prec.pdf}
-    \caption{地面降水率的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
-    \label{fig_prec}
-\end{figure}
+\begin{itemize}
+    \item[2. ] 近地面气压
+\end{itemize}
 
-从图\ref{fig_prec}中可以看到，原始信号中高频噪声含量也较高。ICEEMDAN将地面降水率
-的原始时间序列分解为14个本征模函数（IMF）分量，分解效果较好。由幅频可以看出，高频噪声
-主要集中在IMF1、IMF2分量和IMF3分量中，集中于200HZ-3000HZ处。
-
-\subsection{近地面气压}
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/pres.pdf}
@@ -963,7 +940,10 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为9个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于500HZ-2300HZ处。
 
-\subsection{近地面空气相对湿度}
+\begin{itemize}
+    \item[3. ] 近地面空气相对湿度
+\end{itemize}
+
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/shum.pdf}
@@ -975,7 +955,10 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为10个本征模函数（IMF）分量，分解效果较好。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于750HZ-3000HZ处。
 
-\subsection{地面向下短波辐射}
+\begin{itemize}
+    \item[4. ] 地面向下短波辐射
+\end{itemize}
+
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/srad.pdf}
@@ -987,7 +970,10 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为10个本征模函数（IMF）分量，分解效果十分显著。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于750HZ-2200HZ处。
 
-\subsection{近地面气温}
+\begin{itemize}
+    \item[5. ] 近地面气温
+\end{itemize}
+
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/temp.pdf}
@@ -999,9 +985,12 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为8个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于500HZ-2200HZ处。
 
-\subsection{近地面全风速}
+\begin{itemize}
+    \item[6. ] 近地面全风速
+\end{itemize}
+
 \begin{figure}[H]
-	\centering
+    \centering
     \includegraphics[width=1\textwidth]{figures/wind.pdf}
     \caption{近地面全风速的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_wind}
@@ -1009,15 +998,17 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 
 从图\ref{fig_wind}中可以看到，原始信号中高频噪声含量也较高。ICEEMDAN将近地面全风速
 的原始时间序列分解为11个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
-主要集中在IMF1、IMF2和IMF3分量中，集中于500HZ-3000HZ处。
+主要集中在IMF1和IMF2分量中，集中于500HZ-3000HZ处。
 
-\section{仅使用风速历史时间序列数据的Prophet模型}
-\subsection{搜寻最优超参数}
-直接将原始风速时间序列数据作为输入，首先使用Prophet自带的实现方法，对数据进行交叉验证
-以评估5天的预测性能，为超参数调优提供依据。首先对训练集和验证集进行六四分，共730天的
-数据选择前438天（3504条数据）作为初始训练数据。对于后290天（2320条数据），每隔5天对
-未来5天的情况进行一次预测，共计验证58次，搜寻Prophet的最优超参数，从而使得平均绝对
-误差百分比（MAPE）值最小化。使用的代码见附录部分A.6。最终得到对于风速序列的最优参数
+将上述信号中高频噪声对应的IMF分量去除，剩余的低频信号IMF分量相加，即可得到经过ICCEMDAN
+分解的时间序列信号。
+
+\section{搜寻Prophet模型最优超参数}
+将时间序列数据作为输入，首先使用Prophet自带的实现方法，对数据进行交叉验证
+以评估12小时的预测性能，为超参数调优提供依据。首先对训练集和验证集进行六四分，共730天的
+数据选择前438天（3504条数据）作为初始训练数据。对于后295天（2324条数据），每隔1天对
+未来12小时的情况进行一次预测，共计验证291次，搜寻Prophet的最优超参数，从而使得平均绝对
+误差百分比（MAPE）值最小化。使用的代码见附录部分A.5。最终得到对于风速序列的最优参数
 如表\ref{prophet_param}所示：
 
 \begin{table}[H]
@@ -1036,189 +1027,185 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
     \label{prophet_param}
 \end{table}
 
-\subsection{建模结果}
-
-将数据集前5800条（725天）作为训练集，后40条（5天）作为测试集。最终将上述超参数带
-入Prophet模型中建模，对5800条时序数据输入Prophet模型进行训练。代码部分见附录部分A.7。
-
-模型预测结果和实际值之间的比较如图\ref{fig_prophet_wind}所示：
-
+\section{基于风速历史时间序列数据的ICEEDMAN-GRU模型}
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/prophet_wind.pdf}
-    \caption{仅使用风速历史数据Prophet模型实际值（黑色散点）和预测值（蓝色曲线）之间的对比}
-    \label{fig_prophet_wind}
+    \includegraphics[width=1\textwidth]{figures/ICCEMDAN-GRU-Wind.pdf}
+    \caption{基于风速历史时间序列数据的ICEEDMAN-GRU模型结构图}
+    \label{fig_ICCEMDAN_GRU_Wind}
 \end{figure}
 
-最终模型的评价指标情况如表\ref{wind_prophet_result}所示：
+图\ref{fig_ICCEMDAN_GRU_Wind}展示了基于风速历史时间序列数据的ICEEDMAN-GRU模型结构示意
+。该模型使用了历史风速时间序列中的5828条数据点，以8个连续时间序列数据点（24小时，1天）为
+一个时间窗口制作为一个训练样本。每个时间窗口中的数据点整体为一个输入，每个时间窗口中的输出
+为该输入窗口紧挨着的下一个时间序列数据点（3小时）的预测值。因而总共得到5820个训练样本
+（时间窗口），每个时间窗口样本都与上一个时间窗口差值为3小时。
 
-\begin{table}[H]
-    \centering
-    \caption{仅使用风速历史时间序列数据Prophet模型的评价指标值}
-    \begin{tabular}{cc}
-    \toprule
-    MAPE & 0.811048306594047 \\
-    MAE & 1.669410108638486 \\
-    MSE & 4.676397471905323 \\
-    RMSE & 2.1624979703817813 \\
-    $R^2$ & 0.1546359378992639 \\
-    25\% 准确度 & 0.35551724137931034 \\
-    \bottomrule
-    \end{tabular}
-    \label{wind_prophet_result}
-\end{table}
+将上述5820个训练样本的输入值（5820，8）首先通过标准化后，进行RBF核主成分分析升维，降低
+复杂度，得到（5820，5810）的输入矩阵。随后将其变形为（5820，1，5810）的输入矩阵，再将其
+输入进GRU模型。
 
-\section{仅使用风速历史时间序列数据的ICEEDMAN-Prophet模型}
-将对风速历史时间序列数据ICEEDMAN分解所得的所有IMF分量以及残差共计12项，每项5800条数据
-作为Prophet输入，对每项分别进行Prophet模型的预测，最终将12个Prophet模型所得的结果相加，
-计算得到的模型的指标值如表\ref{wind_iceemdan_prophet_result}所示。代码部分见附录部分A.8。
-
-\begin{table}[H]
-    \centering
-    \caption{仅使用风速历史时间序列数据ICEEDMAN-Prophet模型的评价指标值}
-    \begin{tabular}{cc}
-    \toprule
-    MAPE & 0.809527314909222 \\
-    MAE & 1.6655091375859066 \\
-    MSE & 4.656702225688189 \\
-    RMSE & 2.157939347082811 \\
-    $R^2$ & 0.15819629679651703 \\
-    25\% 准确度 & 0.3618965517241379 \\
-    \bottomrule
-    \end{tabular}
-    \label{wind_iceemdan_prophet_result}
-\end{table}
-
-同时还尝试了对残差以及部分高频分量预测结果直接去除进行尝试，经试验在所有使用的模型指标中
-都会进一步加大模型的误差，并不会产生更好的效果。
-
-\section{仅使用风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型}
-\subsection{模型介绍}
-将上面的两种模型得到的仅使用风速历史时间序列数据Prophet相关共计13个模型输出的结果以及统计分析预
-测得出的趋势分量、累加式季节性分量、日分量、年分量以及上述分量所对应的预测最大边界和最
-小边界共计15个特征进行整合，得到一个（5840，195）的矩阵，再次将其前5800条（725天）作为
-训练集，后40条（5天）作为测试集。对测试集首先进行数据标准化缩放，再通过使用RBF核函数的核
-主成分分析（KPCA），将训练集
-升维至（5800，5799）输入进入GRU模型，从而得到最终的预测结果。代码部分见附录部分A.9。
-
-使用的GRU模型网络结构如图\ref{fig_gru}所示：
+本文使用的GRU模型网络结构如图\ref{fig_gru}所示：
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/gru_model_plot.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/wind_grumodel_plot.pdf}
     \caption{本文使用的GRU模型网络结构图}
     \label{fig_gru}
 \end{figure}
 
-该模型四层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，5799）的
-向量，代表经过Prophet处理的初步预测值。第二层为一个使用标准GRU模型（即激活函数为sigmoid，
+该模型四层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，5810）的
+向量，代表一个样本的时间窗口。第二层为一个使用标准GRU模型（即激活函数为sigmoid，
 循环激活函数为tanh）的隐藏层，其一共有1024个GRU单元，输出为（1，1024）的向量，可训练参数
-共计20966400个。第三层为一个将激活函数和循环激活函数都改为gelu的GRU模型，其共计512个GRU单
+共计21000192个。第三层为一个将激活函数和循环激活函数都改为gelu的GRU模型，其共计512个GRU单
 元，输出为（1，512）的向量，可训练参数为2362368个。第四层为输出层，将前一层的输出值通过全连
-接的方式，得到（1，1）的向量，为最终预测值，可训练参数513个。整个模型可训练参数
-共计23329281个。
+接的方式，得到（1，1）的向量，可训练参数513个。整个模型可训练参数
+共计23363073个，输出最终预测值。
 
-\subsection{建模结果}
-使用Tensorflow Keras，选择训练100个epoch，批大小（Batch Size）为默认32，训练过程中验证集
-自动按照0.01的占比划分，且设置回调函数自动保存训练过程中得到的损失最小的模型。损失函数为
-Huber，模型优化器为Nadam，设定学习率为0.001。最终100个epoch结束时得到的最优模型的Huber损失
-值为0.0122。
+进行预测时使用多步预测的方法。每个时间窗口的输入为现在已知的数据点值，混合上一个时间窗口的
+预测输出值，从而进行四步预测（12小时）。代码部分见附录部分A.9。
 
-训练过程中Huber损失函数的变化情况见图\ref{fig_wind_prophet_gru_training_loss}：
+\section{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型}
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=1\textwidth]{figures/ICCEMDAN-Prophet-GRU-Wind.pdf}
+    \caption{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型结构图}
+    \label{fig_ICCEMDAN_Prophet_GRU_Wind}
+\end{figure}
+
+如图\ref{fig_ICCEMDAN_Prophet_GRU_Wind}所示，本模型在基于风速历史时间序列数据的
+ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框架进行统计分析处理，得到
+该窗口数据对应的趋势分量、累加式季节性分量以及上述分量所对应的预测最大边界和最
+小边界共计9个特征，并与原始数据进行拼接整合，得到（5820，8，10）的矩阵。随后将后两个
+维度展平，生成的（5820，80）矩阵进行数据标准化缩放，再通过使用RBF核函数的核
+主成分分析（KPCA），将训练集升维至（5820，5819），变形之后再输入进入同基于风速历史
+时间序列数据的ICEEDMAN-GRU模型中一样的GRU模型，从而
+得到最终的预测结果。代码部分见附录部分A.10。
+
+\section{多特征ICEEDMAN-Prophet-GRU-NN模型}
+\begin{figure}[H]
+	\centering
+    \includegraphics[width=0.9\textwidth]{figures/ICCEMDAN-Prophet-GRU-All-Features.pdf}
+    \caption{多特征ICEEDMAN-Prophet-GRU模型结构图}
+    \label{fig_ICCEMDAN_Prophet_GRU_All_Features}
+\end{figure}
+图\ref{fig_ICCEMDAN_Prophet_GRU_Wind}展示了多特征ICEEDMAN-Prophet-GRU模型结构。
+该模型将地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下
+短波辐射、近地面气温，和近地面全风速6种气象要素的原始历史数据的每个气象要素通过和
+对风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型一致的处理方式，得到每个气象要素储窗口样本
+的GRU模型预测值（5820，1，7），再将这些预测值通过使用RBF核函数的核主成分分析（KPCA），
+将其升维至（5820，1，4260），随后使用如图\ref{fig_gru_nn}所示的NN模型将这些预测值输入，得到
+最终的对风速的预测结果。
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/wind_prophet_gru_training_loss.pdf}
-    \caption{仅使用风速历史的ICCEMDAN-Prophet-GRU模型训练损失变化}
-    \label{fig_wind_prophet_gru_training_loss}
+    \includegraphics[width=0.5\textwidth]{figures/all_feature_prophet_gru_nnmodel_plot.pdf}
+    \caption{多特征ICEEDMAN-Prophet-GRU模型中使用的NN模型网络结构图}
+    \label{fig_gru_nn}
 \end{figure}
 
-最终模型在训练集中的拟合情况见图\ref{fig_wind_prophet_gru_predict_train}：
+该神经网络模型（NN）六层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，4260）的
+向量。第二层为一个展平（Flatten）层，将输入展平为（4260）。第三、四层均为全连接层，其激活函数均为gelu，
+各有128、64个神经元，输出为（64）的向量，可训练参数分别为555776个和8256个.第五层为丢弃层（DropOut层），
+其丢弃比率为20\%，用于防止神经网络的过拟合。最后一层为输出层，将前一层的输出值通过全连
+接的方式，得到最后结果，可训练参数65个。整个模型可训练参数共计564097个，输出最终预测值。
+代码部分见附录部分A.11。
 
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=0.5\textwidth]{figures/wind_prophet_gru_predict_train.pdf}
-    \caption{仅使用风速历史的ICCEMDAN-Prophet-GRU模型训练集拟合}
-    \label{fig_wind_prophet_gru_predict_train}
-\end{figure}
+\section{模型评价指标公式}
+下述指标公式使用scikit-learn自带的方法实现，并和25\%准确率（预测值和真实值实际偏差
+数值在25\%以内的比值）封装为print\_metrics函数调用，相关代码见附录部分A.6。
+\begin{itemize}
+\item[1. ] 均方误差（MSE）
+$$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
 
-最终模型的评价指标数值见表\ref{wind_prophet_gru_result}：
+\item[2. ] 平均绝对误差（MAE）
+$$MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
+
+\item[3. ] 平均绝对误差百分比（MAPE）
+$$MAPE=\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$$
+
+\item[4. ] 均方根误差（RMSE）
+$$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$$
+
+上述四种误差指标均为，当对应指标值越小时，模型的精度越高。
+
+\item[5. ] 决定系数（$R^2$）
+$$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$$
+
+决定系数（$R^2$）取值范围为$(-\infty, 1]$，越接近1代表模型的准确度越好。
+\end{itemize}
+
+\section{模型的对比评估}
 
 \begin{table}[H]
     \centering
-    \caption{仅使用风速历史的ICCEMDAN-Prophet-GRU模型的评价指标值}
-    \begin{tabular}{cc}
+    \caption{五种模型在测试集中四步预测对比评估}
+    \begin{tabular}{lcccccc}
     \toprule
-    MAPE & 0.057870873111315564 \\
-    MAE & 0.15543329288182148 \\
-    MSE & 0.11384164320704779 \\
-    RMSE & 0.33740427265677564 \\
-    $R^2$ & 0.9794227551357394 \\
-    25\% 准确度 & 0.9806896551724138 \\
-    \bottomrule
-    \end{tabular}
-    \label{wind_prophet_gru_result}
+    模型名称 & MAPE & MAE & MSE & RMSE & $R^2$ & 15\% 准确度 \\
+    \midrule
+    基于风速的Prophet模型 & 0.7599 & 1.5475 & 2.4874 & 1.5771 & -14.4053 & 0 \\
+    基于风速的ICCEMDAN-Prophet模型 & 0.7396 & 1.5054 & 2.3588 & 1.5359 & -13.6092 & 0 \\
+    基于风速的ICCEMDAN-GRU模型 & 0.1671 & 0.3 & 0.2055 & 0.4533 & -0.2728 & 0.75 \\
+    风速ICCEMDAN-Prophet-GRU模型 & 0.1356 & 0.286 & 0.1121 & 0.3349 & 0.3051 & 0.5 \\
+    多特征ICCEMDAN-Prophet-GRU-NN & 0.0825 & 0.1734 & 0.0307 & 0.1751 & 0.81 & 1 \\
+    \bottomrule \\
+    \end{tabular} \\
+    \label{models-metrics}
 \end{table}
-
-\section{多特征ICEEDMAN-Prophet-GRU模型}
-
-和上一种模型类似，将地面向下长波辐射、地面降水率、近地面气压、近地面空气相对湿度、地面向下
-短波辐射、近地面气温，和近地面全风速7种气象要素的原始历史数据以及ICCEMDAN分解得到的每个IMF
-分量以及残差分别输入进Prophet模型进行预测，最终得到的86个模型，每个模型的（5840，
-15）形状的输出矩阵和上一个模型进行同样的整理，得到形状为（5840，1290）的矩阵，再对数据和
-上一个模型进行同样的处理，得到GRU的输入矩阵（5800，5799），GRU的各种参数以及训练方法
-和上一个模型的步骤一样。最终100个epoch结束时得到的最优模型的Huber损失为0.0081。
-代码部分见附录部分A.10。
-
-训练过程中Huber损失函数的变化情况见图\ref{fig_all_prophet_gru_training_loss}：
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/all_prophet_gru_training_loss.pdf}
-    \caption{多特征ICCEMDAN-Prophet-GRU模型训练损失变化}
-    \label{fig_all_prophet_gru_training_loss}
+    \includegraphics[width=0.9\textwidth]{figures/prophet_wind.pdf}
+    \caption{基于风速历史的Prophet模型可视化图}
+    \label{fig_prophet_wind}
 \end{figure}
 
-最终模型在训练集中的拟合情况\ref{fig_all_prophet_gru_predict_train}：
+图\ref{fig_prophet_wind}展示了基于风速历史的Prophet模型的可视化图，即模型的预测结果与实际
+值的对比。该模型采用上述章节中搜寻得到的Prophet模型最优超参数，分析历史5828条数据从而直接预
+测出未来12小时（4条）的风速值。代码请见附录部分A.7和A.8。
+图中黑点部分为实际值，实蓝色曲线部分为预测值，透明蓝色部分的
+上下边界分别为预测结果可能的最大值与最小值。从图中我们可以看到其实际值与预测值的偏差很大，结合
+该图与表\ref{models-metrics}
+中对未来4步预测数据评价指标值可知，Prophet模型的预测结果很差。这是因为Prophet模型类似于传统
+的SARIMA模型，对具有线性关系的时间序列数据预测精度较高，但是对于具有复杂非线性关系的时间序列
+其很难预测准确。另外，从表\ref{models-metrics}中我们还可以看到，对风速数据进行ICCEMDAN分解
+处理，剔除高频噪声后，降低了时间序列数据的复杂度，基于风速历史ICCEMDAN-Prophet模型的准确度相
+较于未经分解的基于风速历史Prophet模型而言各项指标都有比较好的提升效果。
+
+神经网络部分的实现使用Tensorflow Keras。对于所有GRU模型，为统一标准，选择训练10个epoch，
+对于多特征ICCEMDAN-Prophet-GRU-NN中NN模型选择训练5000个epoch。批大小（Batch Size）
+为默认32，训练过程中设置回调函数，当损失5步内不再下降时自动停止训练过程，并自动保存训练过程中
+得到的损失最小的模型。损失函数为Huber，模型优化器为Nadam，设定学习率为0.001。
+
+最终模型用于预测未来四步风速的可视化情况见图\ref{fig_gru_predict_test}，最终模型四步预测的
+评价指标数值见表\ref{models-metrics}。
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/all_prophet_gru_predict_train.pdf}
-    \caption{多特征ICCEMDAN-Prophet-GRU模型训练集拟合}
-    \label{fig_all_prophet_gru_predict_train}
+	\subfloat[风速ICCEMDAN-GRU]{
+        \includegraphics[width=0.33\textwidth]{figures/wind_gru_predict_test.pdf}
+    }
+	\subfloat[风速ICCEMDAN-Prophet-GRU]{
+        \includegraphics[width=0.33\textwidth]{figures/wind_only_prophet_gru_predict_test.pdf}
+    }
+    \subfloat[多特征ICCEMDAN-Prophet-GRU-NN]{
+        \includegraphics[width=0.33\textwidth]{figures/all_feature_prophet_gru_predict_test.pdf}
+    }
+    \caption{三种本文提出的基于神经网络的模型四步预测风速的可视化图}
+    \label{fig_gru_predict_test}
 \end{figure}
 
-最终模型的评价指标数值见表\ref{all_prophet_gru_result}：
-
-\begin{table}[H]
-    \centering
-    \caption{多特征ICCEMDAN-Prophet-GRU模型的评价指标值}
-    \begin{tabular}{cc}
-    \toprule
-    MAPE & 0.04486806982673257 \\
-    MAE & 0.12356680479810452 \\
-    MSE & 0.07946772036320189 \\
-    RMSE & 0.2819001957487825 \\
-    $R^2$ & 0.9856359527616432 \\
-    25\% 准确度 & 0.9853448275862069 \\
-    \bottomrule
-    \end{tabular}
-    \label{all_prophet_gru_result}
-\end{table}
-
-\section{上述四种模型的对比评估}
-
-可以看到，仅使用风速历史时间序列数据的Prophet模型MAPE值为81\%左右，准确率十分地低。通过
-ICCEMDAN分解处理后，模型的各项指标都相较于仅使用风速历史时间序列数据的Prophet模型的指标
-有了提高，但是提高得不显著。
-
-仅使用风速历史时间序列数据的ICCEMDAN-Prophet模型在通过GRU模型进行处理之后，
-模型的各项指标都得到了大幅度地显著提高，MAPE达到了个位数。但是其收敛速度
-没有多特征模型的快，因而最终结果体现了多特征ICEEDMAN-Prophet-GRU模型的优越性。
+由图\ref{fig_gru_predict_test}和表\ref{models-metrics}可知，使用GRU模型之后，模型的各项
+指标相较于只使用Prophet而言都得到了大幅度地显著提高。进一步地，加入Prophet的统计分析数据之后
+交由GRU进行训练，模型的准确度和各项指标进一步提升，但是在进行第四步预测时都出现了预测值的较大
+偏离问题。最终，使用多气象要素特征训练GRU模型，并将这些气象要素模型的预测结果输入进NN，从而对
+风速的预测值进行校正，产生的预测结果MAPE值达到了个位数，准确率有了比较大的提升，且第四步预测时
+准确度也较好，体现了多特征ICCEMDAN-Prophet-GRU-NN模型的优越性和实用价值。
 
 \chapter{总结与展望}
 
-本文综合使用目前最新的科研成果，基于ICEEMDAN进行了多气象要素的特征分解，而不仅仅是使用
+本文综合使用目前最新的科研成果，基于ICEEMDAN特征分解进行了多气象要素的联合预测，而不仅仅是使用
 风速的历史时间序列。并且采用Prophet与 GRU 的组合模型，对相关模型进行优化，突破模型的刻板
 传统，使用了RBF核PCA升维、GELU以及Nadam优化器和Huber损失函数，并将这些应用到了短期风速预测领
 域，并通过选择甘肃酒泉的一个真实风力发电厂附近进行短期风速的预测，最终预测结果显示了该模型
@@ -1230,10 +1217,9 @@ ICCEMDAN分解处理后，模型的各项指标都相较于仅使用风速历史
 \item[1.] 本次建模过程只选择了两年跨度的时间序列数据，没有将更大尺度的数据进行处理，对于大尺度数据而言
 模型应该能进一步取得更好的效果。
 \item[2.] 由于Prophet搜寻最优超参数所耗费时间过长，本文只对风速原始时间序列数据这一个模型进行了搜索最
-优超参数的过程，因为对于一个模型的超参数搜寻时间在作者电脑中运行完成大概就要花上8个小时的时
-间，对于其他特征时间序列以及他们分解出的ICEEMDAN的IMF分量以及残差时间序列数据共计85个子模型，
-子模型太多，所需时间成本太大。所以本文则直接沿用了风速原始时间序列数据的最优超参数。如果对
-86个Prophet子模型每个都加以优化，预计会产生更好的效果。
+优超参数的过程，因为对于一个模型的超参数搜寻时间在作者电脑中运行完成大概就要花上三、四天的时
+间，对于其他特征时间序列本文则直接沿用了风速原始时间序列数据的最优超参数。如果对每个特征的时间序列
+Prophet模型都加以优化，预计会产生更好的效果。
 \item[3.] 本文只选择了甘肃酒泉的一个真实风力发电厂附近的地点进行短期风速的预测，当然本文作者坚信在其他
 地点本模型也会产生很好的效果，后续有待验证这一点。
 \end{itemize}
@@ -1315,25 +1301,6 @@ for item in ['lrad', 'prec', 'pres', 'shum', 'srad', 'temp']:
           data[['wind']].to_numpy().ravel()))
 \end{lstlisting}
 
-\section{模型评价指标实现代码}
-
-\begin{lstlisting}[language = python]
-from sklearn import metrics
-def print_metrics(pred, y_vals):
-    print('mape: ', metrics.mean_absolute_percentage_error(y_vals, pred))
-    print('mae: ', metrics.mean_absolute_error(y_vals, pred))
-    print('mse: ', metrics.mean_squared_error(y_vals, pred))
-    print('rmse: ', np.sqrt(metrics.mean_squared_error(y_vals, pred)))
-    print('r2: ', metrics.r2_score(y_vals, pred))
-    count = 0
-    y_error = pred.flatten() - y_vals.flatten()
-    y_error = np.array([abs(e) for e in y_error]).flatten()
-    for i in range(len(y_error)):
-        if(y_error[i] < 0.25 * y_vals[i]):
-            count += 1
-    print('25% 准确度: ', count / len(pred))
-\end{lstlisting}
-
 \section{图\ref{fig_lrad}-图\ref{fig_wind} 制作代码以及ICEEMDAN分解数据的存储}
 
 \begin{lstlisting}[language = python]
@@ -1394,9 +1361,22 @@ for name in ["lrad", "prec", "pres", "shum", "srad", "temp", "wind"]:
             f.write('\n')
     count=len(IImfs)
     pic.savefig(name + ".pdf")
+
+imf_dic={'lrad':2, 'pres':2, 'shum':2, 'srad':2, 'temp':2, 'wind':2}
+data_decomposed = pd.DataFrame()
+data_decomposed['ds'] = data['ds']
+for feature in imf_dic.keys():
+    data_iceemdan = pd.read_csv(feature+'.csv')
+    temp = pd.DataFrame({feature:[0.0 for _ in range(len(data_iceemdan))]})
+    for index in data_iceemdan.columns:
+        if index.startswith('IMF') and imf_dic[feature] < int(index.lstrip('IMF')):
+            temp[feature] += data_iceemdan[index]
+    data_decomposed=data_decomposed.join(temp)
+data_decomposed.to_csv('data_decomposed.csv')
+data_decomposed
 \end{lstlisting}
 
-\section{仅使用风速历史时间序列数据的Prophet模型的参数交叉验证调优}
+\section{基于风速历史时间序列数据的Prophet模型的参数交叉验证调优}
 
 \begin{lstlisting}[language = python]
 import itertools
@@ -1418,7 +1398,7 @@ df['y'] = data['wind']
 
 for params in all_params:
     m = Prophet(yearly_seasonality=True, **params).fit(df)
-    df_cv = cross_validation(m, initial='438 days', period='5 days', horizon = '5 days', parallel="processes")
+    df_cv = cross_validation(m, initial='438 days', period='5 days', horizon = '12H', parallel="processes")
     df_p = performance_metrics(df_cv, rolling_window=1)
     mapes.append(df_p['mape'].values[0])
 
@@ -1429,135 +1409,116 @@ best_params = all_params[np.argmin(mapes)]
 print(best_params)
 \end{lstlisting}
 
-\section{仅使用风速历史时间序列数据的Prophet模型实现代码和相关指标计算、可视化对比图形的制作}
+\section{模型评价指标实现代码}
+
+\begin{lstlisting}[language = python]
+from sklearn import metrics
+def print_metrics(pred, y_vals):
+    print('mape: ', metrics.mean_absolute_percentage_error(y_vals, pred))
+    print('mae: ', metrics.mean_absolute_error(y_vals, pred))
+    print('mse: ', metrics.mean_squared_error(y_vals, pred))
+    print('rmse: ', np.sqrt(metrics.mean_squared_error(y_vals, pred)))
+    print('r2: ', metrics.r2_score(y_vals, pred))
+    count = 0
+    y_error = pred.flatten() - y_vals.flatten()
+    y_error = np.array([abs(e) for e in y_error]).flatten()
+    for i in range(len(y_error)):
+        if(y_error[i] < 0.15 * y_vals[i]):
+            count += 1
+    print('15% 准确度: ', count / len(pred))
+\end{lstlisting}
+
+\section{基于风速历史时间序列数据的Prophet模型实现代码和相关指标计算、可视化对比图形的制作}
 
 \begin{lstlisting}[language = python]
 from prophet import Prophet
-split_line=5800
+split_line=5828
 df = pd.DataFrame(data['ds'][:split_line])
 df['y'] = data['wind'][:split_line]
-m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, yearly_seasonality=True)
+m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, daily_seasonality=True, yearly_seasonality=True, weekly_seasonality=False)
 m.fit(df)
-future = m.make_future_dataframe(periods=len(data['ds'])-split_line, freq='3H')
+future = m.make_future_dataframe(periods=4, freq='3H')
 forecast = m.predict(future)
 fig = m.plot(forecast)
 fig.savefig("prophet_wind.pdf")
 
-print_metrics(forecast['yhat'][:split_line].to_numpy(), data['wind'][:split_line].to_numpy())
+print_metrics(forecast['yhat'][split_line:].to_numpy(), data['wind'][split_line:].to_numpy())
 \end{lstlisting}
 
-\section{仅使用风速历史时间序列数据的ICEEDMAN-Prophet模型实现代码和相关指标计算、可视化对比图形的制作}
+\section{基于风速历史时间序列数据的ICEEDMAN-Prophet模型实现代码和相关指标计算、可视化对比图形的制作}
 
 \begin{lstlisting}[language = python]
-wind_iceemdan = pd.read_csv('wind.csv')
-forecasted=[]
-for index in wind_iceemdan.columns:
-    if index == 'ds' or index == 'orig':
-        continue
-    temp_df = pd.DataFrame(wind_iceemdan['ds'][:split_line])
-    temp_df['y'] = wind_iceemdan[index][:split_line]
-    m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, yearly_seasonality=True)
-    m.fit(temp_df)
-    future = m.make_future_dataframe(periods=len(wind_iceemdan['ds'])-split_line, freq='3H')
-    forecast = m.predict(future)
-    forecasted.append(forecast['yhat'].to_numpy().ravel())
-import copy
-result = copy.deepcopy(forecasted[0])
-for i in range(1, len(forecasted)):
-    result += forecasted[i]
+data = pd.read_csv('data_decomposed.csv')
+df = pd.DataFrame(data['ds'][:split_line])
+df['y'] = data['wind'][:split_line]
+m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, daily_seasonality=True, yearly_seasonality=True, weekly_seasonality=False)
+m.fit(df)
+future = m.make_future_dataframe(periods=4, freq='3H')
+forecast = m.predict(future)
+fig = m.plot(forecast)
+fig.savefig("prophet_wind_decomposed.pdf")
 
-print_metrics(result[:split_line], data['wind'][:split_line].to_numpy())
+print_metrics(forecast['yhat'][split_line:].to_numpy(), data['wind'][split_line:].to_numpy())
 \end{lstlisting}
 
-\section{仅使用风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型实现代码和相关指标计算、可视化对比图形的制作}
+\section{基于风速历史时间序列数据的ICEEDMAN-GRU模型实现代码和相关指标计算、可视化对比图形的制作}
 
 \begin{lstlisting}[language = python]
-from prophet import Prophet
-import os
-split_line=5800
-filename='prophet_wind_ceemdan.npy'
-if os.path.isfile(filename):
-    X=np.load(filename)
-else:
-    X=np.empty((data.shape[0],0))
-    wind_iceemdan = pd.read_csv('wind.csv')
-    features = ['trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper', 'additive_terms',
-                'additive_terms_lower', 'additive_terms_upper', 'daily', 'daily_lower', 'daily_upper',
-                'yearly', 'yearly_lower', 'yearly_upper', 'yhat']
-    for index in wind_iceemdan.columns:
-        if index == 'ds':
-            continue
-        temp_df = pd.DataFrame(wind_iceemdan['ds'][:split_line])
-        temp_df['y'] = wind_iceemdan[index][:split_line]
-        m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, yearly_seasonality=True)
-        m.fit(temp_df)
-        future = m.make_future_dataframe(periods=len(wind_iceemdan['ds'])-split_line, freq='3H')
-        forecast = m.predict(future)
-        X=np.append(X, forecast[features].to_numpy(), axis=1)
-    np.save(filename, X)
-
-print(X.shape)
-
-shift = 1
-X_train = np.array(X[:split_line])
-X_test = np.array(X[split_line:])
-y = data[["wind"]][shift:]
-y_train = np.array(y[:split_line])
-y_test = np.array(y[split_line:])
+feature="wind"
+window = 8
+predict_num = 1
+x_row_list = []
+y_row_list = []
+for row in range(split_line-window-predict_num+1):
+    x_row_list.append(dict(("x"+str(index),data[feature][row+index]) for index in range(window)))
+    y_row_list.append(dict(("y"+str(index),data[feature][row+index+window]) for index in range(predict_num)))
+X=pd.DataFrame(x_row_list)
+y=pd.DataFrame(y_row_list)
 
 from sklearn.preprocessing import StandardScaler
+yscaler = StandardScaler()
+y_train = yscaler.fit_transform(y.to_numpy())
 scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
+X_train = scaler.fit_transform(X.to_numpy())
 from sklearn.decomposition import KernelPCA
 pca = KernelPCA(kernel='rbf')
-
 X_train = pca.fit_transform(X_train)
-X_test = pca.transform(X_test)
-print(X_train.shape)
-
 X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
-X_test = np.reshape(X_test, (X_test.shape[0], 1, X_test.shape[1]))
 
 from tensorflow import keras
-modelname='wind_prophet_gru'
+modelname='wind_gru'
 if os.path.isdir(modelname):
-    model = keras.models.load(modelname)
+    model = keras.models.load_model(modelname)
 else:
     model = keras.models.Sequential()
-    model.add(keras.layers.GRU(1024,input_shape = (1, X_train.shape[2]),return_sequences = True))
+    model.add(keras.layers.GRU(1024,input_shape = (predict_num, X_train.shape[2]),return_sequences = True))
     model.add(keras.layers.GRU(512,activation = 'gelu', recurrent_activation = 'gelu',return_sequences = True))
-    model.add(keras.layers.Dense(1))
-    es_callback = keras.callbacks.EarlyStopping(patience = 20, restore_best_weights = True, monitor="loss")
+    model.add(keras.layers.Dense(predict_num))
+    es_callback = keras.callbacks.EarlyStopping(patience = 1, restore_best_weights = True, monitor="loss")
     model.compile(loss = keras.losses.Huber(), optimizer = keras.optimizers.Nadam(0.001))
     model.summary()
     keras.utils.plot_model(model, to_file=modelname+'model_plot.pdf', show_shapes=True, show_layer_names=True)
-    history=model.fit(X_train, y_train, validation_split = 0.01, epochs = 100, verbose = 1,
-                      shuffle = True, callbacks = [es_callback])
-    import matplotlib.pyplot as plt
-    %matplotlib notebook
-    plt.rcParams['font.size']=64
-    plt.rcParams['font.sans-serif']=['SimHei']
-    plt.rcParams['axes.unicode_minus'] = False
-    pic = plt.figure(figsize=(32,32))
-    plt.plot(history.history['loss'])
-    plt.title(u'仅使用风速历史的ICEEDMAN-Prophet-GRU模型训练损失变化')
-    plt.xlabel(u'Epoch')
-    plt.ylabel(u'损失')
-    pic.savefig(modelname + "_training_loss.pdf")
+    history=model.fit(X_train, y_train, epochs = 10, verbose = 1, shuffle = True, callbacks = [es_callback])
     model.save(modelname)
 
-predicted = model.predict(X_train).flatten()
+predicted = yscaler.inverse_transform(model.predict(X_train)).flatten()
 predicted[predicted < 0] = 0
+row_list = y_row_list.copy()
+for pointer in range(X.shape[0],len(data)-split_line+X.shape[0]):
+    input_np = np.array([row_list[row]['y0'] for row in range(pointer-window, pointer)])
+    input_np = scaler.transform(input_np.reshape(1, -1))
+    input_np = pca.transform(input_np)
+    input_np = np.reshape(input_np, (input_np.shape[0], 1, input_np.shape[1]))
+    row_list.append(dict(("y"+str(index),yscaler.inverse_transform(model.predict(input_np))[0][index][0]) for index in range(predict_num)))
 
-predictions = model.predict(X_test).flatten()
+predictions = pd.DataFrame(row_list)[X.shape[0]:]
 predictions[predictions < 0] = 0
 
-print_metrics(predicted, y_train)
-
-generated = pd.DataFrame(data['ds'])[:-shift]
-generated['y_pred'] = np.append(predicted, predictions)[:-shift]
-generated['y_real'] = np.array(y)
+y_train = y.to_numpy()
+print_metrics(predictions.to_numpy(), data[feature][split_line:].to_numpy())
+generated = pd.DataFrame(data['ds'])[window:]
+generated['y_pred'] = np.append(predicted, predictions)
+generated['y_real'] = np.array(pd.DataFrame(data[feature])[window:])
 generated.to_csv(modelname + ".csv")
 
 import matplotlib.pyplot as plt
@@ -1565,53 +1526,249 @@ import matplotlib.pyplot as plt
 plt.rcParams['font.size']=64
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
-fore_line=4100
-end_line=4200
+
 pic = plt.figure(figsize=(32,32))
-plt.plot(y_train[fore_line:end_line],'g',predicted[fore_line:end_line],'r')
-plt.title('仅使用风速历史的ICEEDMAN-Prophet-GRU模型训练集拟合')
-plt.plot(y_train[fore_line:end_line],'g',label=u'真实值')
-plt.plot(predicted[fore_line:end_line],'r',label=u'预测值')
+plt.plot(data[feature][split_line:].to_numpy(),'g',predictions.to_numpy(),'r')
+plt.title('基于风速历史的ICEEDMAN-GRU模型测试集结果')
+plt.plot(data[feature][split_line:].to_numpy(),'g',label=u'真实值')
+plt.plot(predictions.to_numpy(),'r',label=u'预测值')
 plt.xlabel(u'时间（3小时）')
 plt.ylabel(u'近地面全风速（m/s）')
 plt.legend()
-pic.savefig(modelname + "_predict_train.pdf")
+pic.savefig(modelname + "_predict_test.pdf")
 \end{lstlisting}
 
-\section{多特征ICEEDMAN-Prophet-GRU模型实现代码}
+\section{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型实现代码和相关指标计算、可视化对比图形的制作}
 
 \begin{lstlisting}[language = python]
-# 使用下述2-22行代码替换上部分4-23行代码
-filename='prophet_all_ceemdan.npy'
+filename='only_prophet_gru_wind.npy'
+features = ['trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper', 'additive_terms',
+            'additive_terms_lower', 'additive_terms_upper', 'yhat']
 if os.path.isfile(filename):
     X=np.load(filename)
 else:
-    X=np.empty((data.shape[0],0))
-    for name in ["lrad", "prec", "pres", "shum", "srad", "temp", "wind"]:
-        all_iceemdan = pd.read_csv(name + '.csv')
-        features = ['trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper', 'additive_terms',
-                    'additive_terms_lower', 'additive_terms_upper', 'daily', 'daily_lower', 'daily_upper',
-                    'yearly', 'yearly_lower', 'yearly_upper', 'yhat']
-        for index in all_iceemdan.columns:
-            if index == 'ds':
-                continue
-            temp_df = pd.DataFrame(all_iceemdan['ds'][:split_line])
-            temp_df['y'] = all_iceemdan[index][:split_line]
-            m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, yearly_seasonality=True)
+    X=np.empty((0,(len(features)+1)*window))
+    for row in range(split_line-window-predict_num+1):
+        temp_df = pd.DataFrame(data['ds'][row:row+window])
+        temp_df['y'] = data['wind'][row:row+window]
+        m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, n_changepoints=window-1)
+        m.fit(temp_df)
+        future = m.make_future_dataframe(periods=1, freq='3H')
+        forecast = m.predict(future)
+        forecast = forecast[features].to_numpy()[:-1]
+        forecast = np.append(forecast, np.array([data['wind'][row+i] for i in range(window)]).reshape(-1,1), axis=1)
+        forecast = forecast.flatten()
+        forecast = forecast.reshape(1,-1)
+        X=np.append(X, forecast, axis=0)
+    np.save(filename, X)
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X)
+from sklearn.decomposition import KernelPCA
+pca = KernelPCA(kernel='rbf')
+X_train = pca.fit_transform(X_train)
+X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+
+from tensorflow import keras
+modelname='wind_only_prophet_gru'
+if os.path.isdir(modelname):
+    model = keras.models.load_model(modelname)
+else:
+    model = keras.models.Sequential()
+    model.add(keras.layers.GRU(1024,input_shape = (predict_num, X_train.shape[2]),return_sequences = True))
+    model.add(keras.layers.GRU(512,activation = 'gelu', recurrent_activation = 'gelu',return_sequences = True))
+    model.add(keras.layers.Dense(predict_num))
+    es_callback = keras.callbacks.EarlyStopping(patience = 5, restore_best_weights = True, monitor="loss")
+    model.compile(loss = keras.losses.Huber(), optimizer = keras.optimizers.Nadam(0.001))
+    model.summary()
+    keras.utils.plot_model(model, to_file=modelname+'model_plot.pdf', show_shapes=True, show_layer_names=True)
+    history=model.fit(X_train, y_train, epochs = 10, verbose = 1, shuffle = True, callbacks = [es_callback])
+    model.save(modelname)
+
+predicted = yscaler.inverse_transform(model.predict(X_train)).flatten()
+predicted[predicted < 0] = 0
+row_list = y_row_list.copy()
+for pointer in range(X.shape[0],len(data)-split_line+X.shape[0]):
+    input_np = np.array([row_list[row]['y0'] for row in range(pointer-window, pointer)])
+    temp_df = pd.DataFrame(data['ds'][pointer:pointer+window])
+    temp_df['y'] = input_np
+    m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, n_changepoints=window-1)
+    m.fit(temp_df)
+    future = m.make_future_dataframe(periods=1, freq='3H')
+    forecast = m.predict(future)
+    forecast = forecast[features].to_numpy()[:-1]
+    forecast = np.append(forecast, np.array([row_list[row]['y0'] for row in range(pointer-window, pointer)]).reshape(-1,1), axis=1)
+    input_np = forecast.flatten()
+    input_np = scaler.transform(input_np.reshape(1, -1))
+    input_np = pca.transform(input_np)
+    input_np = np.reshape(input_np, (input_np.shape[0], 1, input_np.shape[1]))
+    row_list.append(dict(("y"+str(index),yscaler.inverse_transform(model.predict(input_np))[0][index][0]) for index in range(predict_num)))
+
+predictions = pd.DataFrame(row_list)[X.shape[0]:]
+predictions[predictions < 0] = 0
+
+y_train = y.to_numpy()
+print_metrics(predictions.to_numpy(), data["wind"][split_line:].to_numpy())
+
+generated = pd.DataFrame(data['ds'])[window:]
+generated['y_pred'] = np.append(predicted, predictions)
+generated['y_real'] = np.array(pd.DataFrame(data['wind'])[window:])
+generated.to_csv(modelname + ".csv")
+
+import matplotlib.pyplot as plt
+%matplotlib notebook
+plt.rcParams['font.size']=64
+plt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
+pic = plt.figure(figsize=(32,32))
+plt.plot(data["wind"][split_line:].to_numpy(),'g',predictions.to_numpy(),'r')
+plt.title('基于风速历史的ICCEMDAN-Prophet-GRU模型测试集结果')
+plt.plot(data["wind"][split_line:].to_numpy(),'g',label=u'真实值')
+plt.plot(predictions.to_numpy(),'r',label=u'预测值')
+plt.xlabel(u'时间（3小时）')
+plt.ylabel(u'近地面全风速（m/s）')
+plt.legend()
+pic.savefig(modelname + "_predict_test.pdf")
+\end{lstlisting}
+
+\section{多特征ICEEDMAN-Prophet-GRU-NN模型实现代码实现代码和相关指标计算、可视化对比图形的制作}
+
+\begin{lstlisting}[language = python]
+y_row_list = []
+weather_features = ["lrad", "pres", "shum", "srad", "temp", "wind"]
+for row in range(split_line-window):
+    y_row_list.append(dict(("y"+weather_feature,data[weather_feature][row+window]) for weather_feature in weather_features))
+y=pd.DataFrame(y_row_list)
+from sklearn.preprocessing import StandardScaler
+yscaler = StandardScaler()
+y_train = yscaler.fit_transform(y.to_numpy())
+
+filename='all_feature_prophet_gru.npy'
+if os.path.isfile(filename):
+    X=np.load(filename)
+else:
+    X=np.empty((0,(len(features)+1)*window*len(weather_features)))
+    for row in range(split_line-window):
+        temp_array=np.empty((1,0))
+        for weather_feature in weather_features:
+            temp_df = pd.DataFrame(data['ds'][row:row+window])
+            temp_df['y'] = data[weather_feature][row:row+window]
+            m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, n_changepoints=window-1)
             m.fit(temp_df)
-            future = m.make_future_dataframe(periods=len(all_iceemdan['ds'])-split_line, freq='3H')
+            future = m.make_future_dataframe(periods=1, freq='3H')
             forecast = m.predict(future)
-            X=np.append(X, forecast[features].to_numpy(), axis=1)
+            forecast = forecast[features].to_numpy()[:-1]
+            forecast = np.append(forecast, np.array([data[weather_feature][row+i] for i in range(window)]).reshape(-1,1), axis=1)
+            forecast = forecast.flatten()
+            forecast = forecast.reshape(1,-1)
+            temp_array=np.append(temp_array, forecast, axis=1)
+        X=np.append(X, temp_array, axis=0)
     np.save(filename, X)
 
-# 使用下述1行代码替换上部分第49行代码
-modelname='all_prophet_gru'
+tf.config.set_visible_devices([], 'GPU')
+modelname='all_feature_prophet_gru'
+scaler_list=[]
+pca_list=[]
+data_list=[]
+model_list=[]
+for weather_feature_index in range(len(weather_features)-1, len(weather_features)):
+    modelfname=modelname+ '_' + weather_features[weather_feature_index]
+    scaler = StandardScaler()
+    scaler_list.append(scaler)
+    X_train = scaler.fit_transform(X.reshape(split_line-window,len(weather_features),window,-1)[:,weather_feature_index].reshape(split_line-window,-1))
+    pca = KernelPCA(kernel='rbf')
+    pca_list.append(pca)
+    X_train = pca.fit_transform(X_train)
+    X_train = np.reshape(X_train, (X_train.shape[0], 1, X_train.shape[1]))
+    data_list.append(X_train)
+    if os.path.isdir(modelfname):
+        model = keras.models.load_model(modelfname)
+    else:
+        model = keras.models.Sequential()
+        model.add(keras.layers.GRU(1024,input_shape = (1, X_train.shape[2]),return_sequences = True))
+        model.add(keras.layers.GRU(512,activation = 'gelu', recurrent_activation = 'gelu',return_sequences = True))
+        model.add(keras.layers.Dense(1))
+        es_callback = keras.callbacks.EarlyStopping(patience = 5, restore_best_weights = True, monitor="loss")
+        model.compile(loss = keras.losses.Huber(), optimizer = keras.optimizers.Nadam(0.001))
+        model.summary()
+        keras.utils.plot_model(model, to_file=modelfname+'model_plot.pdf', show_shapes=True, show_layer_names=True)
+        print(weather_features[weather_feature_index])
+        history=model.fit(X_train, y_train[:,weather_feature_index].reshape(-1,1), epochs = 10, verbose = 1, shuffle = True, callbacks = [es_callback])
+        model.save(modelfname)
+    model_list.append(model)
 
-# 使用下述1行代码替换上部分第70行代码
-plt.title(u'多特征ICEEDMAN-Prophet-GRU模型训练损失变化')
+row_list = y_row_list.copy()
+for pointer in range(X.shape[0],len(data)-split_line+X.shape[0]):
+    gru_output=np.empty((1,1,0))
+    for weather_feature_index in range(len(weather_features)):
+        input_np = np.array([row_list[row]['y'+weather_features[weather_feature_index]] for row in range(pointer-window, pointer)])
+        temp_df = pd.DataFrame(data['ds'][pointer:pointer+window])
+        temp_df['y'] = input_np
+        m = Prophet(changepoint_prior_scale=1.0, seasonality_prior_scale=0.1, seasonality_mode='additive', changepoint_range=1, n_changepoints=window-1)
+        m.fit(temp_df)
+        future = m.make_future_dataframe(periods=1, freq='3H')
+        forecast = m.predict(future)
+        forecast = forecast[features].to_numpy()[:-1]
+        forecast = np.append(forecast, np.array([row_list[row]['y'+weather_features[weather_feature_index]] for row in range(pointer-window, pointer)]).reshape(-1,1), axis=1)
+        forecast = forecast.flatten().reshape(1,-1)
+        input_np = scaler_list[weather_feature_index].transform(forecast)
+        input_np = pca_list[weather_feature_index].transform(input_np)
+        input_np = np.reshape(input_np, (input_np.shape[0], 1, input_np.shape[1]))
+        output_np = model_list[weather_feature_index].predict(input_np)
+        gru_output=np.append(gru_output, output_np, axis=2)
+    row_list.append(dict(("y"+weather_features[index],yscaler.inverse_transform(gru_output)[:,:,index][0][0]) for index in range(len(weather_features))))
+predictions = yscaler.transform(pd.DataFrame(row_list)[X.shape[0]:].to_numpy()).reshape(-1,1,len(weather_features))
+y_train = y.to_numpy()[:,-1]
 
-# 使用下述1行代码替换上部分第98行代码
-plt.title('多特征ICEEDMAN-Prophet-GRU模型训练集拟合')
+gru_output=np.empty((X.shape[0],1,0))
+for index in range(len(data_list)):
+    predicted = model_list[index].predict(data_list[index])
+    predicted = predicted[:,:,-1].reshape(X.shape[0],1,-1)
+    gru_output=np.append(gru_output, predicted, axis=2)
+
+if os.path.isdir(modelname):
+    model = keras.models.load_model(modelname)
+else:
+    model = keras.models.Sequential()
+    model.add(keras.layers.Flatten(input_shape=(1, len(weather_features))))
+    model.add(keras.layers.Dense(128, activation='gelu'))
+    model.add(keras.layers.Dropout(0.2))
+    model.add(keras.layers.Dense(1))
+    es_callback = keras.callbacks.EarlyStopping(patience = 50, restore_best_weights = True, monitor="loss")
+    model.compile(loss = keras.losses.Huber(), optimizer = keras.optimizers.Nadam(0.001))
+    model.summary()
+    keras.utils.plot_model(model, to_file=modelname+'model_plot.pdf', show_shapes=True, show_layer_names=True)
+    history=model.fit(gru_output, y_train.reshape(-1,1,1), epochs = 500, verbose = 1, shuffle = True, callbacks = [es_callback])
+    model.save(modelname)
+
+predicted = model.predict(gru_output).flatten()
+predicted[predicted < 0] = 0
+
+predictions = model.predict(predictions).flatten()
+predictions[predictions < 0] = 0
+
+print_metrics(predictions, data["wind"][split_line:].to_numpy())
+
+generated = pd.DataFrame(data['ds'])[window:]
+generated['y_pred'] = np.append(predicted, predictions)
+generated['y_real'] = np.array(pd.DataFrame(data['wind'])[window:])
+generated.to_csv(modelname + ".csv")
+
+import matplotlib.pyplot as plt
+%matplotlib notebook
+plt.rcParams['font.size']=64
+plt.rcParams['font.sans-serif']=['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+
+pic = plt.figure(figsize=(32,32))
+plt.plot(data["wind"][split_line:].to_numpy(),'g',predictions,'r')
+plt.title('多特征ICCEMDAN-Prophet-GRU-NN模型测试集结果')
+plt.plot(data["wind"][split_line:].to_numpy(),'g',label=u'真实值')
+plt.plot(predictions,'r',label=u'预测值')
+plt.xlabel(u'时间（3小时）')
+plt.ylabel(u'近地面全风速（m/s）')
+plt.legend()
+pic.savefig(modelname + "_predict_test.pdf")
 \end{lstlisting}
 
 \section{文中使用的函数图像绘制代码}
@@ -1652,9 +1809,9 @@ fig.savefig(name + ".pdf")
 fig = plt.figure(figsize=(6,6))
 initialize_plot()
 ReLU = np.where(x < 0, 0, x)
-GeLU = 0.5*x*(1+ np.tanh(np.sqrt(2/np.pi)*(x+0.044715*np.power(x,3))))
+GELU = 0.5*x*(1+ np.tanh(np.sqrt(2/np.pi)*(x+0.044715*np.power(x,3))))
 plt.plot(x, ReLU, label = 'ReLU')
-plt.plot(x, GeLU, label = 'GeLU')
+plt.plot(x, GELU, label = 'GELU')
 plt.legend()
 fig.savefig("relu_gelu.pdf")
 
@@ -1707,4 +1864,7 @@ fig.savefig("huber.pdf")
 在写作时从GitHub中获取并使用了兰州大学2016级物理科学与技术学院本科生余航
 制作的“兰州大学本科生2021学士学位毕业论文LaTeX模板”，在此也一并致谢。
 
+\rightline{蒋嵩林}
+
+\rightline{2022年5月于兰州大学榆中校区萃英山下}
 \end{document}

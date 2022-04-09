@@ -253,6 +253,7 @@
 %=======english title
 \newtoks\entitle
 \newtoks\entitletra %标题多余一行时添加
+\newtoks\entitletraa %标题多余一行时添加
 %%=======statement
 %标题页
 %需要添加循环函数，判定多于一行的情况
@@ -449,7 +450,7 @@
     \thispagestyle{frontmatterstyle}
     \begin{center}%
         \setlength{\parskip}{24pt}
-        \begin{minipage}{0.86\textwidth}
+        \begin{minipage}{0.95\textwidth}
             \linespread{1.3889}
             \centering
             % 中文摘要标题，应该是加粗（宋体加粗）
@@ -485,7 +486,7 @@
             \linespread{1}
             \selectfont
             \centering
-            \zihao{2} \bfseries \noindent \expandafter\MakeUppercase\expandafter{\the\entitle\ \the\entitletra}%
+            \zihao{2} \bfseries \noindent \expandafter\MakeUppercase\expandafter{\the\entitle\ \the\entitletra \the\entitletraa}%
         \end{minipage}
     \end{center}%
     \begin{center}%

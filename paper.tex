@@ -136,7 +136,7 @@ speed. Based on the previous research results, this dissertation selects
 the ICEEMDAN decomposition technology, and uses the latest
 recurrent neural network model GRU, combined with the Facebook Prophet
 framework, to form the ICEEMDAN-Prophet-GRU model. At the same time, combined
-with the inspiration provided by the numerical weather prediction method,
+with the inspiration provided by the numerical weather forecast method,
 other common meteorological elements are also inputted into the model. Finally
 the neural network (NN) is used to integrate and correct, so that the
 generalization ability of the model can be improved.
@@ -1093,7 +1093,7 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 该模型将地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下
 短波辐射、近地面气温，和近地面全风速6种气象要素的原始历史数据的每个气象要素通过和
 对风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型一致的处理方式，得到每个气象要素储窗口样本
-的GRU模型预测值（5820，1，7），再将这些预测值通过使用RBF核函数的核主成分分析（KPCA），
+的GRU模型预测值（5820，1，6），再将这些预测值通过使用RBF核函数的核主成分分析（KPCA），
 将其升维至（5820，1，4260），随后使用如图\ref{fig_gru_nn}所示的NN模型将这些预测值输入，得到
 最终的对风速的预测结果。
 
@@ -1305,7 +1305,6 @@ for item in ['lrad', 'prec', 'pres', 'shum', 'srad', 'temp']:
 
 \begin{lstlisting}[language = python]
 import matplotlib.pyplot as plt
-%matplotlib notebook
 plt.rcParams['font.size']=64
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
@@ -1522,7 +1521,6 @@ generated['y_real'] = np.array(pd.DataFrame(data[feature])[window:])
 generated.to_csv(modelname + ".csv")
 
 import matplotlib.pyplot as plt
-%matplotlib notebook
 plt.rcParams['font.size']=64
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
@@ -1615,7 +1613,6 @@ generated['y_real'] = np.array(pd.DataFrame(data['wind'])[window:])
 generated.to_csv(modelname + ".csv")
 
 import matplotlib.pyplot as plt
-%matplotlib notebook
 plt.rcParams['font.size']=64
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
@@ -1671,7 +1668,7 @@ scaler_list=[]
 pca_list=[]
 data_list=[]
 model_list=[]
-for weather_feature_index in range(len(weather_features)-1, len(weather_features)):
+for weather_feature_index in range(len(weather_features)):
     modelfname=modelname+ '_' + weather_features[weather_feature_index]
     scaler = StandardScaler()
     scaler_list.append(scaler)
@@ -1718,7 +1715,7 @@ for pointer in range(X.shape[0],len(data)-split_line+X.shape[0]):
         gru_output=np.append(gru_output, output_np, axis=2)
     row_list.append(dict(("y"+weather_features[index],yscaler.inverse_transform(gru_output)[:,:,index][0][0]) for index in range(len(weather_features))))
 predictions = yscaler.transform(pd.DataFrame(row_list)[X.shape[0]:].to_numpy()).reshape(-1,1,len(weather_features))
-y_train = y.to_numpy()[:,-1]
+y_train = y.to_numpy()
 
 gru_output=np.empty((X.shape[0],1,0))
 for index in range(len(data_list)):
@@ -1738,7 +1735,7 @@ else:
     model.compile(loss = keras.losses.Huber(), optimizer = keras.optimizers.Nadam(0.001))
     model.summary()
     keras.utils.plot_model(model, to_file=modelname+'model_plot.pdf', show_shapes=True, show_layer_names=True)
-    history=model.fit(gru_output, y_train.reshape(-1,1,1), epochs = 500, verbose = 1, shuffle = True, callbacks = [es_callback])
+    history=model.fit(gru_output, y_train.reshape(-1,1,1), epochs = 5000, verbose = 1, shuffle = True, callbacks = [es_callback])
     model.save(modelname)
 
 predicted = model.predict(gru_output).flatten()
@@ -1755,7 +1752,6 @@ generated['y_real'] = np.array(pd.DataFrame(data['wind'])[window:])
 generated.to_csv(modelname + ".csv")
 
 import matplotlib.pyplot as plt
-%matplotlib notebook
 plt.rcParams['font.size']=64
 plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False

@@ -1,4 +1,3 @@
-from tkinter import Variable
 from netCDF4 import Dataset
 import datetime
 

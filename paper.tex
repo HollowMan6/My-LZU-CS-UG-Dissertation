@@ -173,7 +173,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 占比例的提高，也导致了温室效应与气候变化，从而使得一些极端天气灾害的发生频率
 有了显著的升高。然而目前，在世界能源消费占比中，煤炭和石油的比重仍较多。
 我国的能源生产和消费构成中，煤炭在2019年仍在一次能源中占比57.7\%，石油
-则占比19.6\%，占据着主要地位。\cite{能源数据2021王庆一}
+则占比19.6\%，占据着主要地位。\upcite{能源数据2021王庆一}
 
 当前传统化石燃料，由于其储量的有限性，也正逐步面临枯竭的风险。“绿水青山就
 是金山银山”。可再生能源的发展，不仅将会确保绿水青山的存在，而且同时也必然即
@@ -181,7 +181,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 生能源的记录，是目前全球第二大的可再生能源。风能本质上属于一种气象能源，其
 为太阳照射环境下地球表面受热不均，在水平气压梯度力的影响下，由于温差造成大
 气对流所产生的一种能量来源。李仲蔚的研究
-\cite{李仲蔚2019风力发电企业价值评估研究}估算结果表明，全球可开发
+\upcite{李仲蔚2019风力发电企业价值评估研究}估算结果表明，全球可开发
 利用的风能资源达到了二百万兆瓦($2\times10^7MW$)，是目前全球第一大的可再生
 能源水能的10倍。风能因其分布广泛，弥补了水能发电需要的苛刻条件以及对生态自
 然环境可能造成不良影响的缺陷。如将预估的可利用风能的1\%加以利用，即可以满
@@ -200,7 +200,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 
 对于目前的风速预测研究而言，相关问题主流使用的模型包括传统时间序列模型以及
 深度学习模型。他们各自都存在一定的优点和缺陷，单一模型并不能很好的进行预测。
-\cite{陆冰鉴2020基于}
+\upcite{陆冰鉴2020基于}
 通过组合模型，结合各模型的优势，对其进行精确地预测，将会对风力发电的应
 用起到巨大的促进作用。同时，由于风速数据中往往包含着较大的噪声问题，如何
 有效地对其数据集进行降噪处理也是目前研究的方向。
@@ -210,15 +210,15 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 数值预报方法使用大气压、气温、相对湿度、风速等数值型数据来作为初始状态，
 以流体力学方程和热力学方程为依据来实现整个大气状态模型的构建，通过超级
 计算机进行数值计算求解，得到未来天气的预报结果。
-\cite{姜兆宇2019多时空尺度的风力发电预测方法综述}
+\upcite{姜兆宇2019多时空尺度的风力发电预测方法综述}
 
 目前数值预报方法已经很成熟，准确性良好，已经广泛地应用到了天气预报中。
 但是，由于数值方法需要占用大量的计算资源，难以将时间和空间分辨率
 都做得很高，且短期风速中蕴含的噪声较大，因而单纯的数值预报一般不适用于短期风速预报。
-朱智慧等人\cite{朱智慧2010T639}将基于T639全球中期数值预报产品得到的上海
+朱智慧等人\upcite{朱智慧2010T639}将基于T639全球中期数值预报产品得到的上海
 南汇站24小时风速预报结果利用逐步回归分析、结合Kalman滤波得出的MOS方程
 进行订正，结果表明其订正后的精度可以考虑投入实际使用。夏晓玲等人
-\cite{夏晓玲2019贵州省数值预报风速产品检验及订正}利用数值预报的
+\upcite{夏晓玲2019贵州省数值预报风速产品检验及订正}利用数值预报的
 ECWMF，GRAPES和JAPAN模式对于贵州省范围内84个站点的风速预报进行了分析，最终
 运用神经网络对3种模式风速预报进行订正，结果表明其误差，正确率订正改善效果
 明显，但是相关系数的提高较小。
@@ -239,15 +239,15 @@ ECWMF，GRAPES和JAPAN模式对于贵州省范围内84个站点的风速预报�
 包含了很强的季节性，因此相关研究普遍采用季节性自回归综合移动平均模
 型（SARIMA, Seasonal AutoregRessive Integrated 
 Moving Average）。SARIMA是Box和Jenkins提出的ARIMA模型的一个扩展，
-用于处理具有季节特征的时间序列数据。Sun, R. N.等人\cite{2017Forecast}
+用于处理具有季节特征的时间序列数据。Sun, R. N.等人\upcite{2017Forecast}
 同时基于ARIMA和SARIMA模型提前24小时预测小时平均风速和风力发电量。并进行了
 平均相对误差的比较分析。结果表明，SARIMA模型的预测效果明显优于ARIMA模型。
 
 SARIMA本身机理决定了SARIMA无法处理非线性
 时间序列特征，因而在呈现出非平稳且非线性特征的风速时间序列预测中表现
-并不是很好。Haddad等人\cite{haddad2019wind}基于SARIMA方法构建了一个
+并不是很好。Haddad等人\upcite{haddad2019wind}基于SARIMA方法构建了一个
 太阳能和风能预测模型，对于风能预测而言最终效果不是很突出。
-Xl, A等人\cite{2021Short}使用SARIMA模型来预测苏格兰沿海地区
+Xl, A等人\upcite{2021Short}使用SARIMA模型来预测苏格兰沿海地区
 的每小时实测风速。结果表明尽管SARIMA在风速预测的性能与准确度在相互权衡之后
 相对于循环神经网络方法具有优越性，但是其预测的风速准确度并不是很理想。
 
@@ -265,10 +265,10 @@ Support Vector Regression）。支持向量回归机是支持向量机
 
 传统的SVR能够对非线性特性的数据有较好的预测能力，然而由于风速呈现
 出非平稳的特征，其中所含噪声较多，直接对风速进行预测无法达到很好的
-效果。朱霄旬等人\cite{朱霄旬2017遗传算法对}使用一种基于遗传算法
+效果。朱霄旬等人\upcite{朱霄旬2017遗传算法对}使用一种基于遗传算法
 (GA，Genetic Algorithm)的多参数同步优化算法，改进了传统通过相空
 间重构法求出SVR预测模型的最优参数的方法，并大大提高了预测精度。
-Pan, C.等人\cite{2018Hybrid}首先根据回归率和确定性相结合的联合指数，
+Pan, C.等人\upcite{2018Hybrid}首先根据回归率和确定性相结合的联合指数，
 对风速序列的可预测性进行了定量分析，然后利用联合指数优化的参数重建风速
 序列，通过嵌入维数和延迟时间得到预测模型的最佳输入集。最终利用布谷鸟优化
 算法（COA，Cuckoo Optimization Algorithm）优化的SVR模型对风速进行预
@@ -281,15 +281,15 @@ Pan, C.等人\cite{2018Hybrid}首先根据回归率和确定性相结合的联�
 非线性特征的风速时间序列预测。神经网络模型虽然预测效果好，但是
 存在训练难度大，容易产生过拟合、梯度爆炸、梯度消失等一系列问题。
 
-Shivani等人\cite{Shivani2019A}对传统时间序列统计模型ARIMA和
+Shivani等人\upcite{Shivani2019A}对传统时间序列统计模型ARIMA和
 一个深度学习模型预测风速进行了比较研究。该深度学习模型由长短期记忆网络
 （LSTM，Long Short-Term Memory）和循环神经网络
 （RNN，Recurrent Neural Network）组合而成，结果凸显了深度学习预测风速
-在精度上的优越性。Alencar, D. B.等人\cite{alencar2018hybrid}提出了一种基于
+在精度上的优越性。Alencar, D. B.等人\upcite{alencar2018hybrid}提出了一种基于
 SARIMA和反向传播（BP，Back Propagation）神经网络的组合模型方法，
 用于多步超前风速预测。并进行了仿真分析。其结果表明，对于不同的预测时段，
 该组合模型预测方法的预测精度优于大部分传统算法。朱丽娜的研究
-\cite{朱丽娜2021风电}得出结论：LSTM适用于预测非平稳序列风速，Elman神经
+\upcite{朱丽娜2021风电}得出结论：LSTM适用于预测非平稳序列风速，Elman神经
 网络，一种动态递归神经网络，次之。
 
 由于风速数据的非平稳性，其时间序列数据中往往掺杂着较大的噪声。这些噪声
@@ -302,11 +302,11 @@ SARIMA和反向传播（BP，Back Propagation）神经网络的组合模型方�
 （EMD，Empirical Mode Decomposition）以及基于上述四类方法演化出的
 一系列分支。
 
-谢义超\cite{谢义超2021基于}提出了一种基于CEEMDAN分解和改进的LSTM模型。
+谢义超\upcite{谢义超2021基于}提出了一种基于CEEMDAN分解和改进的LSTM模型。
 该模型基于粒子群优化算法（PSO，Particle Swarm Optimization）与样本熵
 选择CEEMDAN以及LSTM的超参数，从而让参数达到最优值。最终得出的结果表明，
 CEEMDAN分解技术可以极大地提高基于循环神经网络模型的泛化能力，降低模型
-的训练难度。王秀的研究\cite{王秀2021基于}基于小波变换，通过SARIMA和
+的训练难度。王秀的研究\upcite{王秀2021基于}基于小波变换，通过SARIMA和
 LSTM模型的组合，提升了对短期风速的预测精度。
 
 \section{论文研究内容与组织结构}
@@ -364,17 +364,17 @@ Huber损失函数以及GELU激活函数的原因。
 \chapter{数据来源及特征选取}
 \section{数据来源}
 本文数据来源于中国区域地面气象要素驱动数据集（1979-2018）
-\cite{8028b944-daaa-4511-8769-965612652c49}，该数据集常用于数值天气
+\upcite{8028b944-daaa-4511-8769-965612652c49}，该数据集常用于数值天气
 预报。该数据集包括地面向下长波辐射、地面降水率、近地面气压、近地面空气比
 湿、地面向下短波辐射、近地面气温共7个气象要素。数据时间
 分辨率为3小时，水平空间分辨率为0.1°，为netCDF格式。
-\cite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
+\upcite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
 
 该数据集基于世界上现有的GLDAS数据、普林斯顿再分析数据、GEWEX-SRB辐射
 数据和TRMM降水数据，并整合了中国气象局的常规气象观测数据。原始数据来
 自卫星遥感数据、再分析数据与气象局的观测数据，并去除了非物理范围值，
 对于缺失数据采用ANUSPLIN统计插值。该数据集的精度介于气象局的观测数据
-和卫星遥感数据之间，优于世界上现有的再分析数据。\cite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}
+和卫星遥感数据之间，优于世界上现有的再分析数据。\upcite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}
 
 \section{特征选取与数据集的制作}
 本文数据集基于上述中国区域地面气象要素驱动数据
@@ -498,7 +498,7 @@ Huber损失函数以及GELU激活函数的原因。
 \subsection{EMD}
 经验模态分解（EMD，Empirical Mode Decomposition）是一种适用于处理非平稳
 非线性时间序列的自适应时空分析方法，由Huang, Norden E等人于1998年
-提出\cite{huang1998empirical}。EMD在不离开时域的情况下将序列划分为
+提出\upcite{huang1998empirical}。EMD在不离开时域的情况下将序列划分为
 有限个本征模函数（IMF，Intrinsic Mode Function）和残差。分解出的IMF
 可以提供一个时间序列中包含的各种信号的特征。与傅里叶变换和小波分解等类似，
 EMD分解不是基于物理性质。但是，EMD依据信号自身的时间尺度特征对信号没有任何
@@ -540,7 +540,7 @@ $$
 
 集成经验模态分解（EEMD，Ensemble Empirical Mode Decomposition）是一种
 噪声辅助数据分析方法，其将用于筛选的白噪声附加在原始时间序列上。
-EEMD由Wu, Zhaohua等人提出\cite{wu2009ensemble}。他们的
+EEMD由Wu, Zhaohua等人提出\upcite{wu2009ensemble}。他们的
 研究发现，在EMD分解的IMF分量筛选过程中，添加一定的白噪声可以平滑极值点的分布，
 从而能够让分解过程考量到尽多可能的解并进行筛选，使得分解的结果更加健壮。由于
 白噪声可以通过足够多的平均迭代抵消，从而在此平均化过程中唯一留存下来的
@@ -557,7 +557,7 @@ EEMD分解步骤如下：
 \subsection{CEEMDAN}
 自适应噪声完备集合经验模态分解（CEEMDAN，Improved Complete Ensemble
 Empirical Mode Decomposition with Adaptive Noise) 由Torres
-等人提出\cite{torres2011complete}。它是EMD的改进版本，
+等人提出\upcite{torres2011complete}。它是EMD的改进版本，
 同时又借鉴了EEMD的思想，提供了对原始信号的精确重建和对本征模函数（IMF）的
 更好的频谱分离。
 
@@ -583,7 +583,7 @@ CEEMDAN相较于EEMD方法有如下优点：
 
 \subsection{ICEEMDAN}
 
-ICEEMDAN由Colominas等人提出\cite{colominas2014improved}，其为CEEMDAN的改进版本。
+ICEEMDAN由Colominas等人提出\upcite{colominas2014improved}，其为CEEMDAN的改进版本。
 ICEEMDAN将上述CEEMDAN方法步骤1的重复迭代过程中的第x次迭代时使用的噪声更改为使用原第一次添加噪声
 的对噪声进行EMD分解的第x个IMF分量，并使用该噪声的第x个IMF分量和添加的噪声相对于待分解
 时间序列的信噪比相乘，再除以白噪声的标准差。
@@ -593,7 +593,7 @@ ICEEMDAN分解相对于CEEMDAN进一步降低了出现多个无意义的低幅�
 由于ICEEMDAN是基于EMD的信号分解技术的集大成者，因而本文最终决定选用ICEEMDAN。
 
 \section{基于Prophet框架的时间序列预测方法}
-Prophet\cite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
+Prophet\upcite{taylor2018forecasting}是由Facebook于2018年提出的一种时间序
 列预测算法框架。其核心部分使用类似于SARIMA的方法进行时间序列预测，可以
 学习年、周、月和日的季节性以及假日效应等非平稳周期性趋势，最适用于具有强烈季节性影响的时
 间序列，并且可以通过R和Python实现调用。Prophet的预测速度快，不同于SARIMA需要手动
@@ -624,7 +624,7 @@ $\epsilon_{t}$为残差，表示噪声分量，其服从高斯白噪声分布。
     \item $Y=PX$即为降维到k维后的数据。
 \end{itemize}
 PCA可以很好的解除线性相关，但是对于非线性的高阶相关性，PCA无法处理
-\cite{jolliffe2016principal}。
+\upcite{jolliffe2016principal}。
 
 \subsection{核主成分分析}
 核主成分分析（KPCA）是一种基于核函数的主成分
@@ -657,7 +657,7 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 \section{基于RNN的深度学习神经网络模型}
 \subsection{经典循环神经网络}
 循环神经网络（RNN，Recurrent Neural Network）是一种深度学习模型。经典的神经网络
-\cite{rumelhart1986learning}，由于其时序无关，采用了层状传递结构，
+\upcite{rumelhart1986learning}，由于其时序无关，采用了层状传递结构，
 模型的内部前一层神经元直接传递给后一层神经元。这样做模型由于无记忆功能，
 无法学习时序数据中的历史相关性，因而需要循环层，通过内部传递时序数据来学习。
 图\ref{fig_nn}展示了两种神经网络的结构区别。
@@ -729,13 +729,13 @@ $$
 因而用于风速数据效果不是很理想。
 
 高斯误差线性单元（GELU，Gaussian Error Linear Unit）是Hendrycks, Dan等人于2016提出的
-\cite{hendrycks2016gaussian}一种高性能的神经网络激活函数。GELU 激活函数表达式是
+\upcite{hendrycks2016gaussian}一种高性能的神经网络激活函数。GELU 激活函数表达式是
 $x\Phi(x)$，其中$\Phi(x)$是标准高斯累积分布函数。GELU 是非线性激活函数，其对输入值进行
 高斯加权处理，相较于sigmoid和tanh而言能一定程度上避免x值变大时梯度消失的问题
 ，从而带给训练任务更好的精度和拟合效果。
 
 神经网络模型优化器直接参与神经网络的训练，通过对应算法搜索神经网络的最优权重参数。
-\footnote{本部分内容参考了Ruder, Sebastian的梯度下降优化算法综述\cite{ruder2016overview}}
+\footnote{本部分内容参考了Ruder, Sebastian的梯度下降优化算法综述\upcite{ruder2016overview}}
 \begin{itemize}
     \item[a. ] SGD
 \end{itemize}
@@ -752,7 +752,7 @@ $$\theta = \theta - \eta\nabla_\theta J( \theta)$$
     \item[b. ] Momentum
 \end{itemize}
 
-Momentum是Qian, Ning研究出的\cite{qian1999momentum}一种有助于在梯度下降的
+Momentum是Qian, Ning研究出的\upcite{qian1999momentum}一种有助于在梯度下降的
 方向加速 SGD 并抑制SGD振荡的方法。它通过添加动量项比值γ，将过去时间步的更新向
 量到添加到当前的更新向量，来实现这一目的。
 
@@ -768,11 +768,11 @@ $$
     \item[c. ] NAG
 \end{itemize}
 
-涅斯捷罗夫加速梯度下降（NAG，Nesterov Accelerated Gradient）\cite{nesterov1983method}
+涅斯捷罗夫加速梯度下降（NAG，Nesterov Accelerated Gradient）\upcite{nesterov1983method}
 基于Momentum，通过$\theta - \gamma v_{t-1}$项使其能够预知未来的更新方向，
 从而使得更新更加稳定而不至于一直遵循梯度更新的惯性。这种预期性的更新可以防止
 梯度更新得太快，从而提高响应能力。NAG显著提高了 RNN 在许多训练任务中的性能
-\cite{bengio2013advances}。
+\upcite{bengio2013advances}。
 
 NAG的更新公式为：
 $$
@@ -786,7 +786,7 @@ $$
     \item[d. ] Adam
 \end{itemize}
 
-Adam\cite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动化调整学习率，
+Adam\upcite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动化调整学习率，
 对与频繁出现的特征相关的参数执行较小的更新（低学习率），对与不常见特征相关的参数
 执行较大的更新（高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
 其本质上为带Momentum动量项的RMSProp。
@@ -795,7 +795,7 @@ Adam\cite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动�
     \item[e. ] Nadam
 \end{itemize}
 
-Nadam\cite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
+Nadam\upcite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
 了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
 任务中的性能，最终使用Nadam能够取得比Adam更好的效果。
 
@@ -855,7 +855,7 @@ $$
     \label{fig_huber}
 \end{figure}
 
-Huber 损失函数\cite{huber1992robust}包含了一个超参数 δ。当预测偏差小于 δ 时，
+Huber 损失函数\upcite{huber1992robust}包含了一个超参数 δ。当预测偏差小于 δ 时，
 它采用MSE变换形式的平方损失函数；当预测偏差大于等于 δ 时，采用MAE变换形式的线性损失函数，
 如图\ref{fig_huber}所示。
 因而，Huber同时综合了MSE和MAE的优点并同时克服了他们的缺点。
@@ -883,14 +883,14 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 
 上述经典RNN的三个问题中，梯度爆炸可以采用阈值范围对梯度进行裁剪就可以解决，但是梯度消失和
 长期依赖关系的问题则必须要改变模型的结构。LSTM是首先被提出的解决方案
-\cite{hochreiter1997long}，GRU则是相对于LSTM更简单且更优异的方案。
+\upcite{hochreiter1997long}，GRU则是相对于LSTM更简单且更优异的方案。
 
 \subsection{GRU}
-GRU是由Cho等人于2014年提出的一种类似于LSTM的神经网络模型\cite{cho2014learning}。
+GRU是由Cho等人于2014年提出的一种类似于LSTM的神经网络模型\upcite{cho2014learning}。
 本文之所以选择GRU而非LSTM，是因为相较于LSTM的结构，即三个门控单元输入门、遗忘门和输出门，
 GRU只有两个，分别为更新门和重置门。并且GRU的单个神经元中并不会保留内部记忆，
 因而GRU的参数更少，复杂度更低，收敛速度更快，并且GRU和LSTM所能达到的训练以及预测
-效果同样出色，因而权衡效果和成本而言GRU要更高\cite{chung2014empirical}。
+效果同样出色，因而权衡效果和成本而言GRU要更高\upcite{chung2014empirical}。
 
 GRU的工作原理如下：
 
@@ -1168,7 +1168,7 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
     \caption{五种模型在测试集中四步预测12小时风速对比评估}
     \begin{tabular}{lcccccc}
     \toprule
-    模型名称 & MAPE & MAE & MSE & RMSE & $R^2$ & 15\% 准确度 \\
+    模型名称 & MAPE & MAE & MSE & RMSE & $R^2$ & 15\% \\
     \midrule
     基于风速的Prophet模型 & 0.7599 & 1.5475 & 2.4874 & 1.5771 & -14.4053 & 0 \\
     基于风速的ICCEMDAN-Prophet模型 & 0.7396 & 1.5054 & 2.3588 & 1.5359 & -13.6092 & 0 \\
@@ -1210,13 +1210,13 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 \begin{figure}[H]
 	\centering
 	\subfloat[风速ICCEMDAN-GRU]{
-        \includegraphics[width=0.36\textwidth]{figures/wind_gru_predict_test.pdf}
+        \includegraphics[width=0.33\textwidth]{figures/wind_gru_predict_test.pdf}
     }
 	\subfloat[风速ICCEMDAN-Prophet-GRU]{
-        \includegraphics[width=0.36\textwidth]{figures/wind_only_prophet_gru_predict_test.pdf}
+        \includegraphics[width=0.33\textwidth]{figures/wind_only_prophet_gru_predict_test.pdf}
     }
-    \subfloat[多特征ICCEMDAN-Prophet-GRU-NN]{
-        \includegraphics[width=0.36\textwidth]{figures/all_feature_prophet_gru_predict_test.pdf}
+    \subfloat[多特征ICCEMDAN-Prophet-GRU]{
+        \includegraphics[width=0.33\textwidth]{figures/all_feature_prophet_gru_predict_test.pdf}
     }
     \caption{三种本文提出的基于神经网络的模型四步预测（12小时）风速的可视化图}
     \label{fig_gru_predict_test}
@@ -1238,17 +1238,17 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 多气象要素联合预测，同时预测其他具有强周期性、易预测的气象要素，
 而不仅仅基于风速的历史时间序列，以达到对风速预测进行修正的目的。
 
-\item 模型基于最新信号分解技术ICEEMDAN（2014年）\cite{colominas2014improved}
-，还采用Facebook推出的新型时间序列框架 Prophet（2018年）\cite{taylor2018forecasting}
-与最新循环神经网络 GRU 模型（2014年）\cite{cho2014learning}进行组合。
+\item 模型基于最新信号分解技术ICEEMDAN（2014年）\upcite{colominas2014improved}
+，还采用Facebook推出的新型时间序列框架 Prophet（2018年）\upcite{taylor2018forecasting}
+与最新循环神经网络 GRU 模型（2014年）\upcite{cho2014learning}进行组合。
 
 \item 从支持向量回归机获得灵感，
 将GRU模型的输入数据使用RBF核PCA升维，从而将非线性的特征历史数据映射到
 高维线性可分，降低复杂度。
 
 \item 对相关模型
-进行优化，突破模型的传统，将GELU激活函数（2016年）\cite{hendrycks2016gaussian}
-以及Nadam优化器（2016年）\cite{dozat2016incorporating}和Huber损失函数应用到短期
+进行优化，突破模型的传统，将GELU激活函数（2016年）\upcite{hendrycks2016gaussian}
+以及Nadam优化器（2016年）\upcite{dozat2016incorporating}和Huber损失函数应用到短期
 风速预测领域。
 
 \item 通过选择甘肃酒泉的一个真实风力发电厂附近进行短期风速的

@@ -179,13 +179,13 @@
 \begin{frame}
   \frametitle{Nadam优化器}
   \begin{itemize}
-    \item NAG\cite{nesterov1983method}算法能够预知未来的更新方向，从而使得更新更加稳定而不至于
+    \item NAG\upcite{nesterov1983method}算法能够预知未来的更新方向，从而使得更新更加稳定而不至于
 一直遵循梯度更新的惯性。这种预期性的更新可以防止梯度更新得太快，从而提高响应能力。
-根据已有的研究成果，NAG显著提高了 RNN 在许多训练任务中的性能\cite{bengio2013advances}。
-    \item Adam\cite{kingma2014adam}是目前最为广泛的被使用的一种优化器，能够自动化调整学习率，
+根据已有的研究成果，NAG显著提高了 RNN 在许多训练任务中的性能\upcite{bengio2013advances}。
+    \item Adam\upcite{kingma2014adam}是目前最为广泛的被使用的一种优化器，能够自动化调整学习率，
 对与频繁出现的特征相关的参数执行较小的更新（降低学习率）。对与不常见特征相关的参数
 执行较大的更新（提高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
-    \item Nadam\cite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
+    \item Nadam\upcite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
 了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
 任务中的性能，最终使用Nadam能够取得比Adam更好的效果。
 \end{itemize}
@@ -225,8 +225,8 @@
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.81\textwidth]{dataset.pdf}
-    \caption{选取数据来源于\cite{8028b944-daaa-4511-8769-965612652c49}
-    \cite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
+    \caption{选取数据来源于\upcite{8028b944-daaa-4511-8769-965612652c49}
+    \upcite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
     “国家青藏高原科学数据中心”(http://data.tpdc.ac.cn)}
     \label{fig_dataset}
 \end{figure}
@@ -254,7 +254,7 @@
   \frametitle{特征选取}
   \begin{table}[H]
     \centering
-    \caption{选取特征说明\cite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}}
+    \caption{选取特征说明\upcite{6bab74c1-f2dd-4e24-a833-81f33bedf9b1}}
     \begin{tabular}{lcc}
     \toprule
     名称 & 单位 & 含义 \\

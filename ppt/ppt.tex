@@ -70,7 +70,7 @@
     \item 对$x^{(i)}$进行计算，得到第一个IMF分量$IMF_1=N(x^{(i)})$。
     \item 计算残差$R_1=x-IMF_1$作为新待分解序列，重复上述步骤直到不能进行EMD分解。
   \end{enumerate}
-  ICCEMDAN和传统基于EMD算法的优势：
+  ICEEMDAN和传统基于EMD算法的优势：
   \begin{itemize}
     \item 相对于EMD，添加一定的白噪声可以平滑极值点的分布，
     从而让分解的结果更加健壮。
@@ -138,22 +138,6 @@
 \end{frame}
 
 \begin{frame}
-  \frametitle{GRU}
-  经典RNN在训练时由sigmoid激活函数的性质可知，当值较大时，函数趋于1，并变得平缓，
-  此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，经典RNN的训练
-  过程中每个神经元权重都是直接记忆学习临近时刻的，因而对存在的
-  季节性效应的长期关系学习不佳。
-  \rightline{}
-  GRU计算公式：
-  \begin{itemize}
-    \item 更新门：$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$
-    \item 重置门：$r_t=\sigma(W^{(r)}x_t+U^{(r)}h_{t-1})$
-    \item 确定遗忘掉多少过去的信息：$h^{\prime}_t=tanh(Wx_t+r_t\odot Uh_{t-1})$
-    \item 确定当前步记忆多少信息：$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
   \frametitle{GELU激活函数}
   \begin{columns}
     \column{0.5\textwidth}
@@ -216,6 +200,22 @@
       并获得了MSE的优点。
     \end{itemize}
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GRU}
+  经典RNN在训练时由sigmoid激活函数的性质可知，当值较大时，函数趋于1，并变得平缓，
+  此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，经典RNN的训练
+  过程中每个神经元权重都是直接记忆学习临近时刻的，因而对存在的
+  季节性效应的长期关系学习不佳。
+  \rightline{}
+  GRU计算公式：
+  \begin{itemize}
+    \item 更新门：$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$
+    \item 重置门：$r_t=\sigma(W^{(r)}x_t+U^{(r)}h_{t-1})$
+    \item 确定遗忘掉多少过去的信息：$h^{\prime}_t=tanh(Wx_t+r_t\odot Uh_{t-1})$
+    \item 确定当前步记忆多少信息：$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$
+  \end{itemize}
 \end{frame}
 
 \section{建模过程}
@@ -298,61 +298,61 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
 \end{frame}
 
 \begin{frame}
-  \frametitle{ICCEMDAN分解}
+  \frametitle{ICEEMDAN分解}
   \begin{columns}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{lrad.pdf}
       \caption{地面向下长波辐射}
-      \label{fig_iccemdan_lrad}
+      \label{fig_ICEEMDAN_lrad}
     \end{figure}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{pres.pdf}
       \caption{近地面气压}
-      \label{fig_iccemdan_pres}
+      \label{fig_ICEEMDAN_pres}
     \end{figure}
   \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{ICCEMDAN分解}
+  \frametitle{ICEEMDAN分解}
   \begin{columns}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{shum.pdf}
       \caption{近地面空气相对湿度}
-      \label{fig_iccemdan_shum}
+      \label{fig_ICEEMDAN_shum}
     \end{figure}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{srad.pdf}
       \caption{地面向下短波辐射}
-      \label{fig_iccemdan_srad}
+      \label{fig_ICEEMDAN_srad}
     \end{figure}
   \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{ICCEMDAN分解}
+  \frametitle{ICEEMDAN分解}
   \begin{columns}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{temp.pdf}
       \caption{近地面气温}
-      \label{fig_iccemdan_temp}
+      \label{fig_ICEEMDAN_temp}
     \end{figure}
     \column{0.5\textwidth}
     \begin{figure}[H]
       \centering
       \includegraphics[width=\textwidth]{wind.pdf}
       \caption{近地面全风速}
-      \label{fig_iccemdan_wind}
+      \label{fig_ICEEMDAN_wind}
     \end{figure}
   \end{columns}
 \end{frame}
@@ -382,22 +382,6 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
 \end{frame}
 
 \begin{frame}
-  \frametitle{模型评价指标}
-  \begin{itemize}
-    \item $MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$
-    \item $MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$
-    \item $MAPE=\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$
-    \item $RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$
-    
-    上述四种误差指标均为，指标值越小时，模型的精度越高。
-    \item $R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$
-    
-    决定系数（$R^2$）取值范围为$(-\infty, 1]$，越接近1代表模型的准确度越好。
-    \item 15\%准确率=预测值和真实值实际偏差在15\%以内的样本数/总样本数
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
   \frametitle{模型验证方法}
   \begin{itemize}
     \item 训练时根据5828条数据点，以8个连续时间序列数据点（1天）为一个时间窗口制作为一个训练样
@@ -419,9 +403,9 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \frametitle{风速ICEEDMAN-GRU模型}
   \begin{figure}[H]
     \centering
-      \includegraphics[width=\textwidth]{Wind_ICCEMDAN.pdf}
+      \includegraphics[width=\textwidth]{Wind_ICEEMDAN.pdf}
       \caption{风速ICEEDMAN分解示意图}
-      \label{fig_Wind_ICCEMDAN}
+      \label{fig_Wind_ICEEMDAN}
   \end{figure}
 \end{frame}
 
@@ -429,9 +413,9 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \frametitle{风速ICEEDMAN-GRU模型}
   \begin{figure}[H]
     \centering
-      \includegraphics[width=\textwidth]{ICCEMDAN-GRU-Wind-ppt.pdf}
+      \includegraphics[width=\textwidth]{ICEEMDAN-GRU-Wind-ppt.pdf}
       \caption{风速GRU模型结构图}
-      \label{fig_ICCEMDAN_GRU_Wind}
+      \label{fig_ICEEMDAN_GRU_Wind}
   \end{figure}
 \end{frame}
 
@@ -449,9 +433,9 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \frametitle{风速ICEEDMAN-Prophet-GRU模型}
   \begin{figure}[H]
     \centering
-      \includegraphics[width=\textwidth]{ICCEMDAN-Prophet-GRU-Wind-ppt.pdf}
+      \includegraphics[width=\textwidth]{ICEEMDAN-Prophet-GRU-Wind-ppt.pdf}
       \caption{风速Prophet-GRU模型结构图}
-      \label{fig_ICCEMDAN_Prophet_GRU_Wind}
+      \label{fig_ICEEMDAN_Prophet_GRU_Wind}
   \end{figure}  
 \end{frame}
 
@@ -459,9 +443,9 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \frametitle{多特征ICEEDMAN-Prophet-GRU-NN模型}
   \begin{figure}[H]
     \centering
-      \includegraphics[width=\textwidth]{All_ICCEMDAN.pdf}
+      \includegraphics[width=\textwidth]{All_ICEEMDAN.pdf}
       \caption{多特征ICEEDMAN分解示意图}
-      \label{fig_All_ICCEMDAN}
+      \label{fig_All_ICEEMDAN}
   \end{figure}
 \end{frame}
 
@@ -469,9 +453,9 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \frametitle{多特征ICEEDMAN-Prophet-GRU-NN模型}
   \begin{figure}[H]
     \centering
-      \includegraphics[width=0.7\textwidth]{ICCEMDAN-Prophet-GRU-All-Features-ppt.pdf}
+      \includegraphics[width=0.7\textwidth]{ICEEMDAN-Prophet-GRU-All-Features-ppt.pdf}
       \caption{多特征Prophet-GRU-NN模型结构图}
-      \label{fig_ICCEMDAN_Prophet_GRU_All_Features}
+      \label{fig_ICEEMDAN_Prophet_GRU_All_Features}
   \end{figure}
 \end{frame}
 
@@ -486,10 +470,26 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
 \end{frame}
 
 \begin{frame}
+  \frametitle{模型评价指标}
+  \begin{itemize}
+    \item $MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$
+    \item $MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$
+    \item $MAPE=\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$
+    \item $RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$
+    
+    上述四种误差指标均为，指标值越小时，模型的精度越高。
+    \item $R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$
+    
+    决定系数（$R^2$）取值范围为$(-\infty, 1]$，越接近1代表模型的准确度越好。
+    \item 15\%准确率=预测值和真实值实际偏差在15\%以内的样本数/总样本数
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
   \frametitle{模型对比评估}
-  1号：基于风速的Prophet模型，2号：基于风速的ICCEMDAN-Prophet模型，
-  3号：基于风速的ICCEMDAN-GRU模型，4号：风速ICCEMDAN-Prophet-GRU模型，
-  5号：多特征ICCEMDAN-Prophet-GRU-NN模型。
+  1号：基于风速的Prophet模型，2号：基于风速的ICEEMDAN-Prophet模型，
+  3号：基于风速的ICEEMDAN-GRU模型，4号：风速ICEEMDAN-Prophet-GRU模型，
+  5号：多特征ICEEMDAN-Prophet-GRU-NN模型。
   \begin{table}[H]
     \centering
     \caption{五种模型在测试集中四步预测对比评估}
@@ -543,7 +543,7 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \begin{enumerate}
     \item 从数值预报、大气动力学获得灵感，多气象要素联合预测。
     \item 使用最新信号分解技术ICEEMDAN（2014年）来特征分解，
-    采用Facebook推出的新型时间序列框架 Prophet（2017年）与最新循环神
+    采用Facebook推出的新型时间序列框架 Prophet（2018年）与最新循环神
     经网络 GRU 模型（2014年）组合预测。
     \item 从支持向量回归机获得灵感，使用了RBF核PCA升维。
     \item 将GELU激活函数（2016年）以及Nadam优化器（2016年）和Huber损失函

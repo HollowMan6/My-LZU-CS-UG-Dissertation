@@ -928,7 +928,7 @@ $$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
 \section{六种特征数据的ICEEMDAN分解}
 下述ICEEMDAN分解代码请见附录部分A.4。
 
-这里使用python的pyEMD库实现ICCEMDAN分解\footnote{尽管pyEMD库中调用方法和类名为CEEMDAN，
+这里使用python的pyEMD库实现ICEEMDAN分解\footnote{尽管pyEMD库中调用方法和类名为CEEMDAN，
 但根据官方文档，其内部实现时是采用的改进的CEEMDAN，即ICEEMDAN发表论文中所述算法。}，并使用
 numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib进行可视化作图。
 
@@ -1026,7 +1026,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 的原始时间序列分解为11个本征模函数（IMF）分量，分解效果显著。由幅频可以看出，高频噪声
 主要集中在IMF1和IMF2分量中，集中于500HZ-3000HZ处。
 
-将上述信号中高频噪声对应的IMF分量去除，剩余的低频信号IMF分量相加，即可得到经过ICCEMDAN
+将上述信号中高频噪声对应的IMF分量去除，剩余的低频信号IMF分量相加，即可得到经过ICEEMDAN
 分解的时间序列信号。
 
 \section{搜寻Prophet模型最优超参数}
@@ -1056,12 +1056,12 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 \section{基于风速历史时间序列数据的ICEEDMAN-GRU模型}
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/ICCEMDAN-GRU-Wind.pdf}
+    \includegraphics[width=1\textwidth]{figures/ICEEMDAN-GRU-Wind.pdf}
     \caption{基于风速历史时间序列数据的ICEEDMAN-GRU模型结构图}
-    \label{fig_ICCEMDAN_GRU_Wind}
+    \label{fig_ICEEMDAN_GRU_Wind}
 \end{figure}
 
-图\ref{fig_ICCEMDAN_GRU_Wind}展示了基于风速历史时间序列数据的ICEEDMAN-GRU模型结构示意
+图\ref{fig_ICEEMDAN_GRU_Wind}展示了基于风速历史时间序列数据的ICEEDMAN-GRU模型结构示意
 。该模型使用了历史风速时间序列中的5828条数据点，以8个连续时间序列数据点（24小时，1天）为
 一个时间窗口制作为一个训练样本。每个时间窗口中的数据点整体为一个输入，每个时间窗口中的输出
 为该输入窗口紧挨着的下一个时间序列数据点（3小时）的预测值。因而总共得到5820个训练样本
@@ -1081,9 +1081,9 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 \end{figure}
 
 该模型四层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，5810）的
-向量，代表一个样本的时间窗口。第二层为一个使用标准GRU模型（即激活函数为sigmoid，
+向量，代表一个样本的时间窗口。第二层为使用标准GRU模型单元（即激活函数为sigmoid，
 循环激活函数为tanh）的隐藏层，其一共有1024个GRU单元，输出为（1，1024）的向量，可训练参数
-共计21000192个。第三层为一个将激活函数和循环激活函数都改为GELU的GRU模型，其共计512个GRU单
+共计21000192个。第三层使用将激活函数和循环激活函数都改为GELU的GRU单元，其共计512个GRU单
 元，输出为（1，512）的向量，可训练参数为2362368个。第四层为输出层，将前一层的输出值通过全连
 接的方式，得到（1，1）的向量，可训练参数513个。整个模型可训练参数
 共计23363073个，输出最终预测值。
@@ -1094,14 +1094,14 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 \section{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型}
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/ICCEMDAN-Prophet-GRU-Wind.pdf}
+    \includegraphics[width=1\textwidth]{figures/ICEEMDAN-Prophet-GRU-Wind.pdf}
     \caption{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型结构图}
-    \label{fig_ICCEMDAN_Prophet_GRU_Wind}
+    \label{fig_ICEEMDAN_Prophet_GRU_Wind}
 \end{figure}
 
-如图\ref{fig_ICCEMDAN_Prophet_GRU_Wind}所示，本模型在基于风速历史时间序列数据的
+如图\ref{fig_ICEEMDAN_Prophet_GRU_Wind}所示，本模型在基于风速历史时间序列数据的
 ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框架进行统计分析处理，得到
-该窗口数据对应的趋势分量、累加式季节性分量以及上述分量所对应的预测最大边界和最
+该窗口数据对应的预测值、趋势分量、累加式季节性分量以及上述分量所对应的预测最大边界和最
 小边界共计9个特征，并与原始数据进行拼接整合，得到（5820，8，10）的矩阵。随后将后两个
 维度展平，生成的（5820，80）矩阵进行数据标准化缩放，再通过使用RBF核函数的核
 主成分分析（KPCA），将训练集升维至（5820，5819），变形之后再输入进入同基于风速历史
@@ -1111,11 +1111,11 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 \section{多特征ICEEDMAN-Prophet-GRU-NN模型}
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.9\textwidth]{figures/ICCEMDAN-Prophet-GRU-All-Features.pdf}
+    \includegraphics[width=0.9\textwidth]{figures/ICEEMDAN-Prophet-GRU-All-Features.pdf}
     \caption{多特征ICEEDMAN-Prophet-GRU-NN模型结构图}
-    \label{fig_ICCEMDAN_Prophet_GRU_All_Features}
+    \label{fig_ICEEMDAN_Prophet_GRU_All_Features}
 \end{figure}
-图\ref{fig_ICCEMDAN_Prophet_GRU_All_Features}展示了多特征ICEEDMAN-Prophet-GRU-NN模型结构。
+图\ref{fig_ICEEMDAN_Prophet_GRU_All_Features}展示了多特征ICEEDMAN-Prophet-GRU-NN模型结构。
 该模型将地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下
 短波辐射、近地面气温，和近地面全风速6种气象要素的原始历史数据的每个气象要素通过和
 对风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型一致的处理方式，得到每个气象要素的窗口样本
@@ -1131,8 +1131,8 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 \end{figure}
 
 该神经网络模型（NN）六层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，4260）的
-向量。第二层为一个展平（Flatten）层，将输入展平为（4260）。第三、四层均为全连接层，其激活函数均为gelu，
-各有128、64个神经元，输出为（64）的向量，可训练参数分别为555776个和8256个.第五层为丢弃层（DropOut层），
+向量。第二层为一个展平（Flatten）层，将输入展平为（4260）。第三、四层均为全连接层，其激活函数均为GELU，
+各有128、64个神经元，输出为（64）的向量，可训练参数分别为555776个和8256个。第五层为丢弃层（DropOut层），
 其丢弃比率为20\%，用于防止神经网络的过拟合。最后一层为输出层，将前一层的输出值通过全连
 接的方式，得到最后结果，可训练参数65个。整个模型可训练参数共计564097个，输出最终预测值。
 代码部分见附录部分A.7。
@@ -1171,10 +1171,10 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
     模型名称 & MAPE & MAE & MSE & RMSE & $R^2$ & 15\% \\
     \midrule
     基于风速的Prophet模型 & 0.7599 & 1.5475 & 2.4874 & 1.5771 & -14.4053 & 0 \\
-    基于风速的ICCEMDAN-Prophet模型 & 0.7396 & 1.5054 & 2.3588 & 1.5359 & -13.6092 & 0 \\
-    基于风速的ICCEMDAN-GRU模型 & 0.1671 & 0.3 & 0.2055 & 0.4533 & -0.2728 & 0.75 \\
-    风速ICCEMDAN-Prophet-GRU模型 & 0.1356 & 0.286 & 0.1121 & 0.3349 & 0.3051 & 0.5 \\
-    多特征ICCEMDAN-Prophet-GRU-NN & 0.0825 & 0.1734 & 0.0307 & 0.1751 & 0.81 & 1 \\
+    基于风速的ICEEMDAN-Prophet模型 & 0.7396 & 1.5054 & 2.3588 & 1.5359 & -13.6092 & 0 \\
+    基于风速的ICEEMDAN-GRU模型 & 0.1671 & 0.3 & 0.2055 & 0.4533 & -0.2728 & 0.75 \\
+    风速ICEEMDAN-Prophet-GRU模型 & 0.1356 & 0.286 & 0.1121 & 0.3349 & 0.3051 & 0.5 \\
+    多特征ICEEMDAN-Prophet-GRU-NN & 0.0825 & 0.1734 & 0.0307 & 0.1751 & 0.81 & 1 \\
     \bottomrule \\
     \end{tabular} \\
     \label{models-metrics}
@@ -1187,7 +1187,7 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
     \label{fig_prophet_wind}
 \end{figure}
 
-图\ref{fig_prophet_wind}展示了基于风速历史的Prophet模型的可视化图，即模型的预测结果与实际
+图\ref{fig_prophet_wind}展示了基于风速历史的Prophet模型的可视化图，即模型在训练集上拟合的预测结果与实际
 值的对比。该模型采用上述章节中搜寻得到的Prophet模型最优超参数，分析历史5828条数据从而直接预
 测出未来12小时（4条）的风速值。
 图中黑点部分为实际值，实蓝色曲线部分为预测值，透明蓝色部分的
@@ -1195,12 +1195,12 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 该图与表\ref{models-metrics}
 中对未来4步预测数据评价指标值可知，Prophet模型的预测结果很差。这是因为Prophet模型类似于传统
 的SARIMA模型，对主要具有线性关系的时间序列数据预测精度较高，但是对于主要具有复杂非线性关系，且波动性较强
-的时间序列，其很难预测准确。从表\ref{models-metrics}中我们还可以看到，对风速数据进行ICCEMDAN分解
-处理，剔除高频噪声后，降低了时间序列数据的复杂度，基于风速历史ICCEMDAN-Prophet模型的准确度相
+的时间序列，其很难预测准确。从表\ref{models-metrics}中我们还可以看到，对风速数据进行ICEEMDAN分解
+处理，剔除高频噪声后，降低了时间序列数据的复杂度，基于风速历史ICEEMDAN-Prophet模型的准确度相
 较于未经分解的基于风速历史Prophet模型而言各项指标都有比较好的提升效果。
 
 神经网络部分的实现使用Tensorflow Keras。对于所有GRU模型，为统一标准，选择训练10个epoch，
-对于多特征ICCEMDAN-Prophet-GRU-NN中NN模型选择训练5000个epoch。批大小（Batch Size）
+对于多特征ICEEMDAN-Prophet-GRU-NN中NN模型选择训练5000个epoch。批大小（Batch Size）
 为默认32，训练过程中设置回调函数，当损失5步内不再下降时自动停止训练过程，并自动保存训练过程中
 得到的损失最小的模型。损失函数为Huber，模型优化器为Nadam，设定学习率为0.001。
 
@@ -1209,13 +1209,13 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 
 \begin{figure}[H]
 	\centering
-	\subfloat[风速ICCEMDAN-GRU]{
+	\subfloat[风速ICEEMDAN-GRU]{
         \includegraphics[width=0.33\textwidth]{figures/wind_gru_predict_test.pdf}
     }
-	\subfloat[风速ICCEMDAN-Prophet-GRU]{
+	\subfloat[风速ICEEMDAN-Prophet-GRU]{
         \includegraphics[width=0.33\textwidth]{figures/wind_only_prophet_gru_predict_test.pdf}
     }
-    \subfloat[多特征ICCEMDAN-Prophet-GRU]{
+    \subfloat[多特征ICEEMDAN-Prophet-GRU]{
         \includegraphics[width=0.33\textwidth]{figures/all_feature_prophet_gru_predict_test.pdf}
     }
     \caption{三种本文提出的基于神经网络的模型四步预测（12小时）风速的可视化图}
@@ -1227,7 +1227,7 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 交由GRU进行训练，模型的准确度和各项指标进一步提升，但是在进行第四步预测时都出现了预测值的较大
 偏离问题。最终，使用多气象要素特征训练GRU模型，并将这些气象要素模型的预测结果输入进NN，从而对
 风速的预测值进行校正，产生的预测结果MAPE值达到了个位数，准确率有了比较大的提升，且第四步预测时
-准确度也较好，体现了多特征ICCEMDAN-Prophet-GRU-NN模型的优越性和实用价值。
+准确度也较好，体现了多特征ICEEMDAN-Prophet-GRU-NN模型的优越性和实用价值。
 
 \chapter{总结与展望}
 

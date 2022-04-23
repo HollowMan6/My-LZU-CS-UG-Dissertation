@@ -92,7 +92,7 @@
 \newcommand{\done}{ \makebox[0pt][l]{$\square$}\raisebox{.15ex}{\hspace{0.1em}$\checkmark$}}
 
 % 右上角的参考文献  \upcite{}
-\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+\newcommand{\upcite}[1]{\textsuperscript{\cite{#1}}}
 
 %============================ 我自己用的一些小命令 =========%
 
@@ -241,6 +241,14 @@
 \setlength\cftbeforetoctitleskip{24pt}
 \setlength\cftaftertoctitleskip{18pt}
 
+% 图目录、表目录标题字体为宋体，四号
+\renewcommand\cftfignumwidth{0em}  % 换行时顶格对齐
+\renewcommand\cftfigfont{\zihao{4} \songti}
+\renewcommand{\listfigurename}{图\ 目\ 录}
+
+\renewcommand\cfttabnumwidth{0em}  % 换行时顶格对齐
+\renewcommand\cfttabfont{\zihao{4} \songti}
+\renewcommand{\listtablename}{表\ 目\ 录}
 
 %%=======information
 %（一）封面

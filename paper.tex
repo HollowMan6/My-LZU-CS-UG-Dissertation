@@ -104,55 +104,70 @@
 
 %中文摘要
 \ZhAbstract{
-气候变化和环保问题关乎人类未来命运。在石油危机以及全球变暖问题愈发严重的现在，
-可再生清洁能源相关研究成为了学界的关注热点。风能，作为触手可得的一种能源，正成为新能
-源的主力军之一。准确预测风速，从而保证电网的稳定性，具有十分重大的意义。
+风能，作为一种清洁可再生新能源，正在世界范围内飞速发展。
+准确预测风速来服务于风力发电，意义重大。
 
-风速预测是一个时间序列回归问题，由于风速的波动具有随机性，其影响因素也十分复杂，呈现出
-非平稳且非线性的特征，因而对短期风速的预测难度较大。本文基于前人研究成果，
-选用ICEEMDAN分解技术，并使用当前最新循环神经网络结构GRU，结合Facebook Prophet框架，形成ICEEMDAN-Prophet-GRU模型。同时结合数值
-预报方法提供的灵感，将其他天气要素特征也输入到模型中，最后使用神经网络（NN）整合
-校正，提高模型的泛化能力。
+风速预测是一个时间序列回归问题，由于短期风速的波动具有随机性，其影响因素也十分复杂，
+呈现出非平稳且非线性的特征，单独预测难度较大。本文基于前人研究成果，从数值预报方
+法中获得灵感，结合其他易预测的气象要素特征辅助风速预测。对于每个特征选用最前沿的
+ICEEMDAN分解技术，结合Facebook推出的新型Prophet时间序列预测框架分析特征，并根据从
+SVR中获得的灵感，使用基于RBF的核主成分分析技术，降低时间序列数据复杂度。此外，借助于
+当前最新循环神经网络结构GRU，采用最前端的GELU激活函数、Nadam优化器、Huber损失函数
+应用于神经网络，形成ICEEMDAN-Prophet-GRU模型。最后使用神经网络（NN）整合每个特征
+的预测结果，校正风速预测值，提高模型的泛化能力。
 
-最终结果表明，使用本文提出的多特征ICEEMDAN-Prophet-GRU-NN模型
-，提前12小时预测短期风速的精度会明显提升，因而具有优越性。
-}{风速影响因素，短期风速预测，组合模型，改进自适应噪声完备集合经验模态分解，Prophet，门控循环单元神经网络，深度学习，数据科学}
+选用真实发电场所的气象数据验证模型。结果表明，使用本文提出的多特征
+ICEEMDAN-Prophet-GRU-NN模型，提前12小时预测短期风速的精度会明显提升，因而具有优越性。
+}{短期风速预测，组合模型，神经网络，深度学习，数据科学}
 
 
 %英文摘要
 \EnAbstract{\fontspec{Times New Roman} {
-Climate change and environmental issues matter the destiny of humankind.
-With the oil crisis and global warming worsening, renewable energy-related
-research has become a hot spot attracting great academic attention. Wind is
-becoming mainstream renewable energy as a readily available energy source.
-As a result, it is essential to predict the wind speed accurately to ensure
-power system stability.
+As one of the clean and renewable energy, wind power is growing rapidly worldwide.
+It is of great significance to accurately predict wind speed in order to serve
+wind power generation.
 
-Wind speed forecast is a time series regression
-problem. Due to the randomness of wind speed fluctuations, influencing
-factors for wind speed are very complex. The wind speed has non-stationary
-and nonlinear characteristics, so it is difficult to predict short-term wind
-speed. Based on the previous research results, this dissertation selects
-the ICEEMDAN decomposition technology, and uses the latest
-recurrent neural network model GRU, combined with the Facebook Prophet
-framework, to form the ICEEMDAN-Prophet-GRU model. At the same time, combined
-with the inspiration provided by the numerical weather forecast method,
-other common meteorological elements are also inputted into the model. Finally
-the neural network (NN) is used to integrate and correct, so that the
-generalization ability of the model can be improved.
-
-The final results show that by using the multi-feature ICEEMDAN-Prophet-GRU-NN
+Wind speed prediction is a time series regression problem. Due to the
+randomness of short-term wind speed fluctuations as well as its complex
+influencing factors, which show non-stationary and nonlinear characteristics,
+it is challenging to get predicted alone. Based on previous research, this
+paper draws inspiration from numerical weather forecasting methods that
+combine the other easily predictable meteorological elements to assist
+wind speed forecasting. For each feature, the most advanced ICEEMDAN
+decomposition technology is selected, combined with the new Prophet time
+series prediction framework proposed by Facebook to analyze the feature.
+Based on the inspiration obtained from SVR, the RBF Kernel Principal Component
+Analysis technology is also used to reduce the complexity of time series data.
+Moreover, with the help of the current latest recurrent neural network
+structure GRU, the most front-end GELU activation function, Nadam optimizer,
+and Huber loss function are also applied to the neural network to form the
+ICEEMDAN-Prophet-GRU model. Finally, a Neural Network is used to integrate
+the prediction results of each feature, correct the predicted value of wind
+speed, and improve the generalization ability of the model.
+    
+We use meteorological data from the actual power station to verify the model.
+The results show that by using the multi-feature ICEEMDAN-Prophet-GRU-NN
 model proposed in this paper, we can significantly improve the accuracy of
-short-term wind speed prediction for 12 hours, so it has supremacy.
+short-term wind speed prediction 12 hours in advance, so it has supremacy.
 }}
-{wind speed influencing factors; short-term wind speed forecast; 
-hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
+{short-term wind speed forecast; 
+hybrid model; neural network; deep learning; data science.
 }
 
 %生成目录
 \tableofcontents
 % \thispagestyle{empty}
 
+\begingroup
+\renewcommand{\addvspace}[1]{}
+\newcommand{\loflabel}{图} 
+\renewcommand{\numberline}[1]{\loflabel~#1\hspace*{1em}}
+\listoffigures
+
+\newcommand{\lotlabel}{表}
+\renewcommand{\numberline}[1]{\lotlabel~#1\hspace*{1em}}
+\listoftables
+\endgroup
 
 %文章主体
 \mainmatter
@@ -165,7 +180,7 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 \section{选题研究背景及意义}
 \subsection{风力发电的前景}
 随着工业发展的需要，人类社会对能源的依赖度也在逐步上升。第二次能源革命以来，
-传统化石燃料的使用导致了一系列的问题。化石燃料在开采过程中也产生了
+传统化石燃料的使用导致了一系列的问题。化石燃料在开采过程中产生了
 一系列的环境问题。以煤炭为例，在开采时，会破坏地表原本的性状，引发滑坡，塌陷
 等一系列问题。开采煤炭所产生的废渣也难以处理，产生的污水会对水土环境造成污染。
 同时，燃烧化石燃料所产生的二氧化硫($SO_2$)和氮氧化物会形成酸雨，粉尘使空气能
@@ -182,41 +197,39 @@ hybrid model; ICEEMDAN; Prophet; GRU; deep learning; data science.
 为太阳照射环境下地球表面受热不均，在水平气压梯度力的影响下，由于温差造成大
 气对流所产生的一种能量来源。李仲蔚的研究
 \upcite{李仲蔚2019风力发电企业价值评估研究}估算结果表明，全球可开发
-利用的风能资源达到了二百万兆瓦($2\times10^7MW$)，是目前全球第一大的可再生
+利用的风能资源达到了二千万兆瓦($2\times10^7MW$)，是目前全球第一大的可再生
 能源水能的10倍。风能因其分布广泛，弥补了水能发电需要的苛刻条件以及对生态自
 然环境可能造成不良影响的缺陷。如将预估的可利用风能的1\%加以利用，即可以满
 足全球能源的发电使用需求，因而发展潜力极其巨大，十分有望在将来替代水能成为
-全球第一大的可再生能源。
+全球第一大可再生能源。
 
 \subsection{短期风速预测的意义}
-短期风速的主要影响因素分为气象因素和地形因素。其中，气象因素主要包括温度、气压、
-湿度等，而地形因素包括地貌、地表障碍等。
-
-对于短期近地面风速的预测能够很好的帮助并促进风能的应用。首先，风力发电厂管理人员
+对于短期近地面风速的预测能够很好的帮助并促进风能的应用。首先，风力发电电网管理人员
 可以通过预测结果优化电力分配，提高发电量；其次，风力发电厂还可以准确地在风速
 过大之前对风力发电机指示停机，预防风力发电机的过载损毁，避免或者减少相应的损
 失；最后，还可以有效安排好风力发电的电网并网问题，减少因为风速的剧烈波动对电
-网电业的稳定性影响，降低运营成本，增加风电场的效益。
+网发电稳定性的影响，降低运营成本，增加风电场的效益。
 
-对于目前的风速预测研究而言，相关问题主流使用的模型包括传统时间序列模型以及
-深度学习模型。他们各自都存在一定的优点和缺陷，单一模型并不能很好的进行预测。
+某地的短期风速主要受气象因素影响，这些气象要素主要包括温度、气压、
+湿度等。对于目前的风速预测研究而言，相关问题主流使用的模型包括传统时间序列模型以及
+深度学习模型。他们各自都存在一定的优点和缺陷，并且单一模型并不能很好的进行预测。
 \upcite{陆冰鉴2020基于}
-通过组合模型，结合各模型的优势，对其进行精确地预测，将会对风力发电的应
+通过组合模型，结合各模型的优势，对其进行精确地预测，取长补短，将会对风力发电的应
 用起到巨大的促进作用。同时，由于风速数据中往往包含着较大的噪声问题，如何
-有效地对其数据集进行降噪处理也是目前研究的方向。
+有效地对其数据集进行降噪处理也是目前研究的方向之一。
 
 \section{选题已有研究成果综述}
 \subsection{数值预报方法}
-数值预报方法使用大气压、气温、相对湿度、风速等数值型数据来作为初始状态，
-以流体力学方程和热力学方程为依据来实现整个大气状态模型的构建，通过超级
-计算机进行数值计算求解，得到未来天气的预报结果。
+数值预报方法以流体力学方程和热力学方程等基本方程为依据来实现整个大气状态模型
+（数值预报模式）的构建，随后使用大气压、气温、相对湿度、风速等数值型数据来作为初
+始状态，通过超级计算机进行数值计算求解，得到未来天气的预报结果。
 \upcite{姜兆宇2019多时空尺度的风力发电预测方法综述}
 
 目前数值预报方法已经很成熟，准确性良好，已经广泛地应用到了天气预报中。
 但是，由于数值方法需要占用大量的计算资源，难以将时间和空间分辨率
-都做得很高，且短期风速中蕴含的噪声较大，因而单纯的数值预报一般不适用于短期风速预报。
+做得很高，且短期风速中蕴含的噪声较大，因而单纯的数值预报一般不适用于短期风速预报。
 朱智慧等人\upcite{朱智慧2010T639}将基于T639全球中期数值预报产品得到的上海
-南汇站24小时风速预报结果利用逐步回归分析、结合Kalman滤波得出的MOS方程
+南汇站24小时风速预报结果利用逐步回归分析结合Kalman滤波得出的MOS方程
 进行订正，结果表明其订正后的精度可以考虑投入实际使用。夏晓玲等人
 \upcite{夏晓玲2019贵州省数值预报风速产品检验及订正}利用数值预报的
 ECWMF，GRAPES和JAPAN模式对于贵州省范围内84个站点的风速预报进行了分析，最终
@@ -264,7 +277,7 @@ Support Vector Regression）。支持向量回归机是支持向量机
 并且其最优超平面需要所有的样本点与超平面之间的总偏差最小。
 
 传统的SVR能够对非线性特性的数据有较好的预测能力，然而由于风速呈现
-出非平稳的特征，其中所含噪声较多，直接对风速进行预测无法达到很好的
+出非平稳的特征，其非线性关系复杂，且其中所含噪声较多，直接对风速进行预测无法达到很好的
 效果。朱霄旬等人\upcite{朱霄旬2017遗传算法对}使用一种基于遗传算法
 (GA，Genetic Algorithm)的多参数同步优化算法，改进了传统通过相空
 间重构法求出SVR预测模型的最优参数的方法，并大大提高了预测精度。
@@ -278,7 +291,7 @@ Pan, C.等人\upcite{2018Hybrid}首先根据回归率和确定性相结合的联
 
 近年来，随着深度学习的发展，深度学习方法在风速预测中的应用越来越广泛。
 深度学习由数据驱动，具有十分强大的泛化能力，十分适合处理具有非平稳且
-非线性特征的风速时间序列预测。神经网络模型虽然预测效果好，但是
+非线性特征的风速时间序列预测。神经网络模型虽然预测效果好，但是对数据集要求高，
 存在训练难度大，容易产生过拟合、梯度爆炸、梯度消失等一系列问题。
 
 Shivani等人\upcite{Shivani2019A}对传统时间序列统计模型ARIMA和
@@ -317,7 +330,7 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
 
 由于注意到直接使用Prophet框架来进行非平稳非线性的风速预测效果并不佳，因而
 本文基于上述前人研究成果，决定选取数值天气预报中常见的五种气象要素历史数据，
-包括地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温，结合近地面全
+其包括地面向下长波辐射、近地面气压、近地面空气相对湿度、地面向下短波辐射、近地面气温，结合近地面全
 风速的历史数据构建短期风速的预测模型。首先，采用当前科研最前沿的改进自适应噪声完备
 集合经验模态分解（ICEEMDAN）算法，对上述六种特征历史数据进行分解，将高频噪声和
 低频信号进行分离，降低时间序列数据分析的复杂度，从而提高准确性。然后，将分解结
@@ -327,10 +340,10 @@ scikit-learn，以及时间序列数据处理预测框架Prophet。
 后的数据进一步降低了六种特征对应时间序列的复杂度，便于神经网络的训练。最终，将所有由
 Prophet分析的时段对应的结果以及分量和原始数据一起进行基于高斯径向基函数（RBF）的核
 主成分分析（KPCA），将数据升维，分解非线性相关，更进一步降低了数据复杂度。然后输入
-进一个由三层门控循环单元（GRU）构成的深度学习模型，采用最新科研成果 Nadam 优化器
+进一个由两层门控循环单元（GRU）构成的深度学习模型，采用最新科研成果 Nadam 优化器
 以及 Huber损失函数训练模型，并部分应用GELU激活函数，输出每个时段预测的六种气象要素
-值，最终使用基于RBF的核主成分分析（KPCA）将预测结果再次升维，输入进神经网络（NN）进行修正，
-最终得到预测的近地面全风速值。
+值，最终使用基于RBF的核主成分分析（KPCA）将预测结果再次升维，输入进一个由三个全连接
+层、一个随机丢弃层构成的神经网络（NN）进行修正，最终得到预测的近地面全风速值。
 
 为了验证模型的实际效果，本文选取了甘肃中电酒泉第四风力发电有限公司附近（北纬
 40.65 度，东经 96.95 度）的2017年1月1日0时整至2018年12月30日21时整
@@ -343,7 +356,7 @@ Prophet分析的时段对应的结果以及分量和原始数据一起进行基�
 第一章：绪论。主要讲述选题缘由，风速问题研究背景以及意义，以及对现有研究
 方法的综述。
 
-第二章：数据来源及特征提取。主要讲述特征的选取原因以及数据集的制作过程，并
+第二章：数据来源及特征提取。主要讲述特征的选取原因以及数据集的制作过程。
 对选取数据集的性状进行了分析，通过统计学方法验证特征选取的正确性。
 
 第三章：使用技术的介绍和比较。主要讲述现有主流技术，并进行技术分析对比，讲述
@@ -351,7 +364,7 @@ Prophet分析的时段对应的结果以及分量和原始数据一起进行基�
 Huber损失函数以及GELU激活函数的原因。
 
 第四章：模型的建立和评估。主要讲述模型的评估指标介绍、细节、训练以及调参过程，
-并与使用普通模型的情况进行对比。
+并与只使用单个或多个本文提出的组合模型中的成分进行组合的其它简单模型进行对比。
 
 第五章：总结与展望。对全文进行总结，指出创新点与有待进一步研究的方向。
 
@@ -365,8 +378,8 @@ Huber损失函数以及GELU激活函数的原因。
 \section{数据来源}
 本文数据来源于中国区域地面气象要素驱动数据集（1979-2018）
 \upcite{8028b944-daaa-4511-8769-965612652c49}，该数据集常用于数值天气
-预报。该数据集包括地面向下长波辐射、地面降水率、近地面气压、近地面空气比
-湿、地面向下短波辐射、近地面气温共7个气象要素。数据时间
+预报，包括地面向下长波辐射、地面降水率、近地面气压、近地面空气比
+湿、地面向下短波辐射、近地面气温、近地面全风速共7个气象要素。数据时间
 分辨率为3小时，水平空间分辨率为0.1°，为netCDF格式。
 \upcite{37cab0ac-d066-4fb9-aa9c-1cf50d601096}
 
@@ -403,7 +416,7 @@ Huber损失函数以及GELU激活函数的原因。
 
 \begin{table}[H]
     \centering
-    \caption{选取特征说明}
+    \caption{数据集中所包括特征值的单位以及含义说明}
     \begin{tabular}{cccc}
     \toprule
     特征 & 名称 & 单位 & 含义 \\
@@ -426,7 +439,7 @@ Huber损失函数以及GELU激活函数的原因。
 
 \begin{table}[H]
     \centering
-    \caption{七种气象要素的描述性统计分析$^1$}
+    \caption{七种气象要素的描述性统计分析}
     \begin{tabular}{cccccccc}
     \toprule
     指标 & lrad & prec & pres & shum & srad & temp & wind \\
@@ -451,11 +464,10 @@ Huber损失函数以及GELU激活函数的原因。
 \end{table}
 
 使用python的pandas库自带的统计功能计算得到表\ref{analysis}中统计数据。
-由表\ref{analysis}统计数据可见，选址地（甘肃中电酒泉第四风力发电有限公司附近
-，北纬40.65 度，东经 96.95 度）2017-2018年两年全年最低气温-27.5$^{\circ}$C，
-最高38.1$^{\circ}$C，温差较大，冷热对流明显。同时该地区降水非常稀少，空气干燥，太阳
+由表\ref{analysis}统计数据可见，选址地2017-2018年两年全年最低气温-27.5$^{\circ}$C，
+最高38.1$^{\circ}$C，昼夜温差较大，冷热对流明显。同时该地区降水非常稀少，空气干燥，太阳
 辐射强，易产生空气的稳定辐射型对流。该地区出现过的最大风力为7级（16.23 m/s），
-风力平均为3级（4.04 m/s），因而风速较大，且风速的方差较小，风力资源丰富且相对平稳，
+风力平均为3级（4.04 m/s），因而风速较大，且风速的方差较小，风力资源丰富且相对稳定，
 的确是风力发电的一个很好的选址。
 
 \subsection{相关性分析和显著性检验}
@@ -466,7 +478,7 @@ Huber损失函数以及GELU激活函数的原因。
 
 \begin{table}[H]
     \centering
-    \caption{风速与其他六种气象要素的斯皮尔曼相关性分析$^1$}
+    \caption{风速与其他六种气象要素的斯皮尔曼相关性分析}
     \begin{tabular}{lll}
     \toprule
     wind & 相关系数 & 显著水平 \\
@@ -501,8 +513,8 @@ Huber损失函数以及GELU激活函数的原因。
 提出\upcite{huang1998empirical}。EMD在不离开时域的情况下将序列划分为
 有限个本征模函数（IMF，Intrinsic Mode Function）和残差。分解出的IMF
 可以提供一个时间序列中包含的各种信号的特征。与傅里叶变换和小波分解等类似，
-EMD分解不是基于物理性质。但是，EMD依据信号自身的时间尺度特征对信号没有任何
-先验主观标准选择的进行自动分解，因而无需像傅里叶变换与小波分解一样设定谐波
+EMD分解不是基于物理性质。但是，EMD可以依据信号自身的时间尺度特征对信号没有任何
+先验主观标准选择地自动分解，因而无需像傅里叶变换与小波分解一样设定谐波
 基函数或小波基函数。
 
 在时域范围内具有以下条件特征的时间序列，可以使用EMD分解：
@@ -550,8 +562,8 @@ EEMD分解步骤如下：
 \begin{itemize}
 \item[1. ] 对待分解时间序列$X(t)$添加一个随机白噪声序列$N(t)$，得到新序列$K(t)$。
 \item[2. ] 对$K(t)$进行EMD分解。
-\item[3. ] 对步骤1-2重复n次，将得到的共计n组的每个IMF分量和R按组进行系综平均（Ensemble Average）。
-\item[4. ] 得到系综平均后的IMF分量和R，公式同EMD分解。
+\item[3. ] 对步骤1-2重复n次，将得到的共计n组的每个IMF分量和残差按组进行系综平均（Ensemble Average）。
+\item[4. ] 得到系综平均后的IMF分量和残差。
 \end{itemize}
 
 \subsection{CEEMDAN}
@@ -567,7 +579,7 @@ CEEMDAN分解步骤如下：
 \item[2. ] 对$K(t)$进行一次EMD分解迭代，得到一个IMF分量。
 \item[3. ] 对步骤1-2重复n次，将得到的共计n组的IMF进行系综平均（Ensemble Average），得到$IMF_i(t)$
 用$X(t)-IMF_i(t)$作为新序列，返回步骤1迭代j次。
-\item[4. ] 最终不能进行EMD分解时$X(t)-IMF_i(t)$得到残差R，公式关系同EMD。
+\item[4. ] 最终不能进行EMD分解时$X(t)-IMF_i(t)$得到残差R。
 \end{itemize}
 
 CEEMDAN相较于EEMD方法有如下优点：
@@ -640,7 +652,7 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.4\textwidth]{KPCA.pdf}
-    \caption{KPCA流程示意图}
+    \caption{基于RBF的核主成分分析算法工作流程示意图}
     \label{fig_kpca}
   \end{figure}
 
@@ -650,15 +662,15 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 \item[1. ] RBF为非线性映射核函数，和风速数据中较多的非线性特征契合，并且线性核
 函数也只是RBF的一个特例，因而不使用线性核函数。
 \item[2. ] 多项式核函数需要计算内积，容易发生数值溢出的问题。
-\item[3. ] Sigmoid 核函数$K(\mathbf x_i,\mathbf x_j)=\tanh(b\:\mathbf x_i^T\mathbf x_j-c)$
-需要确定超参数$b$和$c$，比较麻烦，无法实现自动化KPCA。 
+\item[3. ] sigmoid 核函数$K(\mathbf x_i,\mathbf x_j)=\tanh(b\:\mathbf x_i^T\mathbf x_j-c)$
+需要同时确定超参数$b$和$c$，确定过程复杂，不易于产生很好的效果。
 \end{itemize}
 
 \section{基于RNN的深度学习神经网络模型}
 \subsection{经典循环神经网络}
 循环神经网络（RNN，Recurrent Neural Network）是一种深度学习模型。经典的神经网络
 \upcite{rumelhart1986learning}，由于其时序无关，采用了层状传递结构，
-模型的内部前一层神经元直接传递给后一层神经元。这样做模型由于无记忆功能，
+模型的内部前一层神经元数据直接传递给后一层神经元。这样做模型由于无记忆功能，
 无法学习时序数据中的历史相关性，因而需要循环层，通过内部传递时序数据来学习。
 图\ref{fig_nn}展示了两种神经网络的结构区别。
 
@@ -667,10 +679,10 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 	\subfloat[经典BP神经网络]{
         \includegraphics[width=0.5\textwidth]{figures/ANN.pdf}
     }
-	\subfloat[循环神经网络]{
+	\subfloat[经典循环神经网络]{
         \includegraphics[width=0.5\textwidth]{figures/RNN.pdf}
     }
-    \caption{两种神经网络结构示意图}
+    \caption{两种经典神经网络结构示意图}
     \label{fig_nn}
 \end{figure}
 
@@ -725,14 +737,14 @@ $$
 \end{figure}
 
 如图\ref{fig_relu_gelu}所示，尽管整流线性单元（ReLU，Rectified Linear Unit）
-计算简单，性能好，但是由于ReLU是线性激活函数，而风速数据具有较强的非线性特征，
-因而用于风速数据效果不是很理想。
+计算简单，性能好，但是由于ReLU是线性激活函数，在为正值时梯度始终为1。
+而风速数据具有较强的非线性特征，因而用于风速数据效果不是很理想。
 
 高斯误差线性单元（GELU，Gaussian Error Linear Unit）是Hendrycks, Dan等人于2016提出的
 \upcite{hendrycks2016gaussian}一种高性能的神经网络激活函数。GELU 激活函数表达式是
 $x\Phi(x)$，其中$\Phi(x)$是标准高斯累积分布函数。GELU 是非线性激活函数，其对输入值进行
 高斯加权处理，相较于sigmoid和tanh而言能一定程度上避免x值变大时梯度消失的问题
-，从而带给训练任务更好的精度和拟合效果。
+，从而带给循环神经网络训练任务更好的收敛性和拟合效果。
 
 神经网络模型优化器直接参与神经网络的训练，通过对应算法搜索神经网络的最优权重参数。
 \footnote{本部分内容参考了Ruder, Sebastian的梯度下降优化算法综述\upcite{ruder2016overview}}
@@ -786,7 +798,8 @@ $$
     \item[d. ] Adam
 \end{itemize}
 
-Adam\upcite{kingma2014adam}是一种基于 RMSProp 的优化器，它能够自动化调整学习率，
+Adam\upcite{kingma2014adam}是一种基于 RMSProp 的优化器，是目前应用最为广
+泛的通用型优化器。它能够自动化调整学习率，
 对与频繁出现的特征相关的参数执行较小的更新（低学习率），对与不常见特征相关的参数
 执行较大的更新（高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
 其本质上为带Momentum动量项的RMSProp。
@@ -858,19 +871,18 @@ $$
 Huber 损失函数\upcite{huber1992robust}包含了一个超参数 δ。当预测偏差小于 δ 时，
 它采用MSE变换形式的平方损失函数；当预测偏差大于等于 δ 时，采用MAE变换形式的线性损失函数，
 如图\ref{fig_huber}所示。
-因而，Huber同时综合了MSE和MAE的优点并同时克服了他们的缺点。
 
 Huber 光滑连续且可导，当误差达到临界点δ时随着误差的减小，梯度也在减小，对于异常点
 的误差超出临界点δ时，不会给这些异常点很大的权重，从而同时达到一个很好的收敛和预测
-效果。
+效果。因而，Huber同时综合了MSE和MAE的优点并同时克服了他们的缺点。
 
-由上述神经网络的基本原理可知，假设激活函数为sigmoid，RNN神经网络的每个神经元都
-是通过输入值和上一层的记忆值同时乘对
-应权重并与偏差相加，最终再通过sigmoid激活函数将结果压缩在 0 和 1 之间得出输出。
+由上述神经网络的基本原理可知，假设激活函数为sigmoid，RNN神经网络的每个神经元
+通过输入值和上一时刻的记忆值同时乘对
+应权重并与偏差相加，最终再通过sigmoid激活函数将结果压缩在 0 和 1 之间得到输出。
 上述过程得到如下所示公式：
-$$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
+$$h_t=\sigma(Wx_t+Uh_{t-1}+b)$$
 
-公式中W代表权重，$b_z$是偏差，$x_t$是t时刻的神经元输入值，$h_{t-1}$是t-1时刻神经
+公式中W代表权重，b是偏差，$x_t$是t时刻的神经元输入值，$h_{t-1}$是t-1时刻神经
 元的记忆输出值，W和U为对应的值的权重，$h_t$是当前神经元的输出值。训练时
 对每个神经元采用反向传播(BP)算法，使用训练集中的数据，通过指定学习优化器和损失函数
 来迭代计算权重和偏差，从而使误差的最小化。
@@ -878,8 +890,8 @@ $$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$$
 由循环神经网络的结构和原理也可以看到，由于其在训练反向传播时权重产生的误差都会累加
 迭代，因而很容易误差累加数值过大，造成梯度爆炸。同时，由sigmoid激活函数的性质可知，当
 值较大时，函数趋于1，并变得平缓，此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，
-循环神经网络的训练过程中每个神经元权重都是直接记忆学习临近时刻的，因而对可能会存在的类似
-季节性效应的长期关系学习不佳。
+循环神经网络的训练过程中每个神经元权重都是直接记忆学习临近时刻的，因而对可能会存在的如
+季节性效应等长期关系学习不佳。
 
 上述经典RNN的三个问题中，梯度爆炸可以采用阈值范围对梯度进行裁剪就可以解决，但是梯度消失和
 长期依赖关系的问题则必须要改变模型的结构。LSTM是首先被提出的解决方案
@@ -890,11 +902,11 @@ GRU是由Cho等人于2014年提出的一种类似于LSTM的神经网络模型\up
 本文之所以选择GRU而非LSTM，是因为相较于LSTM的结构，即三个门控单元输入门、遗忘门和输出门，
 GRU只有两个，分别为更新门和重置门。并且GRU的单个神经元中并不会保留内部记忆，
 因而GRU的参数更少，复杂度更低，收敛速度更快，并且GRU和LSTM所能达到的训练以及预测
-效果同样出色，因而权衡效果和成本而言GRU要更高\upcite{chung2014empirical}。
+效果同样出色，因而总体而言GRU要更优秀\upcite{chung2014empirical}。
 
 GRU的工作原理如下：
 
-首先更新门确定有多少过去的信息（来自之前的时间步长）需要传递到未来。计算时间t的更新
+首先更新门确定有多少过去的信息（来自之前的时刻）需要传递到未来。计算时刻t的更新
 门 $z_t$的值，执行计算公式如下：
 $$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$$
 
@@ -916,13 +928,11 @@ $$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
 该模型可以选择使$z_t$（更新门）的值接近1，从而保留大部分过去的信息
 。并且由于此时$1-z_t$接近0，因而将忽略对当前内容的记忆。
 
-从上述推导步骤可以看到GRU模型解决了长期记忆的问题。同时，更新门和重置门
-接近1和接近0的同时出现也解决了梯度消失的问题。
+从上述推导步骤可以看到GRU模型解决了长期记忆的问题。同时，更新门和重置门的权重
+接近1和接近0的同时出现也缓解了梯度消失和梯度爆炸的问题。
 
-从上述推导过程还可以得出，如果选择将重置门设置为1，更新门设置为0，那么GRU将
-变为经典的 RNN 模型。
-
-
+从上述推导过程还可以得出，如果选择将重置门设置为1，更新门设置为0，那么此时GRU将
+等效于经典的 RNN 模型。
 
 \chapter{模型的建立和评估}
 \section{六种特征数据的ICEEMDAN分解}
@@ -930,7 +940,7 @@ $$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$$
 
 这里使用python的pyEMD库实现ICEEMDAN分解\footnote{尽管pyEMD库中调用方法和类名为CEEMDAN，
 但根据官方文档，其内部实现时是采用的改进的CEEMDAN，即ICEEMDAN发表论文中所述算法。}，并使用
-numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib进行可视化作图。
+numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotlib进行可视化作图。
 
 图中第一行为原始数据，最后一行为ICEEMDAN分解后得到的残差，中间的行为ICEEMDAN分解后得到的
 本征模函数（IMF）分量。其中，每行左侧为原始得到的时域数据，横坐标范围为[0,5831]，单位为三小时（3hr）。
@@ -973,7 +983,7 @@ numpy库相关方法进行傅里叶变换生成幅频，最终使用Matplotlib�
 \begin{figure}[H]
 	\centering
     \includegraphics[width=1\textwidth]{figures/shum.pdf}
-    \caption{近地面空气相对湿度的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
+    \caption{近地面空气相对湿度原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_shum}
 \end{figure}
 
@@ -1132,7 +1142,7 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 
 该神经网络模型（NN）六层之间使用序贯模型的形式进行连接。第一层为模型的输入层，每次输入一个（1，4260）的
 向量。第二层为一个展平（Flatten）层，将输入展平为（4260）。第三、四层均为全连接层，其激活函数均为GELU，
-各有128、64个神经元，输出为（64）的向量，可训练参数分别为555776个和8256个。第五层为丢弃层（DropOut层），
+各有128、64个神经元，输出为（64）的向量，可训练参数分别为555776个和8256个。第五层为随机丢弃层（DropOut层），
 其丢弃比率为20\%，用于防止神经网络的过拟合。最后一层为输出层，将前一层的输出值通过全连
 接的方式，得到最后结果，可训练参数65个。整个模型可训练参数共计564097个，输出最终预测值。
 代码部分见附录部分A.7。
@@ -1218,7 +1228,7 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
     \subfloat[多特征ICEEMDAN-Prophet-GRU]{
         \includegraphics[width=0.33\textwidth]{figures/all_feature_prophet_gru_predict_test.pdf}
     }
-    \caption{三种本文提出的基于神经网络的模型四步预测（12小时）风速的可视化图}
+    \caption{三种基于本文提出的神经网络的模型四步预测（12小时）风速的可视化图}
     \label{fig_gru_predict_test}
 \end{figure}
 
@@ -1554,6 +1564,7 @@ for index in range(len(data_list)):
 model = keras.models.Sequential()
 model.add(keras.layers.Flatten(input_shape=(1, len(weather_features))))
 model.add(keras.layers.Dense(128, activation='gelu'))
+model.add(keras.layers.Dense(64, activation='gelu'))
 model.add(keras.layers.Dropout(0.2))
 model.add(keras.layers.Dense(1))
 es_callback = keras.callbacks.EarlyStopping(patience = 5, restore_best_weights = True, monitor="loss")
@@ -1577,7 +1588,7 @@ generated.to_csv(modelname + ".csv")
 \Thanks
 
 时光荏苒，岁月如梭。转眼间，近四年的本科生活就要结束了。这四年是充满了挑战
-和挫折的四年，同时也是充满了丰收和果实的四年。值此毕业论文致谢之际，
+和挫折的四年，同时也是充实着丰收和果实的四年。值此毕业论文致谢之际，
 我首先需要特别感谢的是我的毕业论文指导老师，兰州大学信息科学与工程学院的任超
 副教授。任老师治学严谨，对我的论文写作极其认真负责。每当我遇到困难请教任老师
 时，任老师总能事无巨细地耐心讲解。同时，任老师极高的专业素养与渊博的学识也十分
@@ -1585,8 +1596,8 @@ generated.to_csv(modelname + ".csv")
 十分宝贵的知识和经验。
 
 其次，我要感谢兰州大学提供的一流教学环境与教育资源，兰州大学信息科学与工程
-学院的各位老师的专业教导，以及兰州大学信息科学与工程学院2018级计算机科学与技术
-基础理论班的各位同学，以及舍友和其他同学的支持与鼓励。四年的朝夕相处，是他们
+学院的各位老师的专业教导，兰州大学信息科学与工程学院2018级计算机科学与技术
+基础理论班的各位同学，以及大气科学专业的舍友，和其他同学的支持与鼓励。四年的朝夕相处，是他们
 让我拓宽了视野，掌握了基本的计算机专业知识和技能，并且让我获得了学习的动力，
 为我的继续深造以及未来工作打好了坚实的基础，从而让我能够更好地为社会贡献自己
 的力量。在后续的学习工作生活中，我必将以梦为马，不负韶华！

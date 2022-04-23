@@ -49,8 +49,8 @@
       \item 风速数据中往往包含着较大的噪声问题。
       \item 数值预报方法求解大气方程，所需计算资源太多。
       \item 经典的统计方法如SARIMA等，适用于线性关系。
-      \item 传统机器学习方法如SVR等，对数据集要求较高。
-      \item 直接使用深度学习模型，训练复杂，收敛性差。
+      \item 传统机器学习方法如SVR等，对复杂非线性关系效果不好。
+      \item 直接使用深度学习模型，数据集要求高，收敛性差。
     \end{enumerate}
 
     \item （为什么多特征）借鉴数值预报大气动力方程思想，同时预测
@@ -116,7 +116,7 @@
   \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\textwidth]{KPCA.pdf}
-    \caption{KPCA流程示意图}
+    \caption{基于RBF的核主成分分析算法工作流程示意图}
     \label{fig_kpca}
   \end{figure}
 \end{frame}
@@ -382,7 +382,7 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
 \end{frame}
 
 \begin{frame}
-  \frametitle{模型验证方法}
+  \frametitle{神经网络部分模型训练及验证方法}
   \begin{itemize}
     \item 训练时根据5828条数据点，以8个连续时间序列数据点（1天）为一个时间窗口制作为一个训练样
   本。每个时间窗口中的数据点整体为一个输入，每个时间窗口中的输出为该输入窗口紧挨着的下
@@ -510,9 +510,11 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
 
 \begin{frame}
   \frametitle{模型对比评估}
+  采用搜寻得到的Prophet模型最优超参数，
+  分析历史5828条数据从而直接预测出未来12小时，即4项风速值。
   \begin{figure}[H]
     \centering
-      \includegraphics[width=0.9\textwidth]{prophet_wind.pdf}
+      \includegraphics[width=0.8\textwidth]{prophet_wind.pdf}
       \caption{基于风速历史的Prophet模型可视化图}
       \label{fig_prophet_wind}
   \end{figure}
@@ -531,7 +533,7 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
     \subfloat[5号模型]{
         \includegraphics[width=0.33\textwidth]{all_feature_prophet_gru_predict_test.pdf}
     }
-    \caption{三种本文提出的基于神经网络的模型四步预测风速的可视化图}
+    \caption{三种基于本文提出的神经网络的模型四步预测风速的可视化图}
     \label{fig_gru_predict_test}
   \end{figure}
 \end{frame}
@@ -585,7 +587,8 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \item 其次感谢我的毕业论文导师任超副教授的辛勤指导！
   \item 感谢兰州大学信息科学与工程学院老师们提供的优质课程！
   \item 另外我还要感谢2018级计算机科学与技术基础理论班的
-  各位同学，以及舍友和其他同学四年间朝夕相处的鼓励支持!
+  各位同学，以及大气科学专业的舍友，和其他同学四年间朝夕相处
+  的鼓励支持!
   \item 最后，感谢大学四年父母对我的默默关爱和支持！
   \end{itemize}
   \rightline{}

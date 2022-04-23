@@ -171,7 +171,7 @@
 
 %=======head and foot
 %页眉页脚
-%1.页眉。“兰州大学本科生毕业论文（设计）”字居左排，毕业论文（设计）题目居右排，字体为宋体，小五号；页眉与正文之间用下划线分隔。
+%1.页眉。“兰州大学本科毕业论文（设计）”字居左排，毕业论文（设计）题目居右排，字体为宋体，小五号；页眉与正文之间用下划线分隔。
 %2.页码。页脚居中排，字体为宋体，五号。封面、目录不编排页码，中英文摘要页用罗马数字单独连续编号，引言、正文用阿拉伯数字连续编号，附录可不编排页码。
 %=======head and foot
 \RequirePackage{fancyhdr}  % Needed to define custom headers/footers
@@ -197,7 +197,7 @@
 
 \fancypagestyle{mainmatterstyle}{
     \fancyhf{}
-    \lhead{\zihao{-5}兰州大学本科生毕业论文}%
+    \lhead{\zihao{-5}兰州大学本科毕业论文}%
     \rhead{\zihao{-5}\@title}
     % Footers
     \fancyfoot{} % clear all footer fields
@@ -289,7 +289,7 @@
         \includegraphics[width=6cm]{lzu2020.png}\\
         \vspace*{21.8pt}
 
-        {\zihao{1}\songti{本科生毕业论文\\}}% 封面这几个字，规范中未提及，此处按照宋体
+        {\zihao{1}\songti{本科毕业论文\\}}% 封面这几个字，规范中未提及，此处按照宋体
         \vspace{21.8pt}
         \par
         \zihao{4}
@@ -318,15 +318,15 @@
         \vspace*{60pt}
 
         \begin{tabular}{cc}
-            {\songti \zihao{3}{学生姓名}} &
+            {\songti \zihao{3}{学生姓名：}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}\@author}}\\[0.40cm]
-            {\songti \zihao{3}{指导教师}} &
+            {\songti \zihao{3}{指导教师：}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\advisor}} \\[0.40cm]
-            {\songti \zihao{3}{学\qquad 院}} &
+            {\songti \zihao{3}{学\qquad 院：}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\college}} \\[0.40cm]
-            {\songti \zihao{3} {专\qquad 业}} &
+            {\songti \zihao{3} {专\qquad 业：}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\major}}\\[0.40cm]
-            {\songti \zihao{3}{年\qquad 级}} &
+            {\songti \zihao{3}{年\qquad 级：}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\grade}}\\[0.40cm]
         \end{tabular}
         \par
@@ -355,8 +355,8 @@
         {\bfseries\songti\zihao{3}{诚信责任书}} % “诚信责任书”这几个字，应该是加粗（宋体加粗）
     \end{center}
 
-    本人郑重声明：本人所呈交的毕业论文（设计），是在导师的指导下独立进行研究所取得的成果。毕业论文（设计）中凡引用他人已经发表或未发表的成果、数据、观点等，均已明确注明出处。除文中已经注明引用的内容外，不包含任何其他个人或集体已经发表或在网上发表的论文。
-
+    本人郑重声明：本人所呈交的毕业论文（设计），是在导师的指导下独立进行研究所取得的成果。毕业论文（设计）中凡引用他人已经发表或未发表的成果、数据、观点等，均已明确注明出处。除文中已经注明引用的内容外，不包含任何其他个人、集体已经发表或未发表的论文。
+    
     本声明的法律责任由本人承担。
 
 
@@ -516,7 +516,7 @@
     \vspace{11pt}
     \par #1\\%
     \vbox{}\\
-    {\bfseries Key Words:} #2
+    {\bfseries Keywords:} #2
 }
 
 

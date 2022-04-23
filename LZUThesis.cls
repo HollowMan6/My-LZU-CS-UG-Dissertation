@@ -299,14 +299,14 @@
         \vspace*{60pt}
 
         \begin{tabular}{ll}
-            \songti\bfseries \zihao{3} 论文题目（中文）% “论文题目（中文）”这几个字，应该是加粗（宋体加粗）
+            \songti\bfseries \zihao{3} 论文题目（中文）：% “论文题目（中文）”这几个字，应该是加粗（宋体加粗）
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%
                     & {\StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{ \songti \zihao{3}\mygroup}}\\[0.40cm]%
                 }%
             }%
-            \songti\bfseries  \zihao{3} 论文题目（英文）% “论文题目（英文）”这几个字，应该是加粗（宋体加粗）
+            \songti\bfseries  \zihao{3} 论文题目（英文）：% “论文题目（英文）”这几个字，应该是加粗（宋体加粗）
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%

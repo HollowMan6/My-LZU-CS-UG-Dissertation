@@ -228,7 +228,7 @@
 \renewcommand\cftchapdotsep{0.5}                %虚线间隔
 \renewcommand\cftdotsep{0.5}                    %虚线间隔
 % \renewcommand{\cftchapafterpnum}{\vspace{6pt}} %章节间隔 ，节前6磅
-\setlength{\cftbeforesecskip}{6pt}  
+\setlength{\cftbeforesecskip}{6pt}
 %             %章节间隔 ，节前6磅
 
 \setlength{\cftbeforechapskip}{6pt}
@@ -243,10 +243,12 @@
 
 % 图目录、表目录标题字体为宋体，四号
 \renewcommand\cftfignumwidth{0em}  % 换行时顶格对齐
+\setlength{\cftbeforefigskip}{6pt} % 间隔，节前6磅
 \renewcommand\cftfigfont{\zihao{4} \songti}
 \renewcommand{\listfigurename}{图\ 目\ 录}
 
 \renewcommand\cfttabnumwidth{0em}  % 换行时顶格对齐
+\setlength{\cftbeforetabskip}{6pt} % 间隔，节前6磅
 \renewcommand\cfttabfont{\zihao{4} \songti}
 \renewcommand{\listtablename}{表\ 目\ 录}
 

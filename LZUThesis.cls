@@ -104,6 +104,7 @@
 %尾注
 %=======footnote
 \RequirePackage[perpage, bottom]{footmisc}
+\usepackage{footnote}
 
 %%=======page
 %页面边距
@@ -242,12 +243,12 @@
 \setlength\cftaftertoctitleskip{18pt}
 
 % 图目录、表目录标题字体为宋体，四号
-\renewcommand\cftfignumwidth{0em}  % 换行时顶格对齐
+\renewcommand\cftfignumwidth{1em}  % 转行时标题缩进一字
 \setlength{\cftbeforefigskip}{6pt} % 间隔，节前6磅
 \renewcommand\cftfigfont{\zihao{4} \songti}
 \renewcommand{\listfigurename}{图\ 目\ 录}
 
-\renewcommand\cfttabnumwidth{0em}  % 换行时顶格对齐
+\renewcommand\cfttabnumwidth{1em}  % 转行时标题缩进一字
 \setlength{\cftbeforetabskip}{6pt} % 间隔，节前6磅
 \renewcommand\cfttabfont{\zihao{4} \songti}
 \renewcommand{\listtablename}{表\ 目\ 录}
@@ -595,7 +596,7 @@
 \setdescription{itemsep=0pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
 
 
-\usepackage{footnote}
+
 
 %======%math theorem
 % 英文名称改为汉字

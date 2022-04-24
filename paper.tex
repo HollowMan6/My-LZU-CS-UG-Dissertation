@@ -141,6 +141,8 @@ hybrid model, neural network, deep learning, data science.
 \addtocontents{toc}{\protect\thispagestyle{empty}}
 \tableofcontents
 
+%生成图表目录（图表不多的话可以给下部分注释掉）
+%
 \begingroup
 \pagenumbering{gobble}
 \renewcommand{\addvspace}[1]{}
@@ -155,6 +157,7 @@ hybrid model, neural network, deep learning, data science.
 \thispagestyle{empty}
 \clearpage
 \endgroup
+%
 
 %文章主体
 \mainmatter
@@ -446,7 +449,8 @@ Huber损失函数以及GELU激活函数的原因。
     峰度 & -0.87 & 443.377569 & -0.722968 & 2.034095 & 0.202964 & -0.892140 & 1.404610 \\
     \bottomrule \\
     \end{tabular} \\
-    \footnotesize{$^1$ 该表格数据生成代码见附录部分A.2} \\
+    \raggedright
+    \footnotesize{该表格数据生成代码见附录部分A.2}
     \label{analysis}
 \end{table}
 
@@ -470,16 +474,17 @@ Huber损失函数以及GELU激活函数的原因。
     \toprule
     wind & 相关系数 & 显著水平 \\
     \midrule
-    lrad & $0.032350777005597936^{**}$ & 0.013486168347444174 \\
-    prec & $0.00787600133073642$ & 0.5476061053614518 \\
-    pres & $0.07469086091232147^{**}$ & $1.1250462841430117\times10^{-8}$ \\
-    shum & $-0.08556207603752566^{**}$ & $5.958774799092212\times10^{-11}$ \\
+    lrad & $0.032350777005598^{**}$ & 0.013486168347444174 \\
+    prec & $0.007876001330736$ & 0.5476061053614518 \\
+    pres & $0.074690860912321^{**}$ & $1.1250462841430117\times10^{-8}$ \\
+    shum & $-0.08556207603753^{**}$ & $5.958774799092212\times10^{-11}$ \\
     srad & $0.246264995629444^{**}$ & $2.650405346230128\times10^{-81}$ \\
-    temp & $0.05671501296224254^{**}$ & $1.4659365394277926\times10^{-5}$ \\
+    temp & $0.056715012962243^{**}$ & $1.4659365394277926\times10^{-5}$ \\
     \bottomrule \\
     \end{tabular} \\
-    \footnotesize{$^1$ 该表格数据生成代码见附录部分A.3} \\
-    \footnotesize{$^{**}$ 表示在0.01级别（双尾），相关性显著} \\
+    \raggedright
+    \footnotesize{该表格数据生成代码见附录部分A.3} \\
+    \footnotesize{$^{**}$ 表示在0.01级别（双尾），相关性显著}
     \label{relativity-analysis}
 \end{table}
 
@@ -1162,7 +1167,7 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 
 \begin{table}[H]
     \centering
-    \caption{五种模型在测试集中四步预测12小时风速对比评估}
+    \caption{五种模型在测试集中四步预测12小时风速指标对比评估}
     \begin{tabular}{lcccccc}
     \toprule
     模型名称 & MAPE & MAE & MSE & RMSE & $R^2$ & 15\% \\
@@ -1432,7 +1437,7 @@ best_params = all_params[np.argmin(mapes)]
 print(best_params)
 \end{lstlisting}
 
-\section{模型评价指标实现代码}
+\section{模型评价指标计算实现代码}
 
 \begin{lstlisting}[language = python]
 from sklearn import metrics
@@ -1593,7 +1598,7 @@ generated.to_csv(modelname + ".csv")
 父母对我的无私且伟大的爱，是我在黑暗中的灯塔，给予了我不断前行的动力。
 
 另外，本文使用的数据集下载于“国家青藏高原科学数据中心”(http://data.tpdc.ac.cn)。
-在写作时从GitHub中获取并使用了兰州大学2016级物理科学与技术学院本科生余航
+在写作时从GitHub中获取并参考了兰州大学2016级物理科学与技术学院本科生余航
 制作的“兰州大学本科生2021学士学位毕业论文LaTeX模板”，在此也一并致谢。
 
 \rightline{}
@@ -1602,7 +1607,7 @@ generated.to_csv(modelname + ".csv")
 \rightline{2022年5月于兰州大学榆中校区萃英山下}
 
 %=====%
-%论文（设计）成绩：注意2007的模板要求，成绩页在最后，2021要求成绩页在摘要前面
+%论文（设计）成绩
 %=====%
 
 % 下面这些注释掉可以去掉成绩、评语什么的
@@ -1614,6 +1619,10 @@ generated.to_csv(modelname + ".csv")
 \finalgrade{}
 % 上面这些注释掉可以去掉成绩、评语什么的
 
-\Grade %这一句才是成绩页，上面是填写
+% 下面的才是成绩页，上面是填写
+\mainmatter
+\pagenumbering{gobble}
+\Grade
+\clearpage
 
 \end{document}

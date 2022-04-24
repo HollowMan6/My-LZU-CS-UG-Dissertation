@@ -229,7 +229,7 @@
 \renewcommand\cftchapdotsep{0.5}                %虚线间隔
 \renewcommand\cftdotsep{0.5}                    %虚线间隔
 % \renewcommand{\cftchapafterpnum}{\vspace{6pt}} %章节间隔 ，节前6磅
-\setlength{\cftbeforesecskip}{6pt}
+\setlength{\cftbeforesecskip}{6pt}  
 %             %章节间隔 ，节前6磅
 
 \setlength{\cftbeforechapskip}{6pt}
@@ -244,12 +244,10 @@
 
 % 图目录、表目录标题字体为宋体，四号
 \renewcommand\cftfignumwidth{1em}  % 转行时标题缩进一字
-\setlength{\cftbeforefigskip}{6pt} % 间隔，节前6磅
 \renewcommand\cftfigfont{\zihao{4} \songti}
 \renewcommand{\listfigurename}{图\ 目\ 录}
 
 \renewcommand\cfttabnumwidth{1em}  % 转行时标题缩进一字
-\setlength{\cftbeforetabskip}{6pt} % 间隔，节前6磅
 \renewcommand\cfttabfont{\zihao{4} \songti}
 \renewcommand{\listtablename}{表\ 目\ 录}
 
@@ -267,7 +265,6 @@
 %=======english title
 \newtoks\entitle
 \newtoks\entitletra %标题多余一行时添加
-\newtoks\entitletraa %标题多余一行时添加
 %%=======statement
 %标题页
 %需要添加循环函数，判定多于一行的情况
@@ -284,7 +281,7 @@
 \RequirePackage{xstring}
 
 %设置要使用的方正小标宋简体
-\setCJKfamilyfont{MyCJKfzxbs}[Path=misc/fonts/]{FZXiaoBiaoSong-B05S}
+\setCJKfamilyfont{MyCJKfzxbs}[Path=fonts/]{FZXiaoBiaoSong-B05S}
 \newcommand{\fzxbs}{\CJKfamily{MyCJKfzxbs}}  
 
 \renewcommand\maketitle{%
@@ -294,7 +291,7 @@
         \includegraphics[width=6cm]{lzu2020.png}\\
         \vspace*{21.8pt}
 
-        {\zihao{1}\fzxbs{本科毕业论文\\}}
+        {\zihao{1}\fzxbs{本科毕业论文\\}}% 封面这几个字，规范中未提及，此处根据提供word模板样式，使用方正小标宋简体
         \vspace{21.8pt}
         \par
         \zihao{4}
@@ -308,14 +305,14 @@
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%
-                    & {\StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{ \songti \zihao{3}\mygroup}}\\[0.40cm]%
+                    & {\StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]\LZUunderline[320pt]{ \songti \zihao{3}\mygroup}}\\[0.40cm]%
                 }%
             }%
             \songti\bfseries  \zihao{3} 论文题目（英文）% “论文题目（英文）”这几个字，应该是加粗（宋体加粗）
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%
-                    & {\StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{\zihao{3}\mygroup}}\\[0.40cm]%
+                    & {\StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]\LZUunderline[320pt]{\zihao{3}\mygroup}}\\[0.40cm]%
                 }%
             }%
         \end{tabular}
@@ -361,7 +358,7 @@
     \end{center}
 
     本人郑重声明：本人所呈交的毕业论文（设计），是在导师的指导下独立进行研究所取得的成果。毕业论文（设计）中凡引用他人已经发表或未发表的成果、数据、观点等，均已明确注明出处。除文中已经注明引用的内容外，不包含任何其他个人、集体已经发表或未发表的论文。
-    
+
     本声明的法律责任由本人承担。
 
 
@@ -413,14 +410,17 @@
 \newtoks \finalgrade
 \newcommand{\Grade}{
 \clearpage
-\thispagestyle{empty}
+\thispagestyle{mainmatterstyle}
 % \phantomsection
 % \addcontentsline{toc}{chapter}{毕业论文（设计）成绩}
 \begin{center}
-    \zihao{4}\songti  % 成绩这一页整体设置，应该是加粗（宋体加粗）
+    \zihao{-3}\songti  % 成绩这一页整体设置，应该是加粗（宋体加粗）
     \begin{tabularx}{\textwidth}{|X|}
         \multicolumn{1}{c}{
-            \zihao{3} \fzxbs{毕业论文（设计）成绩表}
+            \zihao{3} \fzxbs{毕业论文成绩表}
+        } \\
+        \multicolumn{1}{c}{
+            \zihao{-4}
         } \\
         \hline
         导师评语\\%
@@ -469,7 +469,7 @@
     \thispagestyle{frontmatterstyle}
     \begin{center}%
         \setlength{\parskip}{24pt}
-        \begin{minipage}{0.95\textwidth}
+        \begin{minipage}{0.8\textwidth}
             \linespread{1.3889}
             \centering
             % 中文摘要标题，应该是加粗（宋体加粗）
@@ -501,11 +501,11 @@
     \thispagestyle{frontmatterstyle}
     \begin{center}%
         \setlength{\parskip}{24pt}
-        \begin{minipage}{0.88\textwidth}
+        \begin{minipage}{0.8\textwidth}
             \linespread{1}
             \selectfont
             \centering
-            \zihao{2} \bfseries \noindent \expandafter\MakeUppercase\expandafter{\the\entitle\ \the\entitletra \the\entitletraa}%
+            \zihao{2} \bfseries \noindent \expandafter\MakeUppercase\expandafter{\the\entitle\ \the\entitletra}%
         \end{minipage}
     \end{center}%
     \begin{center}%

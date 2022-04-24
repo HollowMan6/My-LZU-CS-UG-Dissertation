@@ -282,6 +282,11 @@
 %\RequirePackage{pgffor}
 \RequirePackage{forloop}
 \RequirePackage{xstring}
+
+%设置要使用的方正小标宋简体
+\setCJKfamilyfont{MyCJKfzxbs}[Path=misc/fonts/]{FZXiaoBiaoSong-B05S}
+\newcommand{\fzxbs}{\CJKfamily{MyCJKfzxbs}}  
+
 \renewcommand\maketitle{%
     \cleardoublepage
     \thispagestyle{empty}
@@ -289,7 +294,7 @@
         \includegraphics[width=6cm]{lzu2020.png}\\
         \vspace*{21.8pt}
 
-        {\zihao{1}\songti{本科毕业论文\\}}% 封面这几个字，规范中未提及，此处按照宋体
+        {\zihao{1}\fzxbs{本科毕业论文\\}}
         \vspace{21.8pt}
         \par
         \zihao{4}
@@ -299,18 +304,18 @@
         \vspace*{60pt}
 
         \begin{tabular}{ll}
-            \songti\bfseries \zihao{3} 论文题目（中文）：% “论文题目（中文）”这几个字，应该是加粗（宋体加粗）
+            \songti\bfseries \zihao{3} 论文题目（中文）% “论文题目（中文）”这几个字，应该是加粗（宋体加粗）
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%
                     & {\StrFindGroup{\@title}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{ \songti \zihao{3}\mygroup}}\\[0.40cm]%
                 }%
             }%
-            \songti\bfseries  \zihao{3} 论文题目（英文）：% “论文题目（英文）”这几个字，应该是加粗（宋体加粗）
+            \songti\bfseries  \zihao{3} 论文题目（英文）% “论文题目（英文）”这几个字，应该是加粗（宋体加粗）
             \forloop{title_str_number}{1}{\value{title_str_number}<6}{%
                 \StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]%
                 \IfStrEq{\mygroup}{}{}{%
-                    & {\StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{\zihao{4}\mygroup}}\\[0.40cm]%
+                    & {\StrFindGroup{\the\entitle}{\value{title_str_number}}[\mygroup]\LZUunderline[350pt]{\zihao{3}\mygroup}}\\[0.40cm]%
                 }%
             }%
         \end{tabular}
@@ -318,15 +323,15 @@
         \vspace*{60pt}
 
         \begin{tabular}{cc}
-            {\songti \zihao{3}{学生姓名：}} &
+            {\songti \zihao{3}{学生姓名}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}\@author}}\\[0.40cm]
-            {\songti \zihao{3}{指导教师：}} &
+            {\songti \zihao{3}{指导教师}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\advisor}} \\[0.40cm]
-            {\songti \zihao{3}{学\qquad 院：}} &
+            {\songti \zihao{3}{学\qquad 院}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\college}} \\[0.40cm]
-            {\songti \zihao{3} {专\qquad 业：}} &
+            {\songti \zihao{3} {专\qquad 业}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\major}}\\[0.40cm]
-            {\songti \zihao{3}{年\qquad 级：}} &
+            {\songti \zihao{3}{年\qquad 级}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\grade}}\\[0.40cm]
         \end{tabular}
         \par
@@ -412,10 +417,10 @@
 % \phantomsection
 % \addcontentsline{toc}{chapter}{毕业论文（设计）成绩}
 \begin{center}
-    \zihao{-3}\songti  % 成绩这一页整体设置，应该是加粗（宋体加粗）
+    \zihao{4}\songti  % 成绩这一页整体设置，应该是加粗（宋体加粗）
     \begin{tabularx}{\textwidth}{|X|}
         \multicolumn{1}{c}{
-            \zihao{3} \bfseries{毕业论文（设计）成绩表}
+            \zihao{3} \fzxbs{毕业论文（设计）成绩表}
         } \\
         \hline
         导师评语\\%
@@ -454,7 +459,7 @@
 %
 %=======abstract
 
-% 2.中英文关键词。毕业论文（设计）中应列出3～8个关键词，关键词与摘要之间空1行，置于摘要之后。中文关键词字体为宋体，小四号，加粗置顶格；英文关键词所述含义与中文关键词须一致。“关键词”为“Key words”，字体为Times New Roman，小四号，加粗，置顶格。
+% 2.中英文关键词。毕业论文（设计）中应列出3～8个关键词，关键词与摘要之间空1行，置于摘要之后。中文关键词字体为宋体，小四号，加粗置顶格；英文关键词所述含义与中文关键词须一致。“关键词”为“Keywords”，字体为Times New Roman，小四号，加粗，置顶格。
 
 % 中文摘要以300-400字为宜。毕业论文（设计）题目字体为宋体，二号，加粗，段前24磅，段后18磅；“中文摘要”居中，字体为黑体，三号；摘要正文字体为宋体，小四号。行间距为固定值20磅。
 \newcommand{\ZhAbstract}[2]{%

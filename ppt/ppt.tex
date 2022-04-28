@@ -58,167 +58,7 @@
   \end{itemize}
 \end{frame}
 
-\section{技术介绍}
-\begin{frame}
-  \frametitle{ICEEMDAN分解}
-  设$x$为待分解信号，$E(·)$表示由EMD分解产生的本征模函数（IMF）
-  分量，$N(·)$表示产生信号进行EMD分解出IMF分量后系综平均，$w^{(i)}$代表
-  添加的$i$组随机高斯白噪声。
-  则ICEEMDAN分解步骤如下：
-  \begin{enumerate}
-    \item 向$x$中分别添加$i$组白噪声，即$x^{(i)}=x+\beta_0E(w^{(i)})$。
-    \item 对$x^{(i)}$进行计算，得到第一个IMF分量$IMF_1=N(x^{(i)})$。
-    \item 计算残差$R_1=x-IMF_1$作为新待分解序列，重复上述步骤直到不能进行EMD分解。
-  \end{enumerate}
-  ICEEMDAN和传统基于EMD算法的优势：
-  \begin{itemize}
-    \item 相对于EMD，添加一定的白噪声可以平滑极值点的分布，
-    从而让分解的结果更加健壮。
-    \item 相较于EEMD，无需计算过多均值，因而分解的性能更高。
-    \item 相较于CEEMDAN，降低了出现多个无意义的低幅低频伪IMF分量的概率。
-  \end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Prophet时间序列预测框架}
-  Prophet类似于SARIMA，基于公式：$y(t)=g(t)+s(t)+h(t)+\epsilon_t$
-
-  \begin{itemize}
-    \item $g(t)$表示的是趋势分量，代表时间序列数据在非周期性规律中的变化趋势。
-    \item $s(t)$表示周和日、年的季节性分量。
-    \item $h(t)$表示节假日项，此处和风速预测无关。
-    \item $\epsilon_{t}$为残差，表示噪声分量，其服从高斯白噪声分布。
-  \end{itemize}
-  \rightline{}
-  Prophet的预测速度快，提供了完全自动化的时间序列预测功能，对异常值和时间序列中
-的剧烈变化也都具有十分强大的健壮性。
-\end{frame}
-
-\begin{frame}
-  \frametitle{核主成分分析}
-  假设待降为的原始数据有m条，每条数据为n维，组成了n行m列的矩阵X，则主成分分析（PCA）：
-  \begin{enumerate}
-    \item 将X的每一行进行零均值化（减去这一行的均值）。
-    \item 求解协方差矩阵$C=\frac{1}{m}XX^\mathsf{T}$，以及特征值及对应的特征向量。
-    \item 将协方差矩阵C的特征向量按对应特征值大小从前到后按行排列成矩阵，取前k行组成新矩阵P。
-    \item $Y=PX$即为降维到k维后的数据。
-  \end{enumerate}
-
-  主成分分析（PCA）只能用于线性情况，不适用于非线性的风速。
-  \rightline{}
-  核主成分分析（KPCA）通过核函数把原始非线性的数据映射到高
-  维空间，变成线性的后，用 PCA 来处理映射后的高维数据。
-\end{frame}
-
-\begin{frame}
-  \frametitle{基于高斯径向基函数的核主成分分析}
-  高斯径向基函数（RBF）表达式：$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$
-  \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{KPCA.pdf}
-    \caption{基于RBF的核主成分分析算法工作流程示意图}
-    \label{fig_kpca}
-  \end{figure}
-\end{frame}
-
-\begin{frame}
-  \frametitle{经典循环神经网络}
-  \begin{figure}[H]
-    \centering
-    \subfloat[经典BP神经网络]{
-          \includegraphics[width=0.48\textwidth]{ANN.pdf}
-      }
-    \subfloat[经典循环神经网络]{
-          \includegraphics[width=0.48\textwidth]{RNN.pdf}
-      }
-    \caption{两种经典神经网络结构示意图}
-    \label{fig_nn}
-  \end{figure}
-  经典RNN中每个神经元：$h_t=\sigma(Wx_t+Uh_{t-1}+b)$
-\end{frame}
-
-\begin{frame}
-  \frametitle{GELU激活函数}
-  \begin{columns}
-    \column{0.5\textwidth}
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{activation.pdf}
-      \caption{GELU和其他激活函数的对比}
-      \label{fig_activation}
-    \end{figure}
-    \column{0.5\textwidth}
-      \begin{itemize}
-      \item $ReLU(x)=\left\{\begin{matrix}
-          0, & x \leq 0 \\
-          x, & x > 0
-      \end{matrix}\right.$
-      \item $GELU(x)=x\Phi(x)$
-      \item $sigmoid(x)=\frac{1}{1+e^{-x}}$
-      \item $tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$
-    \end{itemize}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Nadam优化器}
-  \begin{itemize}
-    \item NAG\upcite{nesterov1983method}算法能够预知未来的更新方向，从而使得更新更加稳定而不至于
-一直遵循梯度更新的惯性。这种预期性的更新可以防止梯度更新得太快，从而提高响应能力。
-根据已有的研究成果，NAG显著提高了 RNN 在许多训练任务中的性能\upcite{bengio2013advances}。
-    \item Adam\upcite{kingma2014adam}是目前最为广泛的被使用的一种优化器，能够自动化调整学习率，
-对与频繁出现的特征相关的参数执行较小的更新（降低学习率）。对与不常见特征相关的参数
-执行较大的更新（提高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
-    \item Nadam\upcite{dozat2016incorporating}向Adam优化器中融合了 NAG 的思想，添加
-了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
-任务中的性能，最终使用Nadam能够取得比Adam更好的效果。
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Huber损失函数}
-  \begin{columns}
-    \column{0.5\textwidth}
-    \begin{figure}[H]
-      \centering
-      \includegraphics[width=\textwidth]{loss.pdf}
-      \caption{Huber和其他损失函数的对比}
-      \label{fig_loss}
-    \end{figure}
-    \column{0.5\textwidth}
-      \begin{itemize}
-      \item $Huber:
-      \left\{\begin{matrix}
-          \frac{1}{2}x^{2}, & \left | x  \right | < \delta\\
-          (x - \frac1 2 \delta)\delta, & \left | x  \right | \geq \delta
-      \end{matrix}\right.$
-      \item 当损失值较大时，由于其是类MAE线性损失函数，
-      梯度始终保持不变，因而将异常点和正常点同等看待，克服了MSE的缺点
-      并获得了MAE的优点。
-      \item 当损失值较小时，由于其是类MSE平方损失函数，
-      梯度也减小，从而利于函数的收敛，克服了MAE的缺点
-      并获得了MSE的优点。
-    \end{itemize}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{GRU}
-  经典RNN在训练时由sigmoid激活函数的性质可知，当值较大时，函数趋于1，并变得平缓，
-  此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，经典RNN的训练
-  过程中每个神经元权重都是直接记忆学习临近时刻的，因而对存在的
-  季节性效应的长期关系学习不佳。
-  \rightline{}
-  GRU计算公式：
-  \begin{itemize}
-    \item 更新门：$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$
-    \item 重置门：$r_t=\sigma(W^{(r)}x_t+U^{(r)}h_{t-1})$
-    \item 确定遗忘掉多少过去的信息：$h^{\prime}_t=tanh(Wx_t+r_t\odot Uh_{t-1})$
-    \item 确定当前步记忆多少信息：$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$
-  \end{itemize}
-\end{frame}
-
-\section{建模过程}
+\section{研究过程}
 
 \begin{frame}
   \frametitle{数据集来源}
@@ -561,7 +401,7 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \begin{itemize}
     \item 本次建模过程只选择了两年跨度的时间序列数据。
     \item 只对风速原始时间序列数据这一个模型进行了搜索最
-    优超参数的过程，对于其他特征时间序列本文则直接沿用了风速原始时间序列数据的最优超参数。
+    优超参数的过程。
     \item 本文只选择了甘肃酒泉的一个真实风力发电厂附近的地点进行短期风速的预测。
     \item 没有探究模型中所用神经网络层数进一步加深的情况。
     \item 可尝试更多各种不同新型模型，用各种不同方法组合起来。
@@ -595,6 +435,166 @@ UTC 2017年1月1日0时-2018年12月30日21时（5832条）
   \begin{block}{Q\&A}
     敬请各位在场评委老师们批评指正！
   \end{block}
+\end{frame}
+
+\section{答疑}
+\begin{frame}
+  \frametitle{ICEEMDAN分解}
+  设$x$为待分解信号，$E(·)$表示由EMD分解产生的本征模函数（IMF）
+  分量，$N(·)$表示产生信号进行EMD分解出IMF分量后系综平均，$w^{(i)}$代表
+  添加的$i$组随机高斯白噪声。
+  则ICEEMDAN分解步骤如下：
+  \begin{enumerate}
+    \item 向$x$中分别添加$i$组白噪声，即$x^{(i)}=x+\beta_0E(w^{(i)})$。
+    \item 对$x^{(i)}$进行计算，得到第一个IMF分量$IMF_1=N(x^{(i)})$。
+    \item 计算残差$R_1=x-IMF_1$作为新待分解序列，重复上述步骤直到不能进行EMD分解。
+  \end{enumerate}
+  ICEEMDAN和传统基于EMD算法的优势：
+  \begin{itemize}
+    \item 相对于EMD，添加一定的白噪声可以平滑极值点的分布，
+    从而让分解的结果更加健壮。
+    \item 相较于EEMD，无需计算过多均值，因而分解的性能更高。
+    \item 相较于CEEMDAN，降低了出现多个无意义的低幅低频伪IMF分量的概率。
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Prophet时间序列预测框架}
+  Prophet类似于SARIMA，基于公式：$y(t)=g(t)+s(t)+h(t)+\epsilon_t$
+
+  \begin{itemize}
+    \item $g(t)$表示的是趋势分量，代表时间序列数据在非周期性规律中的变化趋势。
+    \item $s(t)$表示周和日、年的季节性分量。
+    \item $h(t)$表示节假日项，此处和风速预测无关。
+    \item $\epsilon_{t}$为残差，表示噪声分量，其服从高斯白噪声分布。
+  \end{itemize}
+  \rightline{}
+  Prophet的预测速度快，提供了完全自动化的时间序列预测功能，对异常值和时间序列中
+的剧烈变化也都具有十分强大的健壮性。
+\end{frame}
+
+\begin{frame}
+  \frametitle{核主成分分析}
+  假设待降为的原始数据有m条，每条数据为n维，组成了n行m列的矩阵X，则主成分分析（PCA）：
+  \begin{enumerate}
+    \item 将X的每一行进行零均值化（减去这一行的均值）。
+    \item 求解协方差矩阵$C=\frac{1}{m}XX^\mathsf{T}$，以及特征值及对应的特征向量。
+    \item 将协方差矩阵C的特征向量按对应特征值大小从前到后按行排列成矩阵，取前k行组成新矩阵P。
+    \item $Y=PX$即为降维到k维后的数据。
+  \end{enumerate}
+
+  主成分分析（PCA）只能用于线性情况，不适用于非线性的风速。
+  \rightline{}
+  核主成分分析（KPCA）通过核函数把原始非线性的数据映射到高
+  维空间，变成线性的后，用 PCA 来处理映射后的高维数据。
+\end{frame}
+
+\begin{frame}
+  \frametitle{基于高斯径向基函数的核主成分分析}
+  高斯径向基函数（RBF）表达式：$K(\mathbf x_i,\mathbf x_j)=e^{-\gamma\|\mathbf x_i-\mathbf x_j\|^2}$
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{KPCA.pdf}
+    \caption{基于RBF的核主成分分析算法工作流程示意图}
+    \label{fig_kpca}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{经典循环神经网络}
+  \begin{figure}[H]
+    \centering
+    \subfloat[经典BP神经网络]{
+          \includegraphics[width=0.48\textwidth]{ANN.pdf}
+      }
+    \subfloat[经典循环神经网络]{
+          \includegraphics[width=0.48\textwidth]{RNN.pdf}
+      }
+    \caption{两种经典神经网络结构示意图}
+    \label{fig_nn}
+  \end{figure}
+  经典RNN中每个神经元：$h_t=\sigma(Wx_t+Uh_{t-1}+b)$
+\end{frame}
+
+\begin{frame}
+  \frametitle{GELU激活函数}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{activation.pdf}
+      \caption{GELU和其他激活函数的对比}
+      \label{fig_activation}
+    \end{figure}
+    \column{0.5\textwidth}
+      \begin{itemize}
+      \item $ReLU(x)=\left\{\begin{matrix}
+          0, & x \leq 0 \\
+          x, & x > 0
+      \end{matrix}\right.$
+      \item $GELU(x)=x\Phi(x)$
+      \item $sigmoid(x)=\frac{1}{1+e^{-x}}$
+      \item $tanh(x)=\frac{e^x-e^{-x}}{e^x+e^{-x}}$
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Nadam优化器}
+  \begin{itemize}
+    \item NAG算法能够预知未来的更新方向，从而使得更新更加稳定而不至于
+一直遵循梯度更新的惯性。这种预期性的更新可以防止梯度更新得太快，从而提高响应能力。
+根据已有的研究成果，NAG显著提高了 RNN 在许多训练任务中的性能\upcite{bengio2013advances}。
+    \item Adam是目前最为广泛的被使用的一种优化器，能够自动化调整学习率，
+对与频繁出现的特征相关的参数执行较小的更新（降低学习率）。对与不常见特征相关的参数
+执行较大的更新（提高学习率），同时还能适应稀疏数据，克服学习率急剧下降的问题。
+    \item Nadam向Adam优化器中融合了 NAG 的思想，添加
+了Nesterov 动量，从而使其获得了NAG的能够预知未来的更新方向的优点，提高其在 RNN 训练
+任务中的性能，最终使用Nadam能够取得比Adam更好的效果。
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Huber损失函数}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{figure}[H]
+      \centering
+      \includegraphics[width=\textwidth]{loss.pdf}
+      \caption{Huber和其他损失函数的对比}
+      \label{fig_loss}
+    \end{figure}
+    \column{0.5\textwidth}
+      \begin{itemize}
+      \item $Huber:
+      \left\{\begin{matrix}
+          \frac{1}{2}x^{2}, & \left | x  \right | < \delta\\
+          (x - \frac1 2 \delta)\delta, & \left | x  \right | \geq \delta
+      \end{matrix}\right.$
+      \item 当损失值较大时，由于其是类MAE线性损失函数，
+      梯度始终保持不变，因而将异常点和正常点同等看待，克服了MSE的缺点
+      并获得了MAE的优点。
+      \item 当损失值较小时，由于其是类MSE平方损失函数，
+      梯度也减小，从而利于函数的收敛，克服了MAE的缺点
+      并获得了MSE的优点。
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{GRU}
+  经典RNN在训练时由sigmoid激活函数的性质可知，当值较大时，函数趋于1，并变得平缓，
+  此时进行反向传播会造成整体值过小，造成梯度消失的问题。另外，经典RNN的训练
+  过程中每个神经元权重都是直接记忆学习临近时刻的，因而对存在的
+  季节性效应的长期关系学习不佳。
+  \rightline{}
+  GRU计算公式：
+  \begin{itemize}
+    \item 更新门：$z_t=\sigma(W^{(z)}x_t+U^{(z)}h_{t-1})$
+    \item 重置门：$r_t=\sigma(W^{(r)}x_t+U^{(r)}h_{t-1})$
+    \item 确定遗忘掉多少过去的信息：$h^{\prime}_t=tanh(Wx_t+r_t\odot Uh_{t-1})$
+    \item 确定当前步记忆多少信息：$h_t=z_t\odot r_t+(1-z_t)\odot h^{\prime}_t$
+  \end{itemize}
 \end{frame}
 
 \end{document}

@@ -249,9 +249,12 @@
     \end{minipage}
     \begin{minipage}[c]{0.7\textwidth}
         \usebeamerfont{author} \insertauthor\par
-        \vspace{12pt}
+        \vspace{6pt}
         \usebeamerfont{institute}
-        \insertinstitute\par 
+        \insertinstitute\par
+        \vspace{6pt}
+        \usebeamerfont{date} {
+        \insertdate} 
     \end{minipage}%
 \end{beamercolorbox}
 

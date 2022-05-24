@@ -16,7 +16,7 @@
 % 	      长标题 \title{{第一行}{第二行}}
 %             超长标题\tiitle{{第一行}{...}{第N行}}
 
-\title{{基于 ICEEMDAN 多特征分解和Prophet-}{GRU-NN组合模型多步预测短期风速}}
+\title{{基于ICEEMDAN和Prophet-GRU-NN}{的短期风速多步组合预测模型}}
 
 
 
@@ -25,7 +25,7 @@
 % 	      长标题 \entitle{{First row}{ Second row}}
 %             超长标题\entitle{{First row}{...}{ Next N row}}
 % 注意：  英文标题多行时 需要在开头加个空格 防止摘要标题处英语单词粘连。
-\entitle{{Multistep-Ahead Forecast Short-Term Wind Speed }{through ICEEMDAN Decomposed Multi-features }{and Prophet-GRU-NN Hybrid Model}}
+\entitle{{A Short-Term Wind Speed Multistep-Ahead}{ Hybrid Prediction Model based on}{ ICEEMDAN and Prophet-GRU-NN}}
 
 \author{蒋嵩林}
 \major{计算机科学与技术（基础理论班）}
@@ -87,20 +87,23 @@
 
 %中文摘要
 \ZhAbstract{
-风能，作为一种清洁可再生新能源，正在世界范围内飞速发展。
+风能作为一种清洁可再生新能源，正在世界范围内飞速发展。
 准确预测风速来服务于风力发电，意义重大。
 
 风速预测是一个时间序列回归问题，由于短期风速的波动具有随机性，其影响因素也十分复杂，
 呈现出非平稳且非线性的特征，单独预测难度较大。本文基于前人研究成果，从数值预报方
 法中获得灵感，结合其他易预测的气象要素特征辅助风速预测。对于每个特征选用最前沿的
-ICEEMDAN分解技术，结合Facebook推出的新型Prophet时间序列预测框架分析特征，并根据从
-SVR中获得的灵感，使用基于RBF的核主成分分析技术，降低时间序列数据复杂度。此外，借助于
-当前最新循环神经网络结构GRU，采用最前端的GELU激活函数、Nadam优化器、Huber损失函数
+改进自适应噪声完备集合经验模态分解（ICEEMDAN）技术，结合Facebook推出的新型Prophet
+时间序列预测框架分析特征，并根据从支持向量回归机（SVR）中获得的灵感，使用基于高斯
+径向基函数（RBF）的核主成分分析技术，降低时间序列数据复杂度。此外，借助于
+当前最新循环神经网络结构门控循环单元（GRU），采用最前端的高斯误差线性单元（GELU）
+激活函数、Nadam优化器、Huber损失函数
 应用于神经网络，形成ICEEMDAN-Prophet-GRU模型。最后使用神经网络（NN）整合每个特征
 的预测结果，校正风速预测值，提高模型的泛化能力。
 
 选用真实发电场所的气象数据验证模型。结果表明，使用本文提出的多特征
-ICEEMDAN-Prophet-GRU-NN模型，提前12小时预测短期风速的精度会明显提升，因而具有优越性。
+ICEEMDAN-Prophet-GRU-NN模型，提前12小时预测短期风速的MAPE值达到8\%左右
+，精度明显提升，因而具有优越性。
 }{短期风速预测；组合模型；神经网络；深度学习；数据科学}
 
 
@@ -131,7 +134,8 @@ speed, and improve the generalization ability of the model.
 We use meteorological data from the actual power station to verify the model.
 The results show that by using the multi-feature ICEEMDAN-Prophet-GRU-NN
 model proposed in this paper, we can significantly improve the accuracy of
-short-term wind speed prediction 12 hours in advance, so it has supremacy.
+short-term wind speed prediction 12 hours in advance, as the MAPE reaches 8\%,
+so it has supremacy.
 }}
 {short-term wind speed forecast, 
 hybrid model, neural network, deep learning, data science.
@@ -394,10 +398,10 @@ Huber损失函数以及GELU激活函数的原因。
 \begin{figure}[H]
     \centering
 	\subfloat[甘肃省范围内]{
-        \includegraphics[width=0.88\textwidth]{figures/google_maps.pdf}
-    } \\
+        \includegraphics[width=0.5\textwidth]{figures/google_maps.pdf}
+    }
 	\subfloat[局部范围内]{
-        \includegraphics[width=0.88\textwidth]{figures/google_maps_details.pdf}
+        \includegraphics[width=0.5\textwidth]{figures/google_maps_details.pdf}
     }
     \caption{选址地坐标使用谷歌地图绘制出的卫星地图}
     \label{fig_google_maps}
@@ -449,10 +453,8 @@ Huber损失函数以及GELU激活函数的原因。
     平均离差 & 54.69 & 0.016437 & 508.073047 & 0.002045 & 223.512922 & 11.758743 & 1.844962 \\
     偏态 & 0.181 & 19.269338 & 0.002976 & 1.563321 & 1.211468 & -0.237797 & 1.115041 \\
     峰度 & -0.87 & 443.377569 & -0.722968 & 2.034095 & 0.202964 & -0.892140 & 1.404610 \\
-    \bottomrule \\
-    \end{tabular} \\
-    \raggedright
-    \footnotesize{该表格数据生成代码见附录部分A.2}
+    \bottomrule
+    \end{tabular}
     \label{analysis}
 \end{table}
 
@@ -476,12 +478,12 @@ Huber损失函数以及GELU激活函数的原因。
     \toprule
     wind & 相关系数 & 显著水平 \\
     \midrule
-    lrad & $0.032350777005598^{**}$ & 0.013486168347444174 \\
-    prec & $0.007876001330736$ & 0.5476061053614518 \\
-    pres & $0.074690860912321^{**}$ & $1.1250462841430117\times10^{-8}$ \\
-    shum & $-0.08556207603753^{**}$ & $5.958774799092212\times10^{-11}$ \\
-    srad & $0.246264995629444^{**}$ & $2.650405346230128\times10^{-81}$ \\
-    temp & $0.056715012962243^{**}$ & $1.4659365394277926\times10^{-5}$ \\
+    lrad & $0.03235^{**}$ & 0.01349 \\
+    prec & $0.00788$ & 0.54761 \\
+    pres & $0.07469^{**}$ & $1.12504\times10^{-8}$ \\
+    shum & $-0.08556^{**}$ & $5.95877\times10^{-11}$ \\
+    srad & $0.24626^{**}$ & $2.65041\times10^{-81}$ \\
+    temp & $0.05672^{**}$ & $1.46594\times10^{-5}$ \\
     \bottomrule \\
     \end{tabular} \\
     \raggedright
@@ -703,7 +705,7 @@ $$sigmoid(x)=\frac{1}{1+e^{-x}}$$
 $$tanh(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}}$$
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/tanh.pdf}
+    \includegraphics[width=0.45\textwidth]{figures/tanh.pdf}
     \caption{tanh函数图像}
     \label{fig_tanh}
 \end{figure}
@@ -725,7 +727,7 @@ $$
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/relu_gelu.pdf}
+    \includegraphics[width=0.45\textwidth]{figures/relu_gelu.pdf}
     \caption{ReLU和GELU函数图像}
     \label{fig_relu_gelu}
 \end{figure}
@@ -941,12 +943,12 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 右侧为经过傅里叶变换后得到的频域数据，横坐标范围为[0,2915]，单位为赫兹（HZ）。
 
 \begin{itemize}
-    \item[1. ] 地面向下长波辐射
+    \item[a. ] 地面向下长波辐射
 \end{itemize}
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/lrad.pdf}
+    \includegraphics[width=0.8\textwidth]{figures/lrad.pdf}
     \caption{地面向下长波辐射的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_lrad}
 \end{figure}
@@ -956,7 +958,7 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 主要集中在IMF1分量和IMF2分量中，集中于500HZ-3000HZ处。
 
 \begin{itemize}
-    \item[2. ] 近地面气压
+    \item[b. ] 近地面气压
 \end{itemize}
 
 \begin{figure}[H]
@@ -971,12 +973,12 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 主要集中在IMF1和IMF2分量中，集中于500HZ-2300HZ处。
 
 \begin{itemize}
-    \item[3. ] 近地面空气相对湿度
+    \item[c. ] 近地面空气相对湿度
 \end{itemize}
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/shum.pdf}
+    \includegraphics[width=0.65\textwidth]{figures/shum.pdf}
     \caption{近地面空气相对湿度原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_shum}
 \end{figure}
@@ -986,12 +988,12 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 主要集中在IMF1和IMF2分量中，集中于750HZ-3000HZ处。
 
 \begin{itemize}
-    \item[4. ] 地面向下短波辐射
+    \item[d. ] 地面向下短波辐射
 \end{itemize}
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/srad.pdf}
+    \includegraphics[width=0.65\textwidth]{figures/srad.pdf}
     \caption{地面向下短波辐射的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_srad}
 \end{figure}
@@ -1001,7 +1003,7 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 主要集中在IMF1和IMF2分量中，集中于750HZ-2200HZ处。
 
 \begin{itemize}
-    \item[5. ] 近地面气温
+    \item[e. ] 近地面气温
 \end{itemize}
 
 \begin{figure}[H]
@@ -1016,12 +1018,12 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 主要集中在IMF1和IMF2分量中，集中于500HZ-2200HZ处。
 
 \begin{itemize}
-    \item[6. ] 近地面全风速
+    \item[f. ] 近地面全风速
 \end{itemize}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{figures/wind.pdf}
+    \includegraphics[width=0.6\textwidth]{figures/wind.pdf}
     \caption{近地面全风速的原始数据、ICEEMDAN分解IMF分量、残差（左）及对应幅频图（右）}
     \label{fig_wind}
 \end{figure}
@@ -1038,7 +1040,7 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 通过MAPE值评估12小时的预测性能，为超参数调优提供依据。首先选择前438天
 （3504条数据）作为初始训练数据。对于后291天（2324条数据），每隔1天逐步对
 未来12小时的情况进行一次预测，共计验证291次，搜寻Prophet的最优超参数，从而使得平均绝对
-误差百分比（MAPE）值最小化。使用的代码见附录部分A.5。最终得到对于风速序列的最优参数
+误差百分比（MAPE）值最小化。最终得到对于风速序列的最优参数
 如表\ref{prophet_param}所示：
 
 \begin{table}[H]
@@ -1079,7 +1081,7 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/wind_grumodel_plot.pdf}
+    \includegraphics[width=1\textwidth]{figures/wind_grumodel_plot.pdf}
     \caption{本文使用的GRU模型网络结构图}
     \label{fig_gru}
 \end{figure}
@@ -1098,7 +1100,7 @@ numpy库相关方法进行傅里叶变换，生成幅频。最终使用Matplotli
 \section{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型}
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=1\textwidth]{figures/ICEEMDAN-Prophet-GRU-Wind.pdf}
+    \includegraphics[width=0.8\textwidth]{figures/ICEEMDAN-Prophet-GRU-Wind.pdf}
     \caption{基于风速历史时间序列数据的ICEEDMAN-Prophet-GRU模型结构图}
     \label{fig_ICEEMDAN_Prophet_GRU_Wind}
 \end{figure}
@@ -1129,7 +1131,7 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 
 \begin{figure}[H]
 	\centering
-    \includegraphics[width=0.5\textwidth]{figures/all_feature_prophet_gru_nnmodel_plot.pdf}
+    \includegraphics[width=0.7\textwidth]{figures/all_feature_prophet_gru_nnmodel_plot.pdf}
     \caption{多特征ICEEDMAN-Prophet-GRU-NN模型中使用的NN模型网络结构图}
     \label{fig_gru_nn}
 \end{figure}
@@ -1145,21 +1147,21 @@ ICEEDMAN-GRU模型基础上，将每个窗口的输入值同时使用Prophet框�
 下述指标公式使用scikit-learn自带的方法实现，并和15\%准确率（预测值和真实值实际偏差在15\%以内的样本数和
 总样本数的比值）封装为print\_metrics函数调用，相关代码见附录部分A.6。
 \begin{itemize}
-\item[1. ] 均方误差（MSE）
+\item[a. ] 均方误差（MSE）
 $$MSE=\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2$$
 
-\item[2. ] 平均绝对误差（MAE）
+\item[b. ] 平均绝对误差（MAE）
 $$MAE=\frac{1}{N}\sum_{t=1}^{N}\left|\hat{y}\left(t\right)-y\left(t\right)\right|$$
 
-\item[3. ] 平均绝对误差百分比（MAPE）
+\item[c. ] 平均绝对误差百分比（MAPE）
 $$MAPE=\frac{1}{N}\sum_{t=1}^{N}\left|\frac{\hat{y}\left(t\right)-y\left(t\right)}{y\left(t\right)}\right|$$
 
-\item[4. ] 均方根误差（RMSE）
+\item[d. ] 均方根误差（RMSE）
 $$RMSE=\sqrt{\frac{1}{N}\sum_{t=1}^{N}\left(\hat{y}\left(t\right)-y\left(t\right)\right)^2}$$
 
 上述四种误差指标均为，当对应指标值越小时，模型的精度越高。
 
-\item[5. ] 决定系数（$R^2$）
+\item[e. ] 决定系数（$R^2$）
 $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1}^{N}(\bar{y}\left(t\right)-y\left(t\right))^2}$$
 
 决定系数（$R^2$）取值范围为$(-\infty, 1]$，越接近1代表模型的准确度越好。
@@ -1242,17 +1244,14 @@ $$R^2=1-\frac{\sum_{t=1}^{N}(\hat{y}\left(t\right)-y\left(t\right))^2}{\sum_{t=1
 多气象要素联合预测，同时预测其他具有强周期性、易预测的气象要素，
 而不仅仅基于风速的历史时间序列，以达到对风速预测进行修正的目的。
 
-\item 模型基于最新信号分解技术ICEEMDAN（2014年）\upcite{colominas2014improved}
-，还采用Facebook推出的新型时间序列框架 Prophet（2018年）\upcite{taylor2018forecasting}
-与最新循环神经网络 GRU 模型（2014年）\upcite{cho2014learning}进行组合。
-
-\item 从支持向量回归机获得灵感，
+\item 模型基于最新信号分解技术ICEEMDAN（2014年）
+，还采用Facebook推出的新型时间序列框架 Prophet（2018年）
+与最新循环神经网络 GRU 模型（2014年）进行组合。
+从支持向量回归机获得灵感，
 将GRU模型的输入数据使用RBF核PCA升维，从而将非线性的特征历史数据映射到
-高维线性可分，降低复杂度。
-
-\item 对相关模型
-进行优化，突破模型的传统，将GELU激活函数（2016年）\upcite{hendrycks2016gaussian}
-以及Nadam优化器（2016年）\upcite{dozat2016incorporating}和Huber损失函数应用到短期
+高维线性可分，降低复杂度。对相关模型
+进行优化，突破模型的传统，将GELU激活函数（2016年）
+以及Nadam优化器（2016年）和Huber损失函数应用到短期
 风速预测领域。
 
 \item 通过选择甘肃酒泉的一个真实风力发电厂附近进行短期风速的
@@ -1615,8 +1614,7 @@ generated.to_csv(modelname + ".csv")
 % 下面这些注释掉可以去掉成绩、评语什么的
 \supervisorcomment{}
 
-
-\committeecomment{}
+\committeecomment{经答辩小组一致讨论，该论文通过答辩，成绩为良。}
 
 \finalgrade{}
 % 上面这些注释掉可以去掉成绩、评语什么的

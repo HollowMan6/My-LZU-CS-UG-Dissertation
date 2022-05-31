@@ -18,7 +18,7 @@
 \def\CTEX@chapter@nameformat{\bfseries\heiti\zihao{3}} % 应该是加粗（黑体加粗）
 \def\CTEX@chapter@titleformat{\bfseries\heiti\zihao{3}} % 应该是加粗（黑体加粗）
 \def\CTEX@chapter@beforeskip{24pt}
-\def\CTEX@chapter@afterskip{18pt}
+\def\CTEX@chapter@afterskip{42pt}
 %\def\CTEX@chapter@titleformat{\bfseries\heiti\fontspec{Times New Roman}\zihao{3}}
 %
 %%
@@ -331,7 +331,7 @@
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\advisor}} \\[0.40cm]
             {\songti \zihao{3}{学\qquad 院}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\college}} \\[0.40cm]
-            {\songti \zihao{3} {专\qquad 业}} &
+            {\songti \zihao{3} {专\hfill 业}} &
             {\LZUunderline[230pt]{ \songti  \zihao{3} \the\major}}\\[0.40cm]
             {\songti \zihao{3}{年\qquad 级}} &
             {\LZUunderline[230pt]{ \songti \zihao{3}  \the\grade}}\\[0.40cm]
@@ -444,7 +444,7 @@
         \centerline{%
             \begin{minipage}[t][2cm][t]{0.92\textwidth}
                 \setlength\parindent{\ccwd}
-                \zihao{-4} \the\committeecomment
+                \zihao{4} \the\committeecomment
             \end{minipage}
         }
         \hfill \bfseries{答辩委员会负责人（签字）}\underline{\hspace{80pt}}\\
@@ -510,7 +510,7 @@
             \linespread{1}
             \selectfont
             \centering
-            \zihao{2} \bfseries \noindent \expandafter\MakeUppercase\expandafter{\the\entitle\ \the\entitletra}%
+            \zihao{2} \bfseries \noindent \expandafter\expandafter{\the\entitle\ \the\entitletra}%
         \end{minipage}
     \end{center}%
     \begin{center}%

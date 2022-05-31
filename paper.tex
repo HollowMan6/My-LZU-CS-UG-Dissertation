@@ -56,24 +56,20 @@
         \includegraphics[width=90pt]{author_date.pdf}
     % }
 }
-% % 老师的手写签名，signature.pdf 改为老师的手写签名文件名
-% \supervisorsignature{
-%     % \raisebox{-5pt}{
-%         \includegraphics[width=40pt]{signature.pdf}
-%     % }
-% }
-% % 老师手写的时间，signature.pdf 改为老师的手写的日期文件名
-% \teachertime{
-%     % \raisebox{-5pSt}{
-%         \includegraphics[width=40pt]{signature.pdf}
-%     % }
-% }
-% % 老师手写的成绩
-% \recommendedgrade{
-%     % \raisebox{-5pt}{
-%         \includegraphics[width=40pt]{signature.pdf}
-%     % }
-% }
+% 老师的手写签名，signature.pdf 改为老师的手写签名文件名
+\supervisorsignature{
+    % \raisebox{-5pt}{
+        \includegraphics[width=70pt]{tutor_sig.pdf}
+    % }
+}
+% 老师手写的时间，signature.pdf 改为老师的手写的日期文件名
+\teachertime{
+    % \raisebox{-5pSt}{
+        2022年5月30日
+    % }
+}
+% 老师手写的成绩
+\recommendedgrade{良}
 
 \makestatement
 
@@ -1612,11 +1608,17 @@ generated.to_csv(modelname + ".csv")
 %=====%
 
 % 下面这些注释掉可以去掉成绩、评语什么的
-\supervisorcomment{}
+\supervisorcomment{
+    蒋嵩林同学的论文基于目前较为前沿的理论和技术，对这些技术的优劣进行了分析，
+    组合了其中表现突出的几种技术，采用了多步预测的方法，选取了多种气象要素特征，
+    构建了短期风速预测模型，因而较为新颖。论文还使用了真实风力发电厂的数据验证
+    了模型的可靠性，因而具备较高的实际应用价值。此外，论文结构严谨，内容丰富，
+    对已有研究的综述和文献参考详实，符合学术规范，总体上完成情况较好。
+}
 
 \committeecomment{经答辩小组一致讨论，该论文通过答辩，成绩为良。}
 
-\finalgrade{}
+\finalgrade{良}
 % 上面这些注释掉可以去掉成绩、评语什么的
 
 % 下面的才是成绩页，上面是填写
